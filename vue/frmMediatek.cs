@@ -47,13 +47,14 @@ namespace Mediatek86.vue
         /// <param name="lesCategories"></param>
         /// <param name="bdg"></param>
         /// <param name="cbx"></param>
-        public void RemplirComboCategorie(List<Categorie> lesCategories, BindingSource bdg, ComboBox cbx)
+        public void RemplirComboCategorie(List<Categorie> lesCategories, BindingSource bdg, ComboBox cbx, bool afficheValeurDefault)
         {
             bdg.DataSource = lesCategories;
             cbx.DataSource = bdg;
             if (cbx.Items.Count > 0)
             {
-                cbx.SelectedIndex = -1;
+                if(afficheValeurDefault) cbx.SelectedIndex = 0;
+                else cbx.SelectedIndex = -1;
             }
         }
 
@@ -74,9 +75,9 @@ namespace Mediatek86.vue
         private void tabRevues_Enter(object sender, EventArgs e)
         {
             lesRevues = controle.GetAllRevues();
-            RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxRevuesGenres);
-            RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxRevuesPublics);
-            RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxRevuesRayons);
+            RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxRevuesGenres, false);
+            RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxRevuesPublics, false);
+            RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxRevuesRayons, false);
             RemplirRevuesListeComplete();
         }
 
@@ -393,9 +394,17 @@ namespace Mediatek86.vue
         private void TabLivres_Enter(object sender, EventArgs e)
         {
             lesLivres = controle.GetAllLivres();
-            RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxLivresGenres);
-            RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxLivresPublics);
-            RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxLivresRayons);
+
+            // Combos du bloc recherche.
+            RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxLivresGenres, false);
+            RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxLivresPublics, false);
+            RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxLivresRayons, false);
+
+            // Combos du bloc information, dans le scénario d'un ajout.
+            RemplirComboCategorie(controle.GetAllGenres(), new BindingSource(), cbxAjoutLivresGenre, true);
+            RemplirComboCategorie(controle.GetAllPublics(), new BindingSource(), cbxAjoutLivresPublic, true);
+            RemplirComboCategorie(controle.GetAllRayons(), new BindingSource(), cbxAjoutLivresRayon, true);
+
             RemplirLivresListeComplete();
         }
 
@@ -694,6 +703,58 @@ namespace Mediatek86.vue
             RemplirLivresListe(sortedList);
         }
 
+
+        private void btnAjoutLivre_Click(object sender, EventArgs e)
+        {
+            VideLivresInfos();
+            switchGpbLivresInfoMode(false);
+
+            // Dao.AjouterLivre(new Livre("99999", "testtitre", "", "1234569877899", "testauteur", "test collection", "10000", "Humour", "00001", "Jeunesse", "BD001", "BD Adultes"));
+
+        }
+
+        /// <summary>
+        /// Affiche la groupbox d'informations des livres selon le mode en cours.
+        /// </summary>
+        /// <param name="readOnly">True affiche les champs en read only. False permet la saisie d'informations.</param>
+        private void switchGpbLivresInfoMode(bool readOnly)
+        {
+            txbLivresAuteur.ReadOnly = readOnly;
+            txbLivresCollection.ReadOnly = readOnly;
+            txbLivresGenre.ReadOnly = readOnly;
+            txbLivresIsbn.ReadOnly = readOnly;
+            txbLivresImage.ReadOnly = readOnly;
+            txbLivresTitre.ReadOnly = readOnly;
+
+
+            txbLivresGenre.Visible = readOnly;
+            txbLivresPublic.Visible = readOnly;
+            txbLivresRayon.Visible = readOnly;
+
+            cbxAjoutLivresGenre.Visible = !readOnly;
+            cbxAjoutLivresPublic.Visible = !readOnly;
+            cbxAjoutLivresRayon.Visible = !readOnly;
+
+            btnValiderLivre.Visible = !readOnly;
+            btnAnnulerLivre.Visible = !readOnly;
+        }
+
+
+        private void btnValiderLivre_Click(object sender, EventArgs e)
+        {
+            //todo ajout bdd
+            VideLivresInfos();
+            switchGpbLivresInfoMode(true);
+            DgvLivresListe_SelectionChanged(null, null);
+        }
+
+        private void btnAnnulerLivre_Click(object sender, EventArgs e)
+        {
+            VideLivresInfos();
+            switchGpbLivresInfoMode(true);
+            DgvLivresListe_SelectionChanged(null, null);
+        }
+
         #endregion
 
 
@@ -711,9 +772,9 @@ namespace Mediatek86.vue
         private void tabDvd_Enter(object sender, EventArgs e)
         {
             lesDvd = controle.GetAllDvd();
-            RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxDvdGenres);
-            RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxDvdPublics);
-            RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxDvdRayons);
+            RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxDvdGenres, false);
+            RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxDvdPublics, false);
+            RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxDvdRayons, false);
             RemplirDvdListeComplete();
         }
 
@@ -1276,12 +1337,7 @@ namespace Mediatek86.vue
                 pcbReceptionExemplaireRevueImage.Image = null;
             }
         }
-
         #endregion
 
-        private void btnAjoutLivre_Click(object sender, EventArgs e)
-        {
-            Dao.AjouterLivre(new Livre("99999", "testtitre", "", "1234569877899", "testauteur", "test collection", "10000", "Humour", "00001", "Jeunesse", "BD001", "BD Adultes"));
-        }
     }
 }

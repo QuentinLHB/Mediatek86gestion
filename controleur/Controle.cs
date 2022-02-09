@@ -126,6 +126,21 @@ namespace Mediatek86.controleur
 
         }
 
+        /// <summary>
+        /// Ajoute un DVD à la base de données.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="titre"></param>
+        /// <param name="image"></param>
+        /// <param name="duree"></param>
+        /// <param name="realisateur"></param>
+        /// <param name="synopsis"></param>
+        /// <param name="idGenre"></param>
+        /// <param name="genre"></param>
+        /// <param name="idPublic"></param>
+        /// <param name="lePublic"></param>
+        /// <param name="idRayon"></param>
+        /// <param name="rayon"></param>
         public void AjouterDvd(string id, string titre, string image, int duree, string realisateur, string synopsis,
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
         {
@@ -133,6 +148,21 @@ namespace Mediatek86.controleur
             Dao.AjouterDvd(dvd);
         }
 
+        /// <summary>
+        /// Ajoute une revue à la base de données.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="titre"></param>
+        /// <param name="image"></param>
+        /// <param name="idGenre"></param>
+        /// <param name="genre"></param>
+        /// <param name="idPublic"></param>
+        /// <param name="lePublic"></param>
+        /// <param name="idRayon"></param>
+        /// <param name="rayon"></param>
+        /// <param name="empruntable"></param>
+        /// <param name="periodicite"></param>
+        /// <param name="delaiMiseADispo"></param>
         public void AjouterRevue(string id, string titre, string image, string idGenre, string genre,
             string idPublic, string lePublic, string idRayon, string rayon,
             bool empruntable, string periodicite, int delaiMiseADispo)
