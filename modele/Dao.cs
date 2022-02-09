@@ -262,5 +262,141 @@ namespace Mediatek86.modele
             }
         }
 
+        private static bool AjouterDocument(Document document)
+        {
+            try
+            {
+                string req = "insert into document values (@id, @titre, @image, @idrayon, @idpublic, @idgenre)";
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", document.Id},
+                    {"@titre", document.Titre },
+                    { "@image", document.Image},
+                    { "@idrayon", document.IdRayon},
+                    { "@idpublic", document.IdPublic},
+                    { "@idgenre",document.IdGenre}
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool AjouterLivreDvd(LivreDvd livreDvd)
+        {
+            try
+            {
+                string req = "insert into livres_dvd values (@id)";
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", livreDvd.Id}
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool AjouterLivre(Livre livre)
+        {
+
+            if(AjouterDocument(livre) && AjouterLivreDvd(livre)){
+                try
+                {
+                    string req = "insert into livre values (@id, @isbn, @auteur, @collection)";
+                    Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", livre.Id},
+                    { "@isbn", livre.Isbn},
+                    { "@auteur", livre.Auteur},
+                    { "@collection", livre.Collection}
+                };
+                    BddMySql curs = BddMySql.GetInstance(connectionString);
+                    curs.ReqUpdate(req, parameters);
+                    curs.Close();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool AjouterDvd(Dvd dvd)
+        {
+            if(AjouterDocument(dvd) && AjouterLivreDvd(dvd))
+            {
+                try
+                {
+                    string req = "insert into dvd values (@id, @synopsis, @realisateur, @duree)";
+                    Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", dvd.Id},
+                    { "@synopsis", dvd.Synopsis},
+                    { "@realisateur", dvd.Realisateur},
+                    { "@duree", dvd.Duree}
+                };
+                    BddMySql curs = BddMySql.GetInstance(connectionString);
+                    curs.ReqUpdate(req, parameters);
+                    curs.Close();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool AjouterRevue(Revue revue)
+        {
+            if (AjouterDocument(revue)){
+                try
+                {
+                    string req = "insert into revue values (@id, @empruntable, @periodicite, @delaiMiseADispo)";
+                    Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", revue.Id},
+                    { "@empruntable", revue.Empruntable},
+                    { "@periodicite", revue.Periodicite},
+                    { "@delaiMiseADispo", revue.DelaiMiseADispo}
+                };
+                    BddMySql curs = BddMySql.GetInstance(connectionString);
+                    curs.ReqUpdate(req, parameters);
+                    curs.Close();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
     }
+
+    }
+    
+  
 }

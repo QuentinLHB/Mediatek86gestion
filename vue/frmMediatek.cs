@@ -5,6 +5,7 @@ using Mediatek86.metier;
 using Mediatek86.controleur;
 using System.Drawing;
 using System.Linq;
+using Mediatek86.modele;
 
 namespace Mediatek86.vue
 {
@@ -1278,5 +1279,9 @@ namespace Mediatek86.vue
 
         #endregion
 
+        private void btnAjoutLivre_Click(object sender, EventArgs e)
+        {
+            Dao.AjouterLivre(new Livre("99999", "testtitre", "", "1234569877899", "testauteur", "test collection", "10000", "Humour", "00001", "Jeunesse", "BD001", "BD Adultes"));
+        }
     }
 }

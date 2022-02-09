@@ -103,6 +103,44 @@ namespace Mediatek86.controleur
             return Dao.CreerExemplaire(exemplaire);
         }
 
+        /// <summary>
+        /// Ajoute un livre à la base de données.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="titre"></param>
+        /// <param name="image"></param>
+        /// <param name="isbn"></param>
+        /// <param name="auteur"></param>
+        /// <param name="collection"></param>
+        /// <param name="idGenre"></param>
+        /// <param name="genre"></param>
+        /// <param name="idPublic"></param>
+        /// <param name="lePublic"></param>
+        /// <param name="idRayon"></param>
+        /// <param name="rayon"></param>
+        public void AjouterLivre(string id, string titre, string image, string isbn, string auteur, string collection,
+            string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
+        {
+            Livre livre = new Livre(id, titre, image, isbn, auteur, collection, idGenre, genre, idPublic, lePublic, idRayon, rayon);
+            Dao.AjouterLivre(livre);
+
+        }
+
+        public void AjouterDvd(string id, string titre, string image, int duree, string realisateur, string synopsis,
+            string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
+        {
+            Dvd dvd = new Dvd(id, titre, image, duree, realisateur, synopsis, idGenre, genre, idPublic, lePublic, idRayon, rayon);
+            Dao.AjouterDvd(dvd);
+        }
+
+        public void AjouterRevue(string id, string titre, string image, string idGenre, string genre,
+            string idPublic, string lePublic, string idRayon, string rayon,
+            bool empruntable, string periodicite, int delaiMiseADispo)
+        {
+            Revue revue = new Revue(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon, empruntable, periodicite, delaiMiseADispo);
+            Dao.AjouterRevue(revue);
+        }
+
     }
 
 }
