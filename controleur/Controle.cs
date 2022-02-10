@@ -2,7 +2,7 @@
 using Mediatek86.modele;
 using Mediatek86.metier;
 using Mediatek86.vue;
-
+using System;
 
 namespace Mediatek86.controleur
 {
@@ -184,11 +184,34 @@ namespace Mediatek86.controleur
         /// <param name="lePublic"></param>
         /// <param name="idRayon"></param>
         /// <param name="rayon"></param>
-        public void AjouterDvd(string id, string titre, string image, int duree, string realisateur, string synopsis,
+        public Dvd AjouterDvd(string id, string titre, string image, int duree, string realisateur, string synopsis,
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
         {
             Dvd dvd = new Dvd(id, titre, image, duree, realisateur, synopsis, idGenre, genre, idPublic, lePublic, idRayon, rayon);
-            Dao.AjouterDvd(dvd);
+            if (Dao.AjouterDvd(dvd)) return dvd;
+            else return null;
+        }
+
+        public bool ModifierDvd(Dvd dvd, string titre, string image, int duree, string realisateur, string synopsis,
+            string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
+        {
+            dvd.Titre = titre;
+            dvd.Image = image;
+            dvd.Duree = duree;
+            dvd.Realisateur = realisateur;
+            dvd.Synopsis = synopsis;
+            dvd.Genre = genre;
+            dvd.IdGenre = idGenre;
+            dvd.IdPublic = idPublic;
+            dvd.Public = lePublic;
+            dvd.Rayon = rayon;
+            dvd.IdRayon = idRayon;
+            return Dao.ModifierDvd(dvd);
+        }
+
+        public bool SupprimerDVD(Dvd dvd)
+        {
+            return Dao.SupprimerDvd(dvd);
         }
 
         /// <summary>
@@ -213,6 +236,7 @@ namespace Mediatek86.controleur
             Revue revue = new Revue(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon, empruntable, periodicite, delaiMiseADispo);
             Dao.AjouterRevue(revue);
         }
+
 
     }
 

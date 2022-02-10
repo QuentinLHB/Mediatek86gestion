@@ -75,7 +75,6 @@ namespace Mediatek86.vue
             this.txbLivresTitreRecherche = new System.Windows.Forms.TextBox();
             this.tabDvd = new System.Windows.Forms.TabPage();
             this.grpDvdInfos = new System.Windows.Forms.GroupBox();
-            this.txbDvdDuree = new System.Windows.Forms.TextBox();
             this.txbDvdImage = new System.Windows.Forms.TextBox();
             this.txbDvdRayon = new System.Windows.Forms.TextBox();
             this.txbDvdPublic = new System.Windows.Forms.TextBox();
@@ -185,6 +184,18 @@ namespace Mediatek86.vue
             this.btnReceptionRechercher = new System.Windows.Forms.Button();
             this.btnModifLivre = new System.Windows.Forms.Button();
             this.btnSupprLivre = new System.Windows.Forms.Button();
+            this.btnSupprDVD = new System.Windows.Forms.Button();
+            this.btnModifDVD = new System.Windows.Forms.Button();
+            this.btnAjoutDVD = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.cbxInfoRayonDVD = new System.Windows.Forms.ComboBox();
+            this.cbxInfoPublicDVD = new System.Windows.Forms.ComboBox();
+            this.cbxInfoGenreDVD = new System.Windows.Forms.ComboBox();
+            this.btnAnnulerDVD = new System.Windows.Forms.Button();
+            this.btnValiderDVD = new System.Windows.Forms.Button();
+            this.txbDvdDuree = new System.Windows.Forms.TextBox();
             this.tabOngletsApplication.SuspendLayout();
             this.tabLivres.SuspendLayout();
             this.grpLivresInfos.SuspendLayout();
@@ -739,6 +750,11 @@ namespace Mediatek86.vue
             // 
             // grpDvdInfos
             // 
+            this.grpDvdInfos.Controls.Add(this.btnAnnulerDVD);
+            this.grpDvdInfos.Controls.Add(this.btnValiderDVD);
+            this.grpDvdInfos.Controls.Add(this.cbxInfoRayonDVD);
+            this.grpDvdInfos.Controls.Add(this.cbxInfoPublicDVD);
+            this.grpDvdInfos.Controls.Add(this.cbxInfoGenreDVD);
             this.grpDvdInfos.Controls.Add(this.txbDvdDuree);
             this.grpDvdInfos.Controls.Add(this.txbDvdImage);
             this.grpDvdInfos.Controls.Add(this.txbDvdRayon);
@@ -758,23 +774,14 @@ namespace Mediatek86.vue
             this.grpDvdInfos.Controls.Add(this.label29);
             this.grpDvdInfos.Controls.Add(this.label30);
             this.grpDvdInfos.Controls.Add(this.label31);
-            this.grpDvdInfos.Location = new System.Drawing.Point(11, 469);
+            this.grpDvdInfos.Location = new System.Drawing.Point(11, 510);
             this.grpDvdInfos.Margin = new System.Windows.Forms.Padding(4);
             this.grpDvdInfos.Name = "grpDvdInfos";
             this.grpDvdInfos.Padding = new System.Windows.Forms.Padding(4);
-            this.grpDvdInfos.Size = new System.Drawing.Size(1145, 302);
+            this.grpDvdInfos.Size = new System.Drawing.Size(1145, 350);
             this.grpDvdInfos.TabIndex = 21;
             this.grpDvdInfos.TabStop = false;
             this.grpDvdInfos.Text = "Informations détaillées";
-            // 
-            // txbDvdDuree
-            // 
-            this.txbDvdDuree.Location = new System.Drawing.Point(588, 25);
-            this.txbDvdDuree.Margin = new System.Windows.Forms.Padding(4);
-            this.txbDvdDuree.Name = "txbDvdDuree";
-            this.txbDvdDuree.ReadOnly = true;
-            this.txbDvdDuree.Size = new System.Drawing.Size(132, 22);
-            this.txbDvdDuree.TabIndex = 32;
             // 
             // txbDvdImage
             // 
@@ -962,6 +969,9 @@ namespace Mediatek86.vue
             // 
             // grpDvdRecherche
             // 
+            this.grpDvdRecherche.Controls.Add(this.btnSupprDVD);
+            this.grpDvdRecherche.Controls.Add(this.btnModifDVD);
+            this.grpDvdRecherche.Controls.Add(this.btnAjoutDVD);
             this.grpDvdRecherche.Controls.Add(this.btnDvdAnnulRayons);
             this.grpDvdRecherche.Controls.Add(this.btnDvdAnnulPublics);
             this.grpDvdRecherche.Controls.Add(this.btnDvdNumRecherche);
@@ -981,7 +991,7 @@ namespace Mediatek86.vue
             this.grpDvdRecherche.Margin = new System.Windows.Forms.Padding(4);
             this.grpDvdRecherche.Name = "grpDvdRecherche";
             this.grpDvdRecherche.Padding = new System.Windows.Forms.Padding(4);
-            this.grpDvdRecherche.Size = new System.Drawing.Size(1145, 446);
+            this.grpDvdRecherche.Size = new System.Drawing.Size(1145, 486);
             this.grpDvdRecherche.TabIndex = 20;
             this.grpDvdRecherche.TabStop = false;
             this.grpDvdRecherche.Text = "Recherches";
@@ -1188,11 +1198,11 @@ namespace Mediatek86.vue
             this.grpRevuesInfos.Controls.Add(this.label46);
             this.grpRevuesInfos.Controls.Add(this.label47);
             this.grpRevuesInfos.Controls.Add(this.label48);
-            this.grpRevuesInfos.Location = new System.Drawing.Point(11, 469);
+            this.grpRevuesInfos.Location = new System.Drawing.Point(11, 510);
             this.grpRevuesInfos.Margin = new System.Windows.Forms.Padding(4);
             this.grpRevuesInfos.Name = "grpRevuesInfos";
             this.grpRevuesInfos.Padding = new System.Windows.Forms.Padding(4);
-            this.grpRevuesInfos.Size = new System.Drawing.Size(1145, 302);
+            this.grpRevuesInfos.Size = new System.Drawing.Size(1145, 350);
             this.grpRevuesInfos.TabIndex = 20;
             this.grpRevuesInfos.TabStop = false;
             this.grpRevuesInfos.Text = "Informations détaillées";
@@ -1391,6 +1401,9 @@ namespace Mediatek86.vue
             // 
             // grpRevuesRecherche
             // 
+            this.grpRevuesRecherche.Controls.Add(this.button4);
+            this.grpRevuesRecherche.Controls.Add(this.button5);
+            this.grpRevuesRecherche.Controls.Add(this.button6);
             this.grpRevuesRecherche.Controls.Add(this.btnRevuesAnnulRayons);
             this.grpRevuesRecherche.Controls.Add(this.btnRevuesAnnulPublics);
             this.grpRevuesRecherche.Controls.Add(this.btnRevuesNumRecherche);
@@ -1410,7 +1423,7 @@ namespace Mediatek86.vue
             this.grpRevuesRecherche.Margin = new System.Windows.Forms.Padding(4);
             this.grpRevuesRecherche.Name = "grpRevuesRecherche";
             this.grpRevuesRecherche.Padding = new System.Windows.Forms.Padding(4);
-            this.grpRevuesRecherche.Size = new System.Drawing.Size(1145, 446);
+            this.grpRevuesRecherche.Size = new System.Drawing.Size(1145, 486);
             this.grpRevuesRecherche.TabIndex = 19;
             this.grpRevuesRecherche.TabStop = false;
             this.grpRevuesRecherche.Text = "Recherches";
@@ -2019,6 +2032,128 @@ namespace Mediatek86.vue
             this.btnSupprLivre.UseVisualStyleBackColor = true;
             this.btnSupprLivre.Click += new System.EventHandler(this.btnSupprLivre_Click);
             // 
+            // btnSupprDVD
+            // 
+            this.btnSupprDVD.Location = new System.Drawing.Point(270, 438);
+            this.btnSupprDVD.Name = "btnSupprDVD";
+            this.btnSupprDVD.Size = new System.Drawing.Size(144, 34);
+            this.btnSupprDVD.TabIndex = 24;
+            this.btnSupprDVD.Text = "Supprimer un DVD";
+            this.btnSupprDVD.UseVisualStyleBackColor = true;
+            this.btnSupprDVD.Click += new System.EventHandler(this.btnSupprDVD_Click);
+            // 
+            // btnModifDVD
+            // 
+            this.btnModifDVD.Location = new System.Drawing.Point(141, 438);
+            this.btnModifDVD.Name = "btnModifDVD";
+            this.btnModifDVD.Size = new System.Drawing.Size(123, 34);
+            this.btnModifDVD.TabIndex = 23;
+            this.btnModifDVD.Text = "Modifier un DVD";
+            this.btnModifDVD.UseVisualStyleBackColor = true;
+            this.btnModifDVD.Click += new System.EventHandler(this.btnModifDVD_Click);
+            // 
+            // btnAjoutDVD
+            // 
+            this.btnAjoutDVD.Location = new System.Drawing.Point(12, 438);
+            this.btnAjoutDVD.Name = "btnAjoutDVD";
+            this.btnAjoutDVD.Size = new System.Drawing.Size(123, 34);
+            this.btnAjoutDVD.TabIndex = 22;
+            this.btnAjoutDVD.Text = "Ajouter un DVD";
+            this.btnAjoutDVD.UseVisualStyleBackColor = true;
+            this.btnAjoutDVD.Click += new System.EventHandler(this.btnAjoutDVD_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(270, 438);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(144, 34);
+            this.button4.TabIndex = 27;
+            this.button4.Text = "Supprimer un livre";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(141, 438);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(123, 34);
+            this.button5.TabIndex = 26;
+            this.button5.Text = "Modifier un livre";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(12, 438);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(123, 34);
+            this.button6.TabIndex = 25;
+            this.button6.Text = "Ajouter un livre";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // cbxInfoRayonDVD
+            // 
+            this.cbxInfoRayonDVD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxInfoRayonDVD.FormattingEnabled = true;
+            this.cbxInfoRayonDVD.Location = new System.Drawing.Point(200, 232);
+            this.cbxInfoRayonDVD.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxInfoRayonDVD.Name = "cbxInfoRayonDVD";
+            this.cbxInfoRayonDVD.Size = new System.Drawing.Size(275, 24);
+            this.cbxInfoRayonDVD.TabIndex = 39;
+            this.cbxInfoRayonDVD.Visible = false;
+            // 
+            // cbxInfoPublicDVD
+            // 
+            this.cbxInfoPublicDVD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxInfoPublicDVD.FormattingEnabled = true;
+            this.cbxInfoPublicDVD.Location = new System.Drawing.Point(200, 203);
+            this.cbxInfoPublicDVD.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxInfoPublicDVD.Name = "cbxInfoPublicDVD";
+            this.cbxInfoPublicDVD.Size = new System.Drawing.Size(275, 24);
+            this.cbxInfoPublicDVD.TabIndex = 38;
+            this.cbxInfoPublicDVD.Visible = false;
+            // 
+            // cbxInfoGenreDVD
+            // 
+            this.cbxInfoGenreDVD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxInfoGenreDVD.FormattingEnabled = true;
+            this.cbxInfoGenreDVD.Location = new System.Drawing.Point(200, 172);
+            this.cbxInfoGenreDVD.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxInfoGenreDVD.Name = "cbxInfoGenreDVD";
+            this.cbxInfoGenreDVD.Size = new System.Drawing.Size(275, 24);
+            this.cbxInfoGenreDVD.TabIndex = 37;
+            this.cbxInfoGenreDVD.Visible = false;
+            // 
+            // btnAnnulerDVD
+            // 
+            this.btnAnnulerDVD.Location = new System.Drawing.Point(122, 302);
+            this.btnAnnulerDVD.Name = "btnAnnulerDVD";
+            this.btnAnnulerDVD.Size = new System.Drawing.Size(105, 41);
+            this.btnAnnulerDVD.TabIndex = 41;
+            this.btnAnnulerDVD.Text = "Annuler";
+            this.btnAnnulerDVD.UseVisualStyleBackColor = true;
+            this.btnAnnulerDVD.Visible = false;
+            this.btnAnnulerDVD.Click += new System.EventHandler(this.btnAnnulerDVD_Click);
+            // 
+            // btnValiderDVD
+            // 
+            this.btnValiderDVD.Location = new System.Drawing.Point(11, 302);
+            this.btnValiderDVD.Name = "btnValiderDVD";
+            this.btnValiderDVD.Size = new System.Drawing.Size(105, 41);
+            this.btnValiderDVD.TabIndex = 40;
+            this.btnValiderDVD.Text = "OK";
+            this.btnValiderDVD.UseVisualStyleBackColor = true;
+            this.btnValiderDVD.Visible = false;
+            this.btnValiderDVD.Click += new System.EventHandler(this.btnValiderDVD_Click);
+            // 
+            // txbDvdDuree
+            // 
+            this.txbDvdDuree.Location = new System.Drawing.Point(588, 25);
+            this.txbDvdDuree.Margin = new System.Windows.Forms.Padding(4);
+            this.txbDvdDuree.Name = "txbDvdDuree";
+            this.txbDvdDuree.ReadOnly = true;
+            this.txbDvdDuree.Size = new System.Drawing.Size(132, 22);
+            this.txbDvdDuree.TabIndex = 32;
+            this.txbDvdDuree.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbDvdDuree_KeyPress);
+            // 
             // FrmMediatek
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2132,7 +2267,6 @@ namespace Mediatek86.vue
         private System.Windows.Forms.TextBox txbLivresCollection;
         private System.Windows.Forms.TextBox txbLivresAuteur;
         private System.Windows.Forms.GroupBox grpDvdInfos;
-        private System.Windows.Forms.TextBox txbDvdDuree;
         private System.Windows.Forms.TextBox txbDvdImage;
         private System.Windows.Forms.TextBox txbDvdRayon;
         private System.Windows.Forms.TextBox txbDvdPublic;
@@ -2221,6 +2355,18 @@ namespace Mediatek86.vue
         private System.Windows.Forms.ComboBox cbxAjoutLivresGenre;
         private System.Windows.Forms.Button btnModifLivre;
         private System.Windows.Forms.Button btnSupprLivre;
+        private System.Windows.Forms.Button btnSupprDVD;
+        private System.Windows.Forms.Button btnModifDVD;
+        private System.Windows.Forms.Button btnAjoutDVD;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.ComboBox cbxInfoRayonDVD;
+        private System.Windows.Forms.ComboBox cbxInfoPublicDVD;
+        private System.Windows.Forms.ComboBox cbxInfoGenreDVD;
+        private System.Windows.Forms.Button btnAnnulerDVD;
+        private System.Windows.Forms.Button btnValiderDVD;
+        private System.Windows.Forms.TextBox txbDvdDuree;
     }
 }
 

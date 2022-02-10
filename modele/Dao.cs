@@ -384,9 +384,60 @@ namespace Mediatek86.modele
             return ReqDelete("livre", livre.Id) &&
             ReqDelete("livres_dvd", livre.Id) &&
             ReqDelete("document", livre.Id);
-
         }
 
+        public static bool ModifierDvd(Dvd dvd)
+        {
+            try
+            {
+                string req = "UPDATE dvd JOIN livres_dvd USING (id) JOIN document USING (id) ";
+                req += "SET dvd.synopsis = @synopsis, ";
+                req += "dvd.realisateur = @realisateur, ";
+                req += "dvd.duree = @duree, ";
+                req += "document.titre = @titre, ";
+                req += "document.image = @image, ";
+                req += "document.idRayon = @idrayon, ";
+                req += "document.idPublic = @idpublic, ";
+                req += "document.idGenre = @idgenre ";
+                req += "WHERE dvd.id = @id";
+
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", dvd.Id},
+                    { "@synopsis", dvd.Synopsis},
+                    { "@realisateur", dvd.Realisateur},
+                    { "@duree", dvd.Duree},
+                    { "@titre", dvd.Titre},
+                    { "@image", dvd.Image},
+                    { "@idrayon", dvd.IdRayon},
+                    { "@idpublic", dvd.IdPublic},
+                    { "@idgenre", dvd.IdGenre},
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool SupprimerDvd(Dvd dvd)
+        {
+            return ReqDelete("dvd", dvd.Id) &&
+                 ReqDelete("livres_dvd", dvd.Id) &&
+                 ReqDelete("document", dvd.Id);
+        }
+
+        /// <summary>
+        /// Exécute la requête 'DELETE FROM table WHERE id = id' où table et id sont envoyés en paramètre.
+        /// </summary>
+        /// <param name="table">Table à partir de laquelle supprimer.</param>
+        /// <param name="id">Identifiant de l'élément à supprimer.</param>
+        /// <returns></returns>
         private static bool ReqDelete(string table, string id)
         {
             try

@@ -417,6 +417,9 @@ namespace Mediatek86.vue
             RemplirComboCategorie(controle.GetAllRayons(), new BindingSource(), cbxAjoutLivresRayon, true);
 
             RemplirLivresListeComplete();
+
+            VideLivresInfos();
+            DgvLivresListe_SelectionChanged(null, null);
         }
 
         /// <summary>
@@ -903,7 +906,15 @@ namespace Mediatek86.vue
             RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxDvdGenres, false);
             RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxDvdPublics, false);
             RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxDvdRayons, false);
+
+            // Combos du bloc information, dans le scénario d'un ajout.
+            RemplirComboCategorie(controle.GetAllGenres(), new BindingSource(), cbxInfoGenreDVD, true);
+            RemplirComboCategorie(controle.GetAllPublics(), new BindingSource(), cbxInfoPublicDVD, true);
+            RemplirComboCategorie(controle.GetAllRayons(), new BindingSource(), cbxInfoRayonDVD, true);
+
             RemplirDvdListeComplete();
+            VideDvdInfos();
+            dgvDvdListe_SelectionChanged(null, null);
         }
 
         /// <summary>
@@ -1201,6 +1212,138 @@ namespace Mediatek86.vue
             RemplirDvdListe(sortedList);
         }
 
+        private void btnAjoutDVD_Click(object sender, EventArgs e)
+        {
+            VideDvdInfos();
+            modeActuel = Mode.Ajout;
+            ChangemodeOngletDVD(Mode.Ajout);
+        }
+
+        private void btnModifDVD_Click(object sender, EventArgs e)
+        {
+            modeActuel = Mode.Modification;
+            ChangemodeOngletDVD(Mode.Modification);
+        }
+
+        private void btnSupprDVD_Click(object sender, EventArgs e)
+        {
+            Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
+            DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
+                "Confirmation", MessageBoxButtons.YesNo);
+            if (choix == DialogResult.Yes)
+            {
+                if (controle.SupprimerDVD(dvd))
+                {
+                    lesDvd.Remove(dvd);
+                    bdgDvdListe.ResetBindings(false);
+                }
+            }
+        }
+
+        private void btnValiderDVD_Click(object sender, EventArgs e)
+        {
+            bool ok = false;
+            if (modeActuel == Mode.Ajout)
+            {
+                ok = ValiderAjoutDVD();
+            }
+
+            else if (modeActuel == Mode.Modification)
+            {
+                ok = ValiderModifDVD();
+            }
+
+            if (ok)
+            {
+                VideLivresInfos();
+                modeActuel = Mode.Info;
+                ChangemodeOngletDVD(Mode.Info);
+                bdgDvdListe.ResetBindings(false);
+                dgvDvdListe_SelectionChanged(null, null);
+            }
+        }
+
+        private void btnAnnulerDVD_Click(object sender, EventArgs e)
+        {
+            VideDvdInfos();
+            modeActuel = Mode.Info;
+            ChangemodeOngletDVD(Mode.Info);
+            dgvDvdListe_SelectionChanged(null, null);
+        }
+
+        private bool ValiderAjoutDVD()
+        {
+            if (txbDvdNumero.Text == "" || !controle.verifieIdentifiantUnique(txbDvdNumero.Text))
+            {
+                MessageBox.Show("Veuillez renseigner un numéro de document unique.");
+                return false;
+            }
+            if (!VerifieCompletionInfosDVD()) return false;
+
+            Genre genre = (Genre)cbxInfoGenreDVD.SelectedItem;
+            Public lePublic = (Public)cbxInfoPublicDVD.SelectedItem;
+            Rayon rayon = (Rayon)cbxInfoRayonDVD.SelectedItem;
+            Dvd dvd = controle.AjouterDvd(txbDvdNumero.Text, txbDvdTitre.Text, txbDvdImage.Text, int.Parse(txbDvdDuree.Text), txbDvdRealisateur.Text, txbDvdSynopsis.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
+            // Si non null, l'ajut à la BDD a bien été effectué.
+            if (dvd != null)
+            {
+                lesDvd.Add(dvd);
+                return true;
+            }
+            else return false;
+        }
+
+        private bool ValiderModifDVD()
+        {
+            if (controle.verifieIdentifiantUnique(txbDvdNumero.Text))
+            {
+                MessageBox.Show($"L'entrée {txbDvdNumero.Text} n'existe pas dans la base de données.");
+                return false;
+            }
+            if (!VerifieCompletionInfosDVD()) return false;
+            Genre genre = (Genre)cbxInfoGenreDVD.SelectedItem;
+            Public lePublic = (Public)cbxInfoPublicDVD.SelectedItem;
+            Rayon rayon = (Rayon)cbxInfoRayonDVD.SelectedItem;
+            Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
+            return controle.ModifierDvd(dvd, txbDvdTitre.Text, txbDvdImage.Text, int.Parse(txbDvdDuree.Text), txbDvdRealisateur.Text, txbDvdSynopsis.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
+        }
+
+        private bool VerifieCompletionInfosDVD()
+        {
+            if (txbDvdDuree.Text == "" || txbDvdRealisateur.Text == "" || txbDvdTitre.Text == "")
+            {
+                MessageBox.Show("Veuillez renseigner les champs obligatoires.");
+                return false;
+            }
+            return true;
+        }
+
+        private void ChangemodeOngletDVD(Mode mode)
+        {
+            bool readOnlyChamps = mode == Mode.Info;
+            bool readOnlyIdentifiant = mode == Mode.Info || mode == Mode.Modification;
+
+            txbDvdDuree.ReadOnly = readOnlyChamps;
+            txbDvdImage.ReadOnly = readOnlyChamps;
+            txbDvdRealisateur.ReadOnly = readOnlyChamps;
+            txbDvdSynopsis.ReadOnly = readOnlyChamps;
+            txbDvdTitre.ReadOnly = readOnlyChamps;
+            dgvDvdListe.Enabled = readOnlyChamps;
+            txbDvdNumero.ReadOnly = readOnlyIdentifiant;
+
+
+            txbDvdGenre.Visible = readOnlyChamps;
+            txbDvdPublic.Visible = readOnlyChamps;
+            txbDvdRayon.Visible = readOnlyChamps;
+
+            cbxInfoGenreDVD.Visible = !readOnlyChamps;
+            cbxInfoPublicDVD.Visible = !readOnlyChamps;
+            cbxInfoRayonDVD.Visible = !readOnlyChamps;
+
+            btnValiderDVD.Visible = !readOnlyChamps;
+            btnAnnulerDVD.Visible = !readOnlyChamps;
+        }
+
         #endregion
 
 
@@ -1466,8 +1609,18 @@ namespace Mediatek86.vue
                 pcbReceptionExemplaireRevueImage.Image = null;
             }
         }
+
+
+
+
         #endregion
 
-
+        private void txbDvdDuree_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

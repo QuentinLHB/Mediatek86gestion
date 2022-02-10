@@ -9,9 +9,9 @@ namespace Mediatek86.metier
     public class Dvd : LivreDvd
     {
 
-        private readonly int duree;
-        private readonly string realisateur;
-        private readonly string synopsis;
+        private int duree;
+        private string realisateur;
+        private string synopsis;
 
         public Dvd(string id, string titre, string image, int duree, string realisateur, string synopsis,
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
@@ -22,9 +22,15 @@ namespace Mediatek86.metier
             this.synopsis = synopsis;
         }
 
-        public int Duree { get => duree; }
-        public string Realisateur { get => realisateur; }
-        public string Synopsis { get => synopsis; }
+        public int Duree { get => duree;
+            set => duree = value;
+        }
+        public string Realisateur { get => realisateur;
+            set => realisateur = value;
+        }
+        public string Synopsis { get => synopsis;
+            set => synopsis = value;
+        }
 
     }
 }
