@@ -4,15 +4,15 @@ namespace Mediatek86.metier
     public class Document
     {
 
-        private readonly string id;
-        private readonly string titre;
-        private readonly string image;
-        private readonly string idGenre;
-        private readonly string genre;
-        private readonly string idPublic;
-        private readonly string lePublic;
-        private readonly string idRayon;
-        private readonly string rayon;
+        private string id;
+        private string titre;
+        private string image;
+        private string idGenre;
+        private string genre;
+        private string idPublic;
+        private string lePublic;
+        private string idRayon;
+        private string rayon;
 
         public Document(string id, string titre, string image, string idGenre, string genre, 
             string idPublic, string lePublic, string idRayon, string rayon)
@@ -29,14 +29,30 @@ namespace Mediatek86.metier
         }
 
         public string Id { get => id; }
-        public string Titre { get => titre; }
-        public string Image { get => image; }
-        public string IdGenre { get => idGenre; }
-        public string Genre { get => genre; }
-        public string IdPublic { get => idPublic; }
-        public string Public { get => lePublic; }
-        public string IdRayon { get => idRayon; }
-        public string Rayon { get => rayon; }
+        public string Titre { get => titre;
+            set => titre = value;
+        }
+        public string Image { get => image;
+            set => image = value;
+        }
+        public string IdGenre { get => idGenre;
+            set => idGenre = value;
+        }
+        public string Genre { get => genre;
+            set => genre = value;
+        }
+        public string IdPublic { get => idPublic;
+            set => idPublic = value;
+        }
+        public string Public { get => lePublic;
+            set => lePublic = value;
+        }
+        public string IdRayon { get => idRayon;
+            set => idRayon = value;
+        }
+        public string Rayon { get => rayon;
+            set => rayon = value;
+        }
 
     }
 

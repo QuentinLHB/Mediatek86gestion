@@ -104,6 +104,16 @@ namespace Mediatek86.controleur
         }
 
         /// <summary>
+        /// Vérifie si un identifiant est unique.
+        /// </summary>
+        /// <param name="identifiant">Identifiant à vérifier</param>
+        /// <returns>true si l'identifiant est unique (nouveau), false s'il existe déjà dans la BDD.</returns>
+        public bool verifieIdentifiantUnique(string identifiant)
+        {
+            return Dao.verifieSiIdentifiantUnique(identifiant);
+        }
+
+        /// <summary>
         /// Ajoute un livre à la base de données.
         /// </summary>
         /// <param name="id"></param>
@@ -118,13 +128,41 @@ namespace Mediatek86.controleur
         /// <param name="lePublic"></param>
         /// <param name="idRayon"></param>
         /// <param name="rayon"></param>
-        public void AjouterLivre(string id, string titre, string image, string isbn, string auteur, string collection,
+        public Livre AjouterLivre(string id, string titre, string image, string isbn, string auteur, string collection,
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
         {
             Livre livre = new Livre(id, titre, image, isbn, auteur, collection, idGenre, genre, idPublic, lePublic, idRayon, rayon);
-            Dao.AjouterLivre(livre);
+            if (Dao.AjouterLivre(livre)) return livre;
+            else return null;
 
         }
+
+        public bool ModifierLivre(Livre livre, string titre, string image, string isbn, string auteur, string collection,
+            string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
+        {
+            livre.Titre = titre;
+            livre.Image = image;
+            livre.Isbn = isbn;
+            livre.Auteur = auteur;
+            livre.Collection = collection;
+            livre.IdGenre = idGenre;
+            livre.Genre = genre;
+            livre.IdPublic = idPublic;
+            livre.Public = lePublic;
+            livre.IdRayon = idRayon;
+            livre.Rayon = rayon;
+            return Dao.ModifierLivre(livre);
+        }
+
+        public Categorie trouveCategorie(List<Categorie> categories, string idCategorie)
+        {
+            foreach(Categorie categorie in categories)
+            {
+                if (categorie.Id == idCategorie) return categorie;
+            }
+            return null;
+        }
+
 
         /// <summary>
         /// Ajoute un DVD à la base de données.

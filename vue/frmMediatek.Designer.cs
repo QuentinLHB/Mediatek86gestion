@@ -33,6 +33,11 @@ namespace Mediatek86.vue
             this.tabLivres = new System.Windows.Forms.TabPage();
             this.btnAjoutLivre = new System.Windows.Forms.Button();
             this.grpLivresInfos = new System.Windows.Forms.GroupBox();
+            this.cbxAjoutLivresRayon = new System.Windows.Forms.ComboBox();
+            this.cbxAjoutLivresPublic = new System.Windows.Forms.ComboBox();
+            this.cbxAjoutLivresGenre = new System.Windows.Forms.ComboBox();
+            this.btnAnnulerLivre = new System.Windows.Forms.Button();
+            this.btnValiderLivre = new System.Windows.Forms.Button();
             this.txbLivresIsbn = new System.Windows.Forms.TextBox();
             this.txbLivresImage = new System.Windows.Forms.TextBox();
             this.txbLivresRayon = new System.Windows.Forms.TextBox();
@@ -178,11 +183,7 @@ namespace Mediatek86.vue
             this.label54 = new System.Windows.Forms.Label();
             this.label55 = new System.Windows.Forms.Label();
             this.btnReceptionRechercher = new System.Windows.Forms.Button();
-            this.btnValiderLivre = new System.Windows.Forms.Button();
-            this.btnAnnulerLivre = new System.Windows.Forms.Button();
-            this.cbxAjoutLivresGenre = new System.Windows.Forms.ComboBox();
-            this.cbxAjoutLivresPublic = new System.Windows.Forms.ComboBox();
-            this.cbxAjoutLivresRayon = new System.Windows.Forms.ComboBox();
+            this.btnModifLivre = new System.Windows.Forms.Button();
             this.tabOngletsApplication.SuspendLayout();
             this.tabLivres.SuspendLayout();
             this.grpLivresInfos.SuspendLayout();
@@ -225,7 +226,6 @@ namespace Mediatek86.vue
             // 
             // tabLivres
             // 
-            this.tabLivres.Controls.Add(this.btnAjoutLivre);
             this.tabLivres.Controls.Add(this.grpLivresInfos);
             this.tabLivres.Controls.Add(this.grpLivresRecherche);
             this.tabLivres.Location = new System.Drawing.Point(4, 22);
@@ -239,7 +239,7 @@ namespace Mediatek86.vue
             // 
             // btnAjoutLivre
             // 
-            this.btnAjoutLivre.Location = new System.Drawing.Point(8, 469);
+            this.btnAjoutLivre.Location = new System.Drawing.Point(12, 438);
             this.btnAjoutLivre.Name = "btnAjoutLivre";
             this.btnAjoutLivre.Size = new System.Drawing.Size(123, 34);
             this.btnAjoutLivre.TabIndex = 17;
@@ -281,6 +281,61 @@ namespace Mediatek86.vue
             this.grpLivresInfos.TabIndex = 19;
             this.grpLivresInfos.TabStop = false;
             this.grpLivresInfos.Text = "Informations détaillées";
+            // 
+            // cbxAjoutLivresRayon
+            // 
+            this.cbxAjoutLivresRayon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxAjoutLivresRayon.FormattingEnabled = true;
+            this.cbxAjoutLivresRayon.Location = new System.Drawing.Point(200, 207);
+            this.cbxAjoutLivresRayon.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxAjoutLivresRayon.Name = "cbxAjoutLivresRayon";
+            this.cbxAjoutLivresRayon.Size = new System.Drawing.Size(275, 24);
+            this.cbxAjoutLivresRayon.TabIndex = 36;
+            this.cbxAjoutLivresRayon.Visible = false;
+            // 
+            // cbxAjoutLivresPublic
+            // 
+            this.cbxAjoutLivresPublic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxAjoutLivresPublic.FormattingEnabled = true;
+            this.cbxAjoutLivresPublic.Location = new System.Drawing.Point(200, 178);
+            this.cbxAjoutLivresPublic.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxAjoutLivresPublic.Name = "cbxAjoutLivresPublic";
+            this.cbxAjoutLivresPublic.Size = new System.Drawing.Size(275, 24);
+            this.cbxAjoutLivresPublic.TabIndex = 35;
+            this.cbxAjoutLivresPublic.Visible = false;
+            // 
+            // cbxAjoutLivresGenre
+            // 
+            this.cbxAjoutLivresGenre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxAjoutLivresGenre.FormattingEnabled = true;
+            this.cbxAjoutLivresGenre.Location = new System.Drawing.Point(200, 148);
+            this.cbxAjoutLivresGenre.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxAjoutLivresGenre.Name = "cbxAjoutLivresGenre";
+            this.cbxAjoutLivresGenre.Size = new System.Drawing.Size(275, 24);
+            this.cbxAjoutLivresGenre.TabIndex = 17;
+            this.cbxAjoutLivresGenre.Visible = false;
+            // 
+            // btnAnnulerLivre
+            // 
+            this.btnAnnulerLivre.Location = new System.Drawing.Point(118, 280);
+            this.btnAnnulerLivre.Name = "btnAnnulerLivre";
+            this.btnAnnulerLivre.Size = new System.Drawing.Size(105, 41);
+            this.btnAnnulerLivre.TabIndex = 34;
+            this.btnAnnulerLivre.Text = "Annuler";
+            this.btnAnnulerLivre.UseVisualStyleBackColor = true;
+            this.btnAnnulerLivre.Visible = false;
+            this.btnAnnulerLivre.Click += new System.EventHandler(this.btnAnnulerLivre_Click);
+            // 
+            // btnValiderLivre
+            // 
+            this.btnValiderLivre.Location = new System.Drawing.Point(7, 280);
+            this.btnValiderLivre.Name = "btnValiderLivre";
+            this.btnValiderLivre.Size = new System.Drawing.Size(105, 41);
+            this.btnValiderLivre.TabIndex = 33;
+            this.btnValiderLivre.Text = "OK";
+            this.btnValiderLivre.UseVisualStyleBackColor = true;
+            this.btnValiderLivre.Visible = false;
+            this.btnValiderLivre.Click += new System.EventHandler(this.btnValiderLivre_Click);
             // 
             // txbLivresIsbn
             // 
@@ -474,7 +529,9 @@ namespace Mediatek86.vue
             // 
             // grpLivresRecherche
             // 
+            this.grpLivresRecherche.Controls.Add(this.btnModifLivre);
             this.grpLivresRecherche.Controls.Add(this.btnLivresAnnulRayons);
+            this.grpLivresRecherche.Controls.Add(this.btnAjoutLivre);
             this.grpLivresRecherche.Controls.Add(this.btnlivresAnnulPublics);
             this.grpLivresRecherche.Controls.Add(this.btnLivresNumRecherche);
             this.grpLivresRecherche.Controls.Add(this.label5);
@@ -493,7 +550,7 @@ namespace Mediatek86.vue
             this.grpLivresRecherche.Margin = new System.Windows.Forms.Padding(4);
             this.grpLivresRecherche.Name = "grpLivresRecherche";
             this.grpLivresRecherche.Padding = new System.Windows.Forms.Padding(4);
-            this.grpLivresRecherche.Size = new System.Drawing.Size(1145, 446);
+            this.grpLivresRecherche.Size = new System.Drawing.Size(1145, 486);
             this.grpLivresRecherche.TabIndex = 18;
             this.grpLivresRecherche.TabStop = false;
             this.grpLivresRecherche.Text = "Recherches";
@@ -1940,60 +1997,15 @@ namespace Mediatek86.vue
             this.btnReceptionRechercher.UseVisualStyleBackColor = true;
             this.btnReceptionRechercher.Click += new System.EventHandler(this.btnReceptionRechercher_Click);
             // 
-            // btnValiderLivre
+            // btnModifLivre
             // 
-            this.btnValiderLivre.Location = new System.Drawing.Point(7, 280);
-            this.btnValiderLivre.Name = "btnValiderLivre";
-            this.btnValiderLivre.Size = new System.Drawing.Size(105, 41);
-            this.btnValiderLivre.TabIndex = 33;
-            this.btnValiderLivre.Text = "OK";
-            this.btnValiderLivre.UseVisualStyleBackColor = true;
-            this.btnValiderLivre.Visible = false;
-            this.btnValiderLivre.Click += new System.EventHandler(this.btnValiderLivre_Click);
-            // 
-            // btnAnnulerLivre
-            // 
-            this.btnAnnulerLivre.Location = new System.Drawing.Point(118, 280);
-            this.btnAnnulerLivre.Name = "btnAnnulerLivre";
-            this.btnAnnulerLivre.Size = new System.Drawing.Size(105, 41);
-            this.btnAnnulerLivre.TabIndex = 34;
-            this.btnAnnulerLivre.Text = "Annuler";
-            this.btnAnnulerLivre.UseVisualStyleBackColor = true;
-            this.btnAnnulerLivre.Visible = false;
-            this.btnAnnulerLivre.Click += new System.EventHandler(this.btnAnnulerLivre_Click);
-            // 
-            // cbxAjoutLivresGenre
-            // 
-            this.cbxAjoutLivresGenre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxAjoutLivresGenre.FormattingEnabled = true;
-            this.cbxAjoutLivresGenre.Location = new System.Drawing.Point(200, 148);
-            this.cbxAjoutLivresGenre.Margin = new System.Windows.Forms.Padding(4);
-            this.cbxAjoutLivresGenre.Name = "cbxAjoutLivresGenre";
-            this.cbxAjoutLivresGenre.Size = new System.Drawing.Size(275, 24);
-            this.cbxAjoutLivresGenre.TabIndex = 17;
-            this.cbxAjoutLivresGenre.Visible = false;
-            // 
-            // cbxAjoutLivresPublic
-            // 
-            this.cbxAjoutLivresPublic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxAjoutLivresPublic.FormattingEnabled = true;
-            this.cbxAjoutLivresPublic.Location = new System.Drawing.Point(200, 178);
-            this.cbxAjoutLivresPublic.Margin = new System.Windows.Forms.Padding(4);
-            this.cbxAjoutLivresPublic.Name = "cbxAjoutLivresPublic";
-            this.cbxAjoutLivresPublic.Size = new System.Drawing.Size(275, 24);
-            this.cbxAjoutLivresPublic.TabIndex = 35;
-            this.cbxAjoutLivresPublic.Visible = false;
-            // 
-            // cbxAjoutLivresRayon
-            // 
-            this.cbxAjoutLivresRayon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxAjoutLivresRayon.FormattingEnabled = true;
-            this.cbxAjoutLivresRayon.Location = new System.Drawing.Point(200, 207);
-            this.cbxAjoutLivresRayon.Margin = new System.Windows.Forms.Padding(4);
-            this.cbxAjoutLivresRayon.Name = "cbxAjoutLivresRayon";
-            this.cbxAjoutLivresRayon.Size = new System.Drawing.Size(275, 24);
-            this.cbxAjoutLivresRayon.TabIndex = 36;
-            this.cbxAjoutLivresRayon.Visible = false;
+            this.btnModifLivre.Location = new System.Drawing.Point(141, 438);
+            this.btnModifLivre.Name = "btnModifLivre";
+            this.btnModifLivre.Size = new System.Drawing.Size(123, 34);
+            this.btnModifLivre.TabIndex = 20;
+            this.btnModifLivre.Text = "Modifier un livre";
+            this.btnModifLivre.UseVisualStyleBackColor = true;
+            this.btnModifLivre.Click += new System.EventHandler(this.btnModifLivre_Click);
             // 
             // FrmMediatek
             // 
@@ -2195,6 +2207,7 @@ namespace Mediatek86.vue
         private System.Windows.Forms.ComboBox cbxAjoutLivresRayon;
         private System.Windows.Forms.ComboBox cbxAjoutLivresPublic;
         private System.Windows.Forms.ComboBox cbxAjoutLivresGenre;
+        private System.Windows.Forms.Button btnModifLivre;
     }
 }
 

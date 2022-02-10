@@ -13,7 +13,7 @@ namespace Mediatek86.modele
         private static readonly string userid = "root";
         private static readonly string password = "";
         private static readonly string database = "mediatek86";
-        private static readonly string connectionString = "server="+server+";user id="+userid+";password="+password+";database="+database+";SslMode=none";
+        private static readonly string connectionString = "server=" + server + ";user id=" + userid + ";password=" + password + ";database=" + database + ";SslMode=none";
 
         /// <summary>
         /// Retourne tous les genres à partir de la BDD
@@ -110,7 +110,7 @@ namespace Mediatek86.modele
                 string genre = (string)curs.Field("genre");
                 string lepublic = (string)curs.Field("public");
                 string rayon = (string)curs.Field("rayon");
-                Livre livre = new Livre(id, titre, image, isbn, auteur, collection, idgenre, genre, 
+                Livre livre = new Livre(id, titre, image, isbn, auteur, collection, idgenre, genre,
                     idpublic, lepublic, idrayon, rayon);
                 lesLivres.Add(livre);
             }
@@ -257,7 +257,9 @@ namespace Mediatek86.modele
                 curs.ReqUpdate(req, parameters);
                 curs.Close();
                 return true;
-            }catch{
+            }
+            catch
+            {
                 return false;
             }
         }
@@ -310,7 +312,8 @@ namespace Mediatek86.modele
         public static bool AjouterLivre(Livre livre)
         {
 
-            if(AjouterDocument(livre) && AjouterLivreDvd(livre)){
+            if (AjouterDocument(livre) && AjouterLivreDvd(livre))
+            {
                 try
                 {
                     string req = "insert into livre values (@id, @isbn, @auteur, @collection)";
@@ -337,9 +340,48 @@ namespace Mediatek86.modele
             }
         }
 
+        public static bool ModifierLivre(Livre livre)
+        {
+            try
+            {
+                string req = "UPDATE livre JOIN livres_dvd USING (id) JOIN document USING (id) ";
+                req += "SET livre.auteur = @auteur, ";
+                req += "livre.collection = @collection, ";
+                req += "livre.ISBN = @isbn, ";
+                req += "document.titre = @titre, ";
+                req += "document.image = @image, ";
+                req += "document.idRayon = @idrayon, ";
+                req += "document.idPublic = @idpublic, ";
+                req += "document.idGenre = @idgenre ";
+                req += "WHERE livre.id = @id";
+
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", livre.Id},
+                    { "@auteur", livre.Auteur},
+                    { "@collection", livre.Collection},
+                    { "@isbn", livre.Isbn},
+                    { "@titre", livre.Titre},
+                    { "@image", livre.Image},
+                    { "@idrayon", livre.IdRayon},
+                    { "@idpublic", livre.IdPublic},
+                    { "@idgenre", livre.IdGenre},
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static bool AjouterDvd(Dvd dvd)
         {
-            if(AjouterDocument(dvd) && AjouterLivreDvd(dvd))
+            if (AjouterDocument(dvd) && AjouterLivreDvd(dvd))
             {
                 try
                 {
@@ -369,7 +411,8 @@ namespace Mediatek86.modele
 
         public static bool AjouterRevue(Revue revue)
         {
-            if (AjouterDocument(revue)){
+            if (AjouterDocument(revue))
+            {
                 try
                 {
                     string req = "insert into revue values (@id, @empruntable, @periodicite, @delaiMiseADispo)";
@@ -394,9 +437,32 @@ namespace Mediatek86.modele
             {
                 return false;
             }
-    }
+        }
+
+
+        /// <summary>
+        /// Vérifie si un identifiant existe déjà dans la BDD ou s'il est unique.
+        /// </summary>
+        /// <param name="identifiant">Identifiant entré par l'utilisateur</param>
+        /// <returns>True si l'identifiant est unique, false s'il existe déjà.</returns>
+        public static bool verifieSiIdentifiantUnique(string identifiant)
+        {
+            bool existe;
+            string req = "select id from document where id =  @id ";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", identifiant}
+                };
+
+            BddMySql curs = BddMySql.GetInstance(connectionString);
+            curs.ReqSelect(req, parameters);
+            // Si le curseur peut être lu, il y a une entrée, donc l'identifiant n'est pas unique.
+            existe = curs.Read();
+            curs.Close();
+
+            return !existe;
+        }
 
     }
-    
-  
+
 }
