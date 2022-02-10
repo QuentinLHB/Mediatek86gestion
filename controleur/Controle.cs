@@ -154,6 +154,11 @@ namespace Mediatek86.controleur
             return Dao.ModifierLivre(livre);
         }
 
+        public bool SupprimerLive(Livre livre)
+        {
+            return Dao.SupprimerLivre(livre);
+        }
+
         public Categorie trouveCategorie(List<Categorie> categories, string idCategorie)
         {
             foreach(Categorie categorie in categories)

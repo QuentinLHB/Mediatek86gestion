@@ -184,6 +184,7 @@ namespace Mediatek86.vue
             this.label55 = new System.Windows.Forms.Label();
             this.btnReceptionRechercher = new System.Windows.Forms.Button();
             this.btnModifLivre = new System.Windows.Forms.Button();
+            this.btnSupprLivre = new System.Windows.Forms.Button();
             this.tabOngletsApplication.SuspendLayout();
             this.tabLivres.SuspendLayout();
             this.grpLivresInfos.SuspendLayout();
@@ -277,7 +278,7 @@ namespace Mediatek86.vue
             this.grpLivresInfos.Margin = new System.Windows.Forms.Padding(4);
             this.grpLivresInfos.Name = "grpLivresInfos";
             this.grpLivresInfos.Padding = new System.Windows.Forms.Padding(4);
-            this.grpLivresInfos.Size = new System.Drawing.Size(1145, 330);
+            this.grpLivresInfos.Size = new System.Drawing.Size(1145, 350);
             this.grpLivresInfos.TabIndex = 19;
             this.grpLivresInfos.TabStop = false;
             this.grpLivresInfos.Text = "Informations détaillées";
@@ -529,6 +530,7 @@ namespace Mediatek86.vue
             // 
             // grpLivresRecherche
             // 
+            this.grpLivresRecherche.Controls.Add(this.btnSupprLivre);
             this.grpLivresRecherche.Controls.Add(this.btnModifLivre);
             this.grpLivresRecherche.Controls.Add(this.btnLivresAnnulRayons);
             this.grpLivresRecherche.Controls.Add(this.btnAjoutLivre);
@@ -2007,6 +2009,16 @@ namespace Mediatek86.vue
             this.btnModifLivre.UseVisualStyleBackColor = true;
             this.btnModifLivre.Click += new System.EventHandler(this.btnModifLivre_Click);
             // 
+            // btnSupprLivre
+            // 
+            this.btnSupprLivre.Location = new System.Drawing.Point(270, 438);
+            this.btnSupprLivre.Name = "btnSupprLivre";
+            this.btnSupprLivre.Size = new System.Drawing.Size(144, 34);
+            this.btnSupprLivre.TabIndex = 21;
+            this.btnSupprLivre.Text = "Supprimer un livre";
+            this.btnSupprLivre.UseVisualStyleBackColor = true;
+            this.btnSupprLivre.Click += new System.EventHandler(this.btnSupprLivre_Click);
+            // 
             // FrmMediatek
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2208,6 +2220,7 @@ namespace Mediatek86.vue
         private System.Windows.Forms.ComboBox cbxAjoutLivresPublic;
         private System.Windows.Forms.ComboBox cbxAjoutLivresGenre;
         private System.Windows.Forms.Button btnModifLivre;
+        private System.Windows.Forms.Button btnSupprLivre;
     }
 }
 

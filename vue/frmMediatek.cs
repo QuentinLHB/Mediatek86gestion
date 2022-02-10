@@ -45,6 +45,7 @@ namespace Mediatek86.vue
         internal FrmMediatek(Controle controle)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.controle = controle;
         }
 
@@ -735,20 +736,36 @@ namespace Mediatek86.vue
         {
             VideLivresInfos();
             modeActuel = Mode.Ajout;
-            switchGpbLivresInfoMode(Mode.Ajout);
+            ChangeModeOngletLivre(Mode.Ajout);
         }
 
         private void btnModifLivre_Click(object sender, EventArgs e)
         {
             modeActuel = Mode.Modification;
-            switchGpbLivresInfoMode(Mode.Modification);
+            ChangeModeOngletLivre(Mode.Modification);
         }
+
+        private void btnSupprLivre_Click(object sender, EventArgs e)
+        {
+            Livre livre = (Livre)bdgLivresListe.List[bdgLivresListe.Position];
+            DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
+                "Confirmation", MessageBoxButtons.YesNo);
+            if (choix == DialogResult.Yes)
+            {
+                if (controle.SupprimerLive(livre))
+                {
+                    lesLivres.Remove(livre);
+                    bdgLivresListe.ResetBindings(false);
+                }
+            }
+        }
+    
 
         /// <summary>
         /// Affiche la groupbox d'informations des livres selon le mode en cours.
         /// </summary>
         /// <param name="mode">Mode actuel.</param>
-        private void switchGpbLivresInfoMode(Mode mode)
+        private void ChangeModeOngletLivre(Mode mode)
         {
             bool readOnlyChamps = mode == Mode.Info;
             bool readOnlyIdentifiant = mode == Mode.Info || mode == Mode.Modification;
@@ -759,6 +776,7 @@ namespace Mediatek86.vue
             txbLivresIsbn.ReadOnly = readOnlyChamps;
             txbLivresImage.ReadOnly = readOnlyChamps;
             txbLivresTitre.ReadOnly = readOnlyChamps;
+            dgvLivresListe.Enabled = readOnlyChamps;
             txbLivresNumero.ReadOnly = readOnlyIdentifiant;
 
 
@@ -796,7 +814,7 @@ namespace Mediatek86.vue
             {
            VideLivresInfos();
             modeActuel = Mode.Info;
-            switchGpbLivresInfoMode(Mode.Info);
+            ChangeModeOngletLivre(Mode.Info);
             bdgLivresListe.ResetBindings(false);
             DgvLivresListe_SelectionChanged(null, null);
             }
@@ -861,7 +879,7 @@ namespace Mediatek86.vue
         {
             VideLivresInfos();
             modeActuel = Mode.Info;
-            switchGpbLivresInfoMode(Mode.Info);
+            ChangeModeOngletLivre(Mode.Info);
             DgvLivresListe_SelectionChanged(null, null);
         }
 
@@ -1449,5 +1467,7 @@ namespace Mediatek86.vue
             }
         }
         #endregion
+
+
     }
 }

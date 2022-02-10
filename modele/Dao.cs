@@ -379,6 +379,36 @@ namespace Mediatek86.modele
             }
         }
 
+        public static bool SupprimerLivre(Livre livre)
+        {
+            return ReqDelete("livre", livre.Id) &&
+            ReqDelete("livres_dvd", livre.Id) &&
+            ReqDelete("document", livre.Id);
+
+        }
+
+        private static bool ReqDelete(string table, string id)
+        {
+            try
+            {
+                string req = $"DELETE FROM {table} WHERE id = @id; ";
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", id},
+
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static bool AjouterDvd(Dvd dvd)
         {
             if (AjouterDocument(dvd) && AjouterLivreDvd(dvd))
