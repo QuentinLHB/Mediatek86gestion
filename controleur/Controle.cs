@@ -229,12 +229,39 @@ namespace Mediatek86.controleur
         /// <param name="empruntable"></param>
         /// <param name="periodicite"></param>
         /// <param name="delaiMiseADispo"></param>
-        public void AjouterRevue(string id, string titre, string image, string idGenre, string genre,
+        public Revue AjouterRevue(string id, string titre, string image, string idGenre, string genre,
             string idPublic, string lePublic, string idRayon, string rayon,
             bool empruntable, string periodicite, int delaiMiseADispo)
         {
             Revue revue = new Revue(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon, empruntable, periodicite, delaiMiseADispo);
-            Dao.AjouterRevue(revue);
+            if (Dao.AjouterRevue(revue))
+            {
+                return revue;
+            }
+            else return null;
+        }
+
+        public bool ModifierRevue(Revue revue, string titre, string image, string idGenre, string genre,
+            string idPublic, string lePublic, string idRayon, string rayon,
+            bool empruntable, string periodicite, int delaiMiseADispo)
+        {
+            revue.Titre = titre;
+            revue.Image = image;
+            revue.IdGenre = idGenre;
+            revue.Genre = genre;
+            revue.IdPublic = idPublic;
+            revue.Public = lePublic;
+            revue.IdRayon = idRayon;
+            revue.Rayon = rayon;
+            revue.Empruntable = empruntable;
+            revue.Periodicite = periodicite;
+            revue.DelaiMiseADispo = delaiMiseADispo;
+            return Dao.ModifierRevue(revue);
+        }
+
+        public bool SupprimerRevue(Revue revue)
+        {
+            return Dao.SupprimerRevue(revue);
         }
 
 

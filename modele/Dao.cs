@@ -386,51 +386,7 @@ namespace Mediatek86.modele
             ReqDelete("document", livre.Id);
         }
 
-        public static bool ModifierDvd(Dvd dvd)
-        {
-            try
-            {
-                string req = "UPDATE dvd JOIN livres_dvd USING (id) JOIN document USING (id) ";
-                req += "SET dvd.synopsis = @synopsis, ";
-                req += "dvd.realisateur = @realisateur, ";
-                req += "dvd.duree = @duree, ";
-                req += "document.titre = @titre, ";
-                req += "document.image = @image, ";
-                req += "document.idRayon = @idrayon, ";
-                req += "document.idPublic = @idpublic, ";
-                req += "document.idGenre = @idgenre ";
-                req += "WHERE dvd.id = @id";
-
-
-                Dictionary<string, object> parameters = new Dictionary<string, object>
-                {
-                    { "@id", dvd.Id},
-                    { "@synopsis", dvd.Synopsis},
-                    { "@realisateur", dvd.Realisateur},
-                    { "@duree", dvd.Duree},
-                    { "@titre", dvd.Titre},
-                    { "@image", dvd.Image},
-                    { "@idrayon", dvd.IdRayon},
-                    { "@idpublic", dvd.IdPublic},
-                    { "@idgenre", dvd.IdGenre},
-                };
-                BddMySql curs = BddMySql.GetInstance(connectionString);
-                curs.ReqUpdate(req, parameters);
-                curs.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public static bool SupprimerDvd(Dvd dvd)
-        {
-            return ReqDelete("dvd", dvd.Id) &&
-                 ReqDelete("livres_dvd", dvd.Id) &&
-                 ReqDelete("document", dvd.Id);
-        }
+     
 
         /// <summary>
         /// Exécute la requête 'DELETE FROM table WHERE id = id' où table et id sont envoyés en paramètre.
@@ -490,6 +446,52 @@ namespace Mediatek86.modele
             }
         }
 
+        public static bool ModifierDvd(Dvd dvd)
+        {
+            try
+            {
+                string req = "UPDATE dvd JOIN livres_dvd USING (id) JOIN document USING (id) ";
+                req += "SET dvd.synopsis = @synopsis, ";
+                req += "dvd.realisateur = @realisateur, ";
+                req += "dvd.duree = @duree, ";
+                req += "document.titre = @titre, ";
+                req += "document.image = @image, ";
+                req += "document.idRayon = @idrayon, ";
+                req += "document.idPublic = @idpublic, ";
+                req += "document.idGenre = @idgenre ";
+                req += "WHERE dvd.id = @id";
+
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", dvd.Id},
+                    { "@synopsis", dvd.Synopsis},
+                    { "@realisateur", dvd.Realisateur},
+                    { "@duree", dvd.Duree},
+                    { "@titre", dvd.Titre},
+                    { "@image", dvd.Image},
+                    { "@idrayon", dvd.IdRayon},
+                    { "@idpublic", dvd.IdPublic},
+                    { "@idgenre", dvd.IdGenre},
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool SupprimerDvd(Dvd dvd)
+        {
+            return ReqDelete("dvd", dvd.Id) &&
+                 ReqDelete("livres_dvd", dvd.Id) &&
+                 ReqDelete("document", dvd.Id);
+        }
+
         public static bool AjouterRevue(Revue revue)
         {
             if (AjouterDocument(revue))
@@ -520,6 +522,50 @@ namespace Mediatek86.modele
             }
         }
 
+        public static bool ModifierRevue(Revue revue)
+        {
+            try
+            {
+                string req = "UPDATE revue JOIN document USING (id) ";
+                req += "set revue.empruntable = @empruntable, ";
+                req += "revue.periodicite = @periodicite    , ";
+                req += "revue.delaiMiseADispo = @delaiMiseADispo, ";
+                req += "document.titre = @titre, ";
+                req += "document.image = @image, ";
+                req += "document.idRayon = @idrayon, ";
+                req += "document.idPublic = @idpublic, ";
+                req += "document.idGenre = @idgenre ";
+                req += "WHERE dvd.id = @id";
+
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", revue.Id},
+                    { "@empruntable", revue.Empruntable},
+                    { "@periodicite", revue.Periodicite},
+                    { "@delaiMiseADispo", revue.DelaiMiseADispo},
+                    { "@titre", revue.Titre},
+                    { "@image", revue.Image},
+                    { "@idrayon", revue.IdRayon},
+                    { "@idpublic", revue.IdPublic},
+                    { "@idgenre", revue.IdGenre},
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool SupprimerRevue(Revue revue)
+        {
+            return ReqDelete("revue", revue.Id) &&
+              ReqDelete("document", revue.Id);
+        }
 
         /// <summary>
         /// Vérifie si un identifiant existe déjà dans la BDD ou s'il est unique.

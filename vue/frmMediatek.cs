@@ -69,6 +69,18 @@ namespace Mediatek86.vue
             }
         }
 
+        /// <summary>
+        /// Empêche la saisie de charactères non-alphabétiques.
+        /// </summary>
+        /// <param name="e">Evenement de type KeyPress</param>
+        private void BloqueChracteresNonAlpha(KeyPressEventArgs e)
+        {
+            if ((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+        }
+
         #endregion
 
 
@@ -89,6 +101,12 @@ namespace Mediatek86.vue
             RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxRevuesGenres, false);
             RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxRevuesPublics, false);
             RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxRevuesRayons, false);
+
+            // Combos du bloc information, dans le scénario d'un ajout.
+            RemplirComboCategorie(controle.GetAllGenres(), new BindingSource(), cbxInfoGenreRevue, true);
+            RemplirComboCategorie(controle.GetAllPublics(), new BindingSource(), cbxInfoPublicRevue, true);
+            RemplirComboCategorie(controle.GetAllRayons(), new BindingSource(), cbxInfoRayonRevue, true);
+
             RemplirRevuesListeComplete();
         }
 
@@ -350,6 +368,11 @@ namespace Mediatek86.vue
             txbRevuesTitreRecherche.Text = "";
         }
 
+        private void txbRevuesDateMiseADispo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            BloqueChracteresNonAlpha(e);
+        }
+
         /// <summary>
         /// Tri sur les colonnes
         /// </summary>
@@ -387,6 +410,143 @@ namespace Mediatek86.vue
             RemplirRevuesListe(sortedList);
         }
 
+
+        private void btnAjoutRevue_Click(object sender, EventArgs e)
+        {
+            VideRevuesInfos();
+            modeActuel = Mode.Ajout;
+            ChangeModeOngletRevue(Mode.Ajout);
+        }
+
+        private void btnModifRevue_Click(object sender, EventArgs e)
+        {
+            modeActuel = Mode.Modification;
+            ChangeModeOngletRevue(Mode.Modification);
+        }
+
+        private void btnSupprRevue_Click(object sender, EventArgs e)
+        {
+            Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+            DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
+              "Confirmation", MessageBoxButtons.YesNo);
+            if (choix == DialogResult.Yes)
+            {
+                if (controle.SupprimerRevue(revue))
+                {
+                    lesRevues.Remove(revue);
+                    bdgRevuesListe.ResetBindings(false);
+                }
+            }
+        }
+
+        private void btnValiderRevue_Click(object sender, EventArgs e)
+        {
+            bool ok = false;
+            if (modeActuel == Mode.Ajout)
+            {
+                ok = ValiderAjoutRevue();
+            }
+
+            else if (modeActuel == Mode.Modification)
+            {
+                ok = ValiderModifRevue();
+            }
+
+            if (ok)
+            {
+                VideRevuesInfos();
+                modeActuel = Mode.Info;
+                ChangeModeOngletRevue(Mode.Info);
+                bdgRevuesListe.ResetBindings(false);
+                dgvRevuesListe_SelectionChanged(null, null);
+            }
+        }
+
+        
+        private bool ValiderAjoutRevue()
+        {
+            if (txbRevuesNumero.Text == "" || !controle.verifieIdentifiantUnique(txbRevuesNumero.Text))
+            {
+                MessageBox.Show("Veuillez renseigner un numéro de document unique.");
+                return false;
+            }
+            if (!VerifieCompletionInfosRevue()) return false;
+
+            Genre genre = (Genre)cbxInfoGenreRevue.SelectedItem;
+            Public lePublic = (Public)cbxInfoPublicRevue.SelectedItem;
+            Rayon rayon = (Rayon)cbxInfoRayonRevue.SelectedItem;
+            Revue revue = controle.AjouterRevue(txbRevuesNumero.Text, txbRevuesTitre.Text, txbRevuesImage.Text, genre.Id, genre.Libelle,
+                lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle, chkRevuesEmpruntable.Checked, txbRevuesPeriodicite.Text, int.Parse(txbRevuesDateMiseADispo.Text));
+            // Si non null, l'ajut à la BDD a bien été effectué.
+            if (revue != null)
+            {
+                lesRevues.Add(revue);
+                return true;
+            }
+            else return false;
+        }
+
+        private bool VerifieCompletionInfosRevue()
+        {
+            if (txbRevuesTitre.Text == "")
+            {
+                MessageBox.Show("Veuillez renseigner les champs obligatoires.");
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValiderModifRevue()
+        {
+            if (controle.verifieIdentifiantUnique(txbLivresNumero.Text))
+            {
+                MessageBox.Show($"L'entrée {txbLivresNumero.Text} n'existe pas dans la base de données.");
+                return false;
+            }
+            if (!VerifieCompletionInfosLivre()) return false;
+            Genre genre = (Genre)cbxInfoGenreRevue.SelectedItem;
+            Public lePublic = (Public)cbxInfoPublicRevue.SelectedItem;
+            Rayon rayon = (Rayon)cbxInfoRayonRevue.SelectedItem;
+            Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+            return controle.ModifierRevue(revue, txbRevuesTitre.Text, txbRevuesImage.Text, genre.Id, genre.Libelle,
+                lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle, chkRevuesEmpruntable.Checked, txbRevuesPeriodicite.Text, int.Parse(txbRevuesDateMiseADispo.Text));
+        }
+
+        private void btnAnnulerRevue_Click(object sender, EventArgs e)
+        {
+            VideRevuesInfos();
+            modeActuel = Mode.Info;
+            ChangeModeOngletRevue(Mode.Info);
+            dgvRevuesListe_SelectionChanged(null, null);
+        }
+
+        private void ChangeModeOngletRevue(Mode mode)
+        {
+            bool readOnlyChamps = mode == Mode.Info;
+            bool readOnlyIdentifiant = mode == Mode.Info || mode == Mode.Modification;
+
+            txbRevuesGenre.ReadOnly = readOnlyChamps;
+            txbRevuesDateMiseADispo.ReadOnly = readOnlyChamps;
+            txbRevuesPeriodicite.ReadOnly = readOnlyChamps;
+            txbRevuesImage.ReadOnly = readOnlyChamps;
+            txbRevuesTitre.ReadOnly = readOnlyChamps;
+            dgvRevuesListe.Enabled = readOnlyChamps;
+            chkRevuesEmpruntable.Enabled = !readOnlyChamps;
+            txbRevuesNumero.ReadOnly = readOnlyIdentifiant;
+
+
+            txbRevuesGenre.Visible = readOnlyChamps;
+            txbRevuesPublic.Visible = readOnlyChamps;
+            txbRevuesRayon.Visible = readOnlyChamps;
+
+            cbxInfoGenreRevue.Visible = !readOnlyChamps;
+            cbxInfoPublicRevue.Visible = !readOnlyChamps;
+            cbxInfoRayonRevue.Visible = !readOnlyChamps;
+
+            btnValiderRevue.Visible = !readOnlyChamps;
+            btnAnnulerRevue.Visible = !readOnlyChamps;
+        }
+
         #endregion
 
 
@@ -412,9 +572,9 @@ namespace Mediatek86.vue
             RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxLivresRayons, false);
 
             // Combos du bloc information, dans le scénario d'un ajout.
-            RemplirComboCategorie(controle.GetAllGenres(), new BindingSource(), cbxAjoutLivresGenre, true);
-            RemplirComboCategorie(controle.GetAllPublics(), new BindingSource(), cbxAjoutLivresPublic, true);
-            RemplirComboCategorie(controle.GetAllRayons(), new BindingSource(), cbxAjoutLivresRayon, true);
+            RemplirComboCategorie(controle.GetAllGenres(), new BindingSource(), cbxInfoGenreLivres, true);
+            RemplirComboCategorie(controle.GetAllPublics(), new BindingSource(), cbxInfoPublicLivre, true);
+            RemplirComboCategorie(controle.GetAllRayons(), new BindingSource(), cbxInfoRayonLivre, true);
 
             RemplirLivresListeComplete();
 
@@ -519,11 +679,11 @@ namespace Mediatek86.vue
             txbLivresTitre.Text = livre.Titre;
             
             Genre genre = (Genre)controle.trouveCategorie(controle.GetAllGenres(), livre.IdGenre);
-            if (genre != null) cbxAjoutLivresGenre.SelectedItem = genre;
+            if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
             Public lePublic = (Public)controle.trouveCategorie(controle.GetAllPublics(), livre.IdPublic);
-            if (genre != null) cbxAjoutLivresGenre.SelectedItem = genre;
+            if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
             Rayon rayon = (Rayon)controle.trouveCategorie(controle.GetAllRayons(), livre.IdRayon);
-            if (genre != null) cbxAjoutLivresGenre.SelectedItem = genre;
+            if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
 
             string image = livre.Image;
             try
@@ -550,9 +710,9 @@ namespace Mediatek86.vue
             txbLivresPublic.Text = "";
             txbLivresRayon.Text = "";
             txbLivresTitre.Text = "";
-            resetCombobox(cbxAjoutLivresGenre);
-            resetCombobox(cbxAjoutLivresPublic);
-            resetCombobox(cbxAjoutLivresRayon);
+            resetCombobox(cbxInfoGenreLivres);
+            resetCombobox(cbxInfoPublicLivre);
+            resetCombobox(cbxInfoRayonLivre);
             pcbLivresImage.Image = null;
         }
 
@@ -787,9 +947,9 @@ namespace Mediatek86.vue
             txbLivresPublic.Visible = readOnlyChamps;
             txbLivresRayon.Visible = readOnlyChamps;
 
-            cbxAjoutLivresGenre.Visible = !readOnlyChamps;
-            cbxAjoutLivresPublic.Visible = !readOnlyChamps;
-            cbxAjoutLivresRayon.Visible = !readOnlyChamps;
+            cbxInfoGenreLivres.Visible = !readOnlyChamps;
+            cbxInfoPublicLivre.Visible = !readOnlyChamps;
+            cbxInfoRayonLivre.Visible = !readOnlyChamps;
 
             btnValiderLivre.Visible = !readOnlyChamps;
             btnAnnulerLivre.Visible = !readOnlyChamps;
@@ -835,9 +995,9 @@ namespace Mediatek86.vue
             }
             if (!VerifieCompletionInfosLivre()) return false;
 
-            Genre genre = (Genre)cbxAjoutLivresGenre.SelectedItem;
-            Public lePublic = (Public)cbxAjoutLivresPublic.SelectedItem;
-            Rayon rayon = (Rayon)cbxAjoutLivresRayon.SelectedItem;
+            Genre genre = (Genre)cbxInfoGenreLivres.SelectedItem;
+            Public lePublic = (Public)cbxInfoPublicLivre.SelectedItem;
+            Rayon rayon = (Rayon)cbxInfoRayonLivre.SelectedItem;
             Livre livre = controle.AjouterLivre(txbLivresNumero.Text, txbLivresTitre.Text, txbLivresImage.Text, txbLivresIsbn.Text,
                 txbLivresAuteur.Text, txbLivresCollection.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
             // Si non null, l'ajut à la BDD a bien été effectué.
@@ -858,9 +1018,9 @@ namespace Mediatek86.vue
                 return false;
             }
             if (!VerifieCompletionInfosLivre()) return false;
-            Genre genre = (Genre)cbxAjoutLivresGenre.SelectedItem;
-            Public lePublic = (Public)cbxAjoutLivresPublic.SelectedItem;
-            Rayon rayon = (Rayon)cbxAjoutLivresRayon.SelectedItem;
+            Genre genre = (Genre)cbxInfoGenreLivres.SelectedItem;
+            Public lePublic = (Public)cbxInfoPublicLivre.SelectedItem;
+            Rayon rayon = (Rayon)cbxInfoRayonLivre.SelectedItem;
             Livre livre = (Livre)bdgLivresListe.List[bdgLivresListe.Position];
             return controle.ModifierLivre(livre, txbLivresTitre.Text, txbLivresImage.Text, txbLivresIsbn.Text,
                 txbLivresAuteur.Text, txbLivresCollection.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
@@ -1122,6 +1282,12 @@ namespace Mediatek86.vue
                 VideDvdInfos();
             }
         }
+
+        private void txbDvdDuree_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            BloqueChracteresNonAlpha(e);
+        }
+
 
         /// <summary>
         /// Sur le clic du bouton d'annulation, affichage de la liste complète des Dvd
@@ -1613,14 +1779,10 @@ namespace Mediatek86.vue
 
 
 
+
+
         #endregion
 
-        private void txbDvdDuree_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != (char)Keys.Back)
-            {
-                e.Handled = true;
-            }
-        }
+
     }
 }
