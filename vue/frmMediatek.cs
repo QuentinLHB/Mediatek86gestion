@@ -427,16 +427,25 @@ namespace Mediatek86.vue
         private void btnSupprRevue_Click(object sender, EventArgs e)
         {
             Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
-            DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
-              "Confirmation", MessageBoxButtons.YesNo);
-            if (choix == DialogResult.Yes)
+            if (controle.GetExemplairesDocument(revue.Id).Count == 0)
             {
-                if (controle.SupprimerRevue(revue))
+                DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
+              "Confirmation", MessageBoxButtons.YesNo);
+                if (choix == DialogResult.Yes)
                 {
-                    lesRevues.Remove(revue);
-                    bdgRevuesListe.ResetBindings(false);
+                    if (controle.SupprimerRevue(revue))
+                    {
+                        lesRevues.Remove(revue);
+                        bdgRevuesListe.ResetBindings(false);
+                    }
                 }
             }
+            else
+            {
+                MessageBox.Show("Impossible de supprimer une revue ayant des exemplaires répertoriés.", "Suppression impossible");
+            }
+
+
         }
 
         private void btnValiderRevue_Click(object sender, EventArgs e)
@@ -462,7 +471,7 @@ namespace Mediatek86.vue
             }
         }
 
-        
+
         private bool ValiderAjoutRevue()
         {
             if (txbRevuesNumero.Text == "" || !controle.verifieIdentifiantUnique(txbRevuesNumero.Text))
@@ -677,7 +686,7 @@ namespace Mediatek86.vue
             txbLivresPublic.Text = livre.Public;
             txbLivresRayon.Text = livre.Rayon;
             txbLivresTitre.Text = livre.Titre;
-            
+
             Genre genre = (Genre)controle.trouveCategorie(controle.GetAllGenres(), livre.IdGenre);
             if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
             Public lePublic = (Public)controle.trouveCategorie(controle.GetAllPublics(), livre.IdPublic);
@@ -718,7 +727,7 @@ namespace Mediatek86.vue
 
         private void resetCombobox(ComboBox cbo)
         {
-            if(cbo.Items.Count > 0) cbo.SelectedIndex = 0;
+            if (cbo.Items.Count > 0) cbo.SelectedIndex = 0;
             else cbo.SelectedIndex = -1;
         }
 
@@ -910,19 +919,27 @@ namespace Mediatek86.vue
 
         private void btnSupprLivre_Click(object sender, EventArgs e)
         {
+
             Livre livre = (Livre)bdgLivresListe.List[bdgLivresListe.Position];
-            DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
-                "Confirmation", MessageBoxButtons.YesNo);
-            if (choix == DialogResult.Yes)
+            if (controle.GetExemplairesDocument(livre.Id).Count == 0)
             {
-                if (controle.SupprimerLive(livre))
+                DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
+                    "Confirmation", MessageBoxButtons.YesNo);
+                if (choix == DialogResult.Yes)
                 {
-                    lesLivres.Remove(livre);
-                    bdgLivresListe.ResetBindings(false);
+                    if (controle.SupprimerLive(livre))
+                    {
+                        lesLivres.Remove(livre);
+                        bdgLivresListe.ResetBindings(false);
+                    }
                 }
             }
+            else
+            {
+                MessageBox.Show("Impossible de supprimer un livre ayant des exemplaires répertoriés.", "Suppression impossible");
+            }
         }
-    
+
 
         /// <summary>
         /// Affiche la groupbox d'informations des livres selon le mode en cours.
@@ -963,26 +980,26 @@ namespace Mediatek86.vue
         private void btnValiderLivre_Click(object sender, EventArgs e)
         {
             bool ok = false;
-          if(modeActuel == Mode.Ajout)
+            if (modeActuel == Mode.Ajout)
             {
                 ok = ValiderAjoutLivre();
             }
 
-          else if (modeActuel == Mode.Modification)
+            else if (modeActuel == Mode.Modification)
             {
                 ok = ValiderModifLivre();
             }
 
             if (ok)
             {
-           VideLivresInfos();
-            modeActuel = Mode.Info;
-            ChangeModeOngletLivre(Mode.Info);
-            bdgLivresListe.ResetBindings(false);
-            DgvLivresListe_SelectionChanged(null, null);
+                VideLivresInfos();
+                modeActuel = Mode.Info;
+                ChangeModeOngletLivre(Mode.Info);
+                bdgLivresListe.ResetBindings(false);
+                DgvLivresListe_SelectionChanged(null, null);
             }
 
- 
+
 
         }
 
@@ -1394,16 +1411,24 @@ namespace Mediatek86.vue
         private void btnSupprDVD_Click(object sender, EventArgs e)
         {
             Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
-            DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
-                "Confirmation", MessageBoxButtons.YesNo);
-            if (choix == DialogResult.Yes)
+            if (controle.GetExemplairesDocument(dvd.Id).Count == 0)
             {
-                if (controle.SupprimerDVD(dvd))
+                DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
+                "Confirmation", MessageBoxButtons.YesNo);
+                if (choix == DialogResult.Yes)
                 {
-                    lesDvd.Remove(dvd);
-                    bdgDvdListe.ResetBindings(false);
+                    if (controle.SupprimerDVD(dvd))
+                    {
+                        lesDvd.Remove(dvd);
+                        bdgDvdListe.ResetBindings(false);
+                    }
                 }
             }
+            else
+            {
+                MessageBox.Show("Impossible de supprimer une revue ayant des exemplaires répertoriés.", "Suppression impossible");
+            }
+
         }
 
         private void btnValiderDVD_Click(object sender, EventArgs e)
@@ -1615,7 +1640,7 @@ namespace Mediatek86.vue
         private void afficheReceptionExemplairesRevue()
         {
             string idDocuement = txbReceptionRevueNumero.Text;
-            lesExemplaires = controle.GetExemplairesRevue(idDocuement);
+            lesExemplaires = controle.GetExemplairesDocument(idDocuement);
             RemplirReceptionExemplairesListe(lesExemplaires);
         }
 

@@ -88,9 +88,9 @@ namespace Mediatek86.controleur
         /// récupère les exemplaires d'une revue
         /// </summary>
         /// <returns>Collection d'objets Exemplaire</returns>
-        public List<Exemplaire> GetExemplairesRevue(string idDocuement)
+        public List<Exemplaire> GetExemplairesDocument(string idDocuement)
         {
-            return Dao.GetExemplairesRevue(idDocuement);
+            return Dao.GetExemplairesDocument(idDocuement);
         }
 
         /// <summary>
@@ -263,7 +263,6 @@ namespace Mediatek86.controleur
         {
             return Dao.SupprimerRevue(revue);
         }
-
 
     }
 
