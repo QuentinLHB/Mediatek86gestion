@@ -1063,6 +1063,15 @@ namespace Mediatek86.vue
             DgvLivresListe_SelectionChanged(null, null);
         }
 
+        private void btnCommandesLivre_Click(object sender, EventArgs e)
+        {
+            List<CommandeDocument> lst = controle.getCommandesLivres();
+            foreach(CommandeDocument cde in lst)
+            {
+                Console.WriteLine($"id: {cde.Id} - titre : {cde.Titre} - qte: {cde.NbExemplaire}");
+            }
+        }
+
         #endregion
 
 
@@ -1806,8 +1815,9 @@ namespace Mediatek86.vue
 
 
 
+
         #endregion
 
-
+  
     }
 }

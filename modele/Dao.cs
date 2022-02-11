@@ -567,6 +567,51 @@ namespace Mediatek86.modele
               ReqDelete("document", revue.Id);
         }
 
+        public static List<CommandeDocument> GetCommandesDvd()
+        {
+            return GetCommandesLivreDvd("JOIN dvd on (ld.id = dvd.id) ");
+        }
+
+        public static List<CommandeDocument> GetCommandesLivres()
+        {
+            return GetCommandesLivreDvd("JOIN livre on (ld.id = livre.id) ");
+        }
+
+        private static List<CommandeDocument> GetCommandesLivreDvd(string jointure)
+        {
+            List<CommandeDocument> lesCommandes = null;
+            try
+            {
+                lesCommandes = new List<CommandeDocument>();
+                string req = "SELECT cde.id as 'id_commande', cde.dateCommande, cdedoc.nbExemplaire, cde.montant, d.id as 'id_document', d.titre, e.libelle as 'etat' ";
+                req += "FROM commandedocument cdedoc join commande cde USING (id) JOIN etat_commande e ON (e.id = cdedoc.idEtatCommande) JOIN document d ON (cdedoc.idLivreDvd = d.id) JOIN livres_dvd ld ON (ld.id = cdedoc.idLivreDvd) ";
+                req += jointure;
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqSelect(req, null);
+
+                while (curs.Read())
+                {
+                    string idCommande = (string)curs.Field("id_commande");
+                    DateTime dateCommande = (DateTime)curs.Field("dateCommande");
+                    int nbExemplaire = (int)curs.Field("nbExemplaire");
+                    double montant = (double)curs.Field("montant");
+                    string idDocument = (string)curs.Field("id_document");
+                    string titre = (string)curs.Field("titre");
+                    string etat = (string)curs.Field("etat");
+                    CommandeDocument commandeDocument = new CommandeDocument(idCommande, dateCommande, montant, nbExemplaire, idDocument, titre, etat);
+                    lesCommandes.Add(commandeDocument);
+                }
+                curs.Close();
+                return lesCommandes;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return lesCommandes;
+            }
+        }
+
         /// <summary>
         /// Vérifie si un identifiant existe déjà dans la BDD ou s'il est unique.
         /// </summary>
@@ -589,6 +634,8 @@ namespace Mediatek86.modele
 
             return !existe;
         }
+
+        
 
     }
 

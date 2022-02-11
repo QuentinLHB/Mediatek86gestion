@@ -264,6 +264,15 @@ namespace Mediatek86.controleur
             return Dao.SupprimerRevue(revue);
         }
 
+        public List<CommandeDocument> getCommandesDvd()
+        {
+            return Dao.GetCommandesDvd();
+        }
+
+        public List<CommandeDocument> getCommandesLivres()
+        {
+            return Dao.GetCommandesLivres();
+        }
     }
 
 }
