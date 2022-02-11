@@ -70,10 +70,10 @@ namespace Mediatek86.vue
         }
 
         /// <summary>
-        /// Empêche la saisie de charactères non-alphabétiques.
+        /// Empêche la saisie de charactères alphabétiques pour ne garder que les chiffres.
         /// </summary>
         /// <param name="e">Evenement de type KeyPress</param>
-        private void BloqueChracteresNonAlpha(KeyPressEventArgs e)
+        private void BloqueChracteresAlpha(KeyPressEventArgs e)
         {
             if ((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != (char)Keys.Back)
             {
@@ -370,7 +370,7 @@ namespace Mediatek86.vue
 
         private void txbRevuesDateMiseADispo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            BloqueChracteresNonAlpha(e);
+            BloqueChracteresAlpha(e);
         }
 
         /// <summary>
@@ -1065,11 +1065,8 @@ namespace Mediatek86.vue
 
         private void btnCommandesLivre_Click(object sender, EventArgs e)
         {
-            List<CommandeDocument> lst = controle.getCommandesLivres();
-            foreach(CommandeDocument cde in lst)
-            {
-                Console.WriteLine($"id: {cde.Id} - titre : {cde.Titre} - qte: {cde.NbExemplaire}");
-            }
+            FrmCommandes frmCommandes = new FrmCommandes(controle, "livre");
+            frmCommandes.ShowDialog();
         }
 
         #endregion
@@ -1311,7 +1308,7 @@ namespace Mediatek86.vue
 
         private void txbDvdDuree_KeyPress(object sender, KeyPressEventArgs e)
         {
-            BloqueChracteresNonAlpha(e);
+            BloqueChracteresAlpha(e);
         }
 
 
