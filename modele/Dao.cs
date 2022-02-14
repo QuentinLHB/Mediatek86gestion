@@ -618,15 +618,15 @@ namespace Mediatek86.modele
 
                 while (curs.Read())
                 {
-                    string idCommande = (string)curs.Field("id_commande");
-                    DateTime dateCommande = (DateTime)curs.Field("dateCommande");
-                    int nbExemplaire = (int)curs.Field("nbExemplaire");
-                    double montant = (double)curs.Field("montant");
-                    string idDocument = (string)curs.Field("id_document");
-                    string titre = (string)curs.Field("titre");
-                    int idEtat = (int)curs.Field("id_etat");
-                    string etat = (string)curs.Field("etat");
-                    CommandeDocument commandeDocument = new CommandeDocument(idCommande, dateCommande, montant, nbExemplaire, idDocument, titre, EtatCommande.FindEtat(idEtat));
+                    CommandeDocument commandeDocument = new CommandeDocument(
+                        (string)curs.Field("id_commande"),
+                        (DateTime)curs.Field("dateCommande"),
+                        (double)curs.Field("montant"),
+                         (int)curs.Field("nbExemplaire"),
+                        (string)curs.Field("id_document"),
+                         (string)curs.Field("titre"),
+                        EtatCommande.FindEtat((int)curs.Field("id_etat"))
+                        );
                     lesCommandes.Add(commandeDocument);
                 }
                 curs.Close();
@@ -637,6 +637,40 @@ namespace Mediatek86.modele
             {
                 Console.WriteLine(e);
                 return lesCommandes;
+            }
+        }
+
+        public static List<Abonnement> GetAbonnementsRevues()
+        {
+            List<Abonnement> lesAbonnements = new List<Abonnement>();
+            try
+            {
+                string req = "SELECT a.id, r.id as 'idRevue', d.titre, c.dateCommande, a.dateFinAbonnement, c.montant ";
+                req += "FROM abonnement a JOIN commande c using (id) JOIN revue r ON (r.id = a.idRevue) JOIN document d on (r.id = d.id)";
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqSelect(req, null);
+
+                while (curs.Read())
+                {
+
+                    Abonnement abonnement = new Abonnement(
+                        (string)curs.Field("id"),
+                        (string)curs.Field("idRevue"),
+                        (string)curs.Field("titre"),
+                        (DateTime)curs.Field("dateCommande"),
+                        (DateTime)curs.Field("dateFinAbonnement"),
+                        (double)curs.Field("montant")
+                        );
+                    lesAbonnements.Add(abonnement);
+                }
+                curs.Close();
+                return lesAbonnements;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return lesAbonnements;
             }
         }
 
@@ -754,6 +788,57 @@ namespace Mediatek86.modele
                 curs.ReqUpdate(req, parameters);
                 curs.Close();
                 return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool AjouterAbonnementRevue(Abonnement abonnement)
+        {
+            if (AjouterCommande(abonnement))
+            {
+                try
+                {
+                    string req = "insert into abonnement VALUES (@id, @dateFin, @idRevue);";
+                    Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", abonnement.Id},
+                    { "@dateFin", abonnement.DateFin},
+                    { "@idRevue", abonnement.IdRevue},
+                };
+                    BddMySql curs = BddMySql.GetInstance(connectionString);
+                    curs.ReqUpdate(req, parameters);
+                    curs.Close();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool SupprAbonnementRevue(Abonnement abonnement)
+        {
+            try
+            {
+                string req = "DELETE FROM abonnement WHERE id = @id; ";
+
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", abonnement.Id},
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return SupprCommande(abonnement);
             }
             catch
             {

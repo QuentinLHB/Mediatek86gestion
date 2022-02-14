@@ -556,6 +556,11 @@ namespace Mediatek86.vue
             btnAnnulerRevue.Visible = !readOnlyChamps;
         }
 
+        private void btnCommandeRevues_Click(object sender, EventArgs e)
+        {
+            controle.OuvreFormulaireCommandes(TypeDocument.REVUE);
+        }
+
         #endregion
 
 
@@ -690,9 +695,9 @@ namespace Mediatek86.vue
             Genre genre = (Genre)controle.trouveCategorie(controle.GetAllGenres(), livre.IdGenre);
             if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
             Public lePublic = (Public)controle.trouveCategorie(controle.GetAllPublics(), livre.IdPublic);
-            if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
+            if (lePublic != null) cbxInfoGenreLivres.SelectedItem = lePublic;
             Rayon rayon = (Rayon)controle.trouveCategorie(controle.GetAllRayons(), livre.IdRayon);
-            if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
+            if (rayon != null) cbxInfoGenreLivres.SelectedItem = rayon;
 
             string image = livre.Image;
             try
@@ -1540,6 +1545,11 @@ namespace Mediatek86.vue
             btnAnnulerDVD.Visible = !readOnlyChamps;
         }
 
+        private void btnCommandeDVD(object sender, EventArgs e)
+        {
+            controle.OuvreFormulaireCommandes(TypeDocument.DVD);
+        }
+
         #endregion
 
 
@@ -1813,8 +1823,9 @@ namespace Mediatek86.vue
 
 
 
+
         #endregion
 
-   
+
     }
 }

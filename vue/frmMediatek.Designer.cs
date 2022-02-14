@@ -103,6 +103,7 @@ namespace Mediatek86.vue
             this.label30 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.grpDvdRecherche = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnSupprDVD = new System.Windows.Forms.Button();
             this.btnModifDVD = new System.Windows.Forms.Button();
             this.btnAjoutDVD = new System.Windows.Forms.Button();
@@ -202,7 +203,7 @@ namespace Mediatek86.vue
             this.label54 = new System.Windows.Forms.Label();
             this.label55 = new System.Windows.Forms.Label();
             this.btnReceptionRechercher = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnCommandeRevues = new System.Windows.Forms.Button();
             this.tabOngletsApplication.SuspendLayout();
             this.tabLivres.SuspendLayout();
             this.grpLivresInfos.SuspendLayout();
@@ -1100,6 +1101,16 @@ namespace Mediatek86.vue
             this.grpDvdRecherche.TabStop = false;
             this.grpDvdRecherche.Text = "Recherches";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(541, 438);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(267, 34);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "Commandes";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnCommandeDVD);
+            // 
             // btnSupprDVD
             // 
             this.btnSupprDVD.Location = new System.Drawing.Point(312, 438);
@@ -1596,6 +1607,7 @@ namespace Mediatek86.vue
             // 
             // grpRevuesRecherche
             // 
+            this.grpRevuesRecherche.Controls.Add(this.btnCommandeRevues);
             this.grpRevuesRecherche.Controls.Add(this.btnSupprRevue);
             this.grpRevuesRecherche.Controls.Add(this.btnModifRevue);
             this.grpRevuesRecherche.Controls.Add(this.btnAjoutRevue);
@@ -2237,15 +2249,15 @@ namespace Mediatek86.vue
             this.btnReceptionRechercher.UseVisualStyleBackColor = true;
             this.btnReceptionRechercher.Click += new System.EventHandler(this.btnReceptionRechercher_Click);
             // 
-            // button1
+            // btnCommandeRevues
             // 
-            this.button1.Location = new System.Drawing.Point(541, 438);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(267, 34);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Commandes";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnCommandeDVD);
+            this.btnCommandeRevues.Location = new System.Drawing.Point(541, 438);
+            this.btnCommandeRevues.Name = "btnCommandeRevues";
+            this.btnCommandeRevues.Size = new System.Drawing.Size(267, 34);
+            this.btnCommandeRevues.TabIndex = 28;
+            this.btnCommandeRevues.Text = "Commandes";
+            this.btnCommandeRevues.UseVisualStyleBackColor = true;
+            this.btnCommandeRevues.Click += new System.EventHandler(this.btnCommandeRevues_Click);
             // 
             // FrmMediatek
             // 
@@ -2467,6 +2479,7 @@ namespace Mediatek86.vue
         private System.Windows.Forms.ComboBox cbxInfoGenreRevue;
         private System.Windows.Forms.Button btnCommandesLivre;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnCommandeRevues;
     }
 }
 

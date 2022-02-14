@@ -279,6 +279,7 @@ namespace Mediatek86.controleur
         }
 
         List<CommandeDocument> lesCommandes;
+        List<Abonnement> lesAbonnements;
 
         public List<CommandeDocument> GetCommandesDvd()
         {
@@ -292,13 +293,29 @@ namespace Mediatek86.controleur
             return lesCommandes; 
         }
 
-        public bool PasserCommandeDocument(string id, double montant, int nbExemplaire, string idLivreDvd, string titre)
+        public List<Abonnement> GetAbonnementsRevues()
+        {
+            lesAbonnements = Dao.GetAbonnementsRevues();
+            return lesAbonnements;
+        }
+
+        public bool AjouterCommandeDocument(string id, double montant, int nbExemplaire, string idLivreDvd, string titre)
         {
             CommandeDocument commande = new CommandeDocument(id, DateTime.Today, montant, nbExemplaire, idLivreDvd, titre, EtatCommande.FindEtat(1));
             bool succes = Dao.AjouterCommandeDocument(commande);
             if (succes) lesCommandes.Add(commande);
             return succes;
         }
+
+        public bool AjouterAbonnement(string id, string idRevue, string titre, DateTime dateFin, double montant)
+        {
+            Abonnement abonnement = new Abonnement(id, idRevue, titre, DateTime.Today, dateFin, montant);
+            bool succes = Dao.AjouterAbonnementRevue(abonnement);
+            if (succes) lesAbonnements.Add(abonnement);
+            return succes;
+        }
+
+
 
         public bool MettreAJourCommandeDocument(CommandeDocument commande, EtatCommande etat)
         {
@@ -309,9 +326,16 @@ namespace Mediatek86.controleur
 
         public bool SupprCommandeDocument(CommandeDocument commande)
         {
-            bool success = Dao.SupprCommandeDocument(commande);
-            if (success) lesCommandes.Remove(commande);
-            return success;
+            bool succes = Dao.SupprCommandeDocument(commande);
+            if (succes) lesCommandes.Remove(commande);
+            return succes;
+        }
+
+        public bool SupprAbonnementRevue(Abonnement abonnement)
+        {
+            bool succes = Dao.SupprAbonnementRevue(abonnement);
+            if (succes) lesAbonnements.Remove(abonnement);
+            return succes;
         }
     }
 

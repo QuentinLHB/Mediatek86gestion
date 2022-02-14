@@ -33,7 +33,7 @@ namespace Mediatek86.vue
             this.gpbConsulter = new System.Windows.Forms.GroupBox();
             this.btnMaJ = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblEtat = new System.Windows.Forms.Label();
             this.cbxEtatCommande = new System.Windows.Forms.ComboBox();
             this.txbCommande = new System.Windows.Forms.TextBox();
             this.btnSupprCommande = new System.Windows.Forms.Button();
@@ -50,6 +50,8 @@ namespace Mediatek86.vue
             this.btnAjouterCommande = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txbIdCommande = new System.Windows.Forms.TextBox();
+            this.dtpDateFin = new System.Windows.Forms.DateTimePicker();
+            this.lblDateFin = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListeCommandes)).BeginInit();
             this.gpbConsulter.SuspendLayout();
             this.gpbPasserCommande.SuspendLayout();
@@ -80,7 +82,7 @@ namespace Mediatek86.vue
             // 
             this.gpbConsulter.Controls.Add(this.btnMaJ);
             this.gpbConsulter.Controls.Add(this.label3);
-            this.gpbConsulter.Controls.Add(this.label2);
+            this.gpbConsulter.Controls.Add(this.lblEtat);
             this.gpbConsulter.Controls.Add(this.cbxEtatCommande);
             this.gpbConsulter.Controls.Add(this.txbCommande);
             this.gpbConsulter.Controls.Add(this.btnSupprCommande);
@@ -111,14 +113,14 @@ namespace Mediatek86.vue
             this.label3.TabIndex = 32;
             this.label3.Text = "Commande :";
             // 
-            // label2
+            // lblEtat
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(671, 239);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 17);
-            this.label2.TabIndex = 31;
-            this.label2.Text = "Etat :";
+            this.lblEtat.AutoSize = true;
+            this.lblEtat.Location = new System.Drawing.Point(671, 239);
+            this.lblEtat.Name = "lblEtat";
+            this.lblEtat.Size = new System.Drawing.Size(41, 17);
+            this.lblEtat.TabIndex = 31;
+            this.lblEtat.Text = "Etat :";
             // 
             // cbxEtatCommande
             // 
@@ -150,6 +152,8 @@ namespace Mediatek86.vue
             // 
             // gpbPasserCommande
             // 
+            this.gpbPasserCommande.Controls.Add(this.lblDateFin);
+            this.gpbPasserCommande.Controls.Add(this.dtpDateFin);
             this.gpbPasserCommande.Controls.Add(this.txbIdCommande);
             this.gpbPasserCommande.Controls.Add(this.label4);
             this.gpbPasserCommande.Controls.Add(this.btnAjouterCommande);
@@ -305,6 +309,26 @@ namespace Mediatek86.vue
             this.txbIdCommande.Size = new System.Drawing.Size(132, 22);
             this.txbIdCommande.TabIndex = 38;
             // 
+            // dtpDateFin
+            // 
+            this.dtpDateFin.Location = new System.Drawing.Point(207, 319);
+            this.dtpDateFin.Name = "dtpDateFin";
+            this.dtpDateFin.Size = new System.Drawing.Size(223, 22);
+            this.dtpDateFin.TabIndex = 39;
+            this.dtpDateFin.Visible = false;
+            // 
+            // lblDateFin
+            // 
+            this.lblDateFin.AutoSize = true;
+            this.lblDateFin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDateFin.Location = new System.Drawing.Point(15, 320);
+            this.lblDateFin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDateFin.Name = "lblDateFin";
+            this.lblDateFin.Size = new System.Drawing.Size(76, 17);
+            this.lblDateFin.TabIndex = 40;
+            this.lblDateFin.Text = "Expire le ";
+            this.lblDateFin.Visible = false;
+            // 
             // FrmCommandes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -314,7 +338,6 @@ namespace Mediatek86.vue
             this.Controls.Add(this.gpbConsulter);
             this.Name = "FrmCommandes";
             this.Text = "FrmCommandes";
-            this.Load += new System.EventHandler(this.FrmCommandes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvListeCommandes)).EndInit();
             this.gpbConsulter.ResumeLayout(false);
             this.gpbConsulter.PerformLayout();
@@ -344,10 +367,12 @@ namespace Mediatek86.vue
         private System.Windows.Forms.TextBox txbCommande;
         private System.Windows.Forms.ComboBox cbxEtatCommande;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblEtat;
         private System.Windows.Forms.Button btnMaJ;
         private System.Windows.Forms.Button btnAjouterCommande;
         private System.Windows.Forms.TextBox txbIdCommande;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblDateFin;
+        private System.Windows.Forms.DateTimePicker dtpDateFin;
     }
 }
