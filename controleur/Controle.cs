@@ -110,7 +110,7 @@ namespace Mediatek86.controleur
         /// <returns>true si l'identifiant est unique (nouveau), false s'il existe déjà dans la BDD.</returns>
         public bool verifieIdentifiantUnique(string identifiant)
         {
-            return Dao.verifieSiIdentifiantUnique(identifiant);
+            return Dao.VerifieSiIdentifiantUnique(identifiant);
         }
 
         /// <summary>
@@ -264,14 +264,54 @@ namespace Mediatek86.controleur
             return Dao.SupprimerRevue(revue);
         }
 
-        public List<CommandeDocument> getCommandesDvd()
+        public void OuvreFormulaireCommandes(TypeDocument typeDocument)
         {
-            return Dao.GetCommandesDvd();
+            FrmCommandes frmCommandes = new FrmCommandes(this, typeDocument);
+            frmCommandes.ShowDialog();
+        }
+        public List<EtatCommande> GetEtatsCommande()
+        {
+            if (EtatCommande.Etats == null)
+            {
+                EtatCommande.Etats = Dao.GetEtatsCommande();
+            }
+            return EtatCommande.Etats;
         }
 
-        public List<CommandeDocument> getCommandesLivres()
+        List<CommandeDocument> lesCommandes;
+
+        public List<CommandeDocument> GetCommandesDvd()
         {
-            return Dao.GetCommandesLivres();
+            lesCommandes = Dao.GetCommandesDvd();
+            return lesCommandes;
+        }
+
+        public List<CommandeDocument> GetCommandesLivres()
+        {
+            lesCommandes=Dao.GetCommandesLivres();
+            return lesCommandes; 
+        }
+
+        public bool PasserCommandeDocument(string id, double montant, int nbExemplaire, string idLivreDvd, string titre)
+        {
+            CommandeDocument commande = new CommandeDocument(id, DateTime.Today, montant, nbExemplaire, idLivreDvd, titre, EtatCommande.FindEtat(1));
+            bool succes = Dao.AjouterCommandeDocument(commande);
+            if (succes) lesCommandes.Add(commande);
+            return succes;
+        }
+
+        public bool MettreAJourCommandeDocument(CommandeDocument commande, EtatCommande etat)
+        {
+            bool succes = Dao.UpdateCommandeDocument(commande, etat);
+            if (succes) commande.Etat = etat;
+            return succes;
+        }
+
+        public bool SupprCommandeDocument(CommandeDocument commande)
+        {
+            bool success = Dao.SupprCommandeDocument(commande);
+            if (success) lesCommandes.Remove(commande);
+            return success;
         }
     }
 

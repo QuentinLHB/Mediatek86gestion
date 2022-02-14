@@ -94,9 +94,11 @@
     <Compile Include="metier\CommandeDocument.cs" />
     <Compile Include="metier\Dvd.cs" />
     <Compile Include="metier\Etat.cs" />
+    <Compile Include="metier\EtatCommande.cs" />
     <Compile Include="metier\LivreDvd.cs" />
     <Compile Include="metier\Public.cs" />
     <Compile Include="metier\Rayon.cs" />
+    <Compile Include="metier\TypeDocument.cs" />
     <Compile Include="modele\Dao.cs" />
     <Compile Include="bdd\BddMySql.cs" />
     <Compile Include="metier\Categorie.cs" />

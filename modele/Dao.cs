@@ -386,7 +386,7 @@ namespace Mediatek86.modele
             ReqDelete("document", livre.Id);
         }
 
-     
+
 
         /// <summary>
         /// Exécute la requête 'DELETE FROM table WHERE id = id' où table et id sont envoyés en paramètre.
@@ -567,6 +567,33 @@ namespace Mediatek86.modele
               ReqDelete("document", revue.Id);
         }
 
+        public static List<EtatCommande> GetEtatsCommande()
+        {
+            List<EtatCommande> etatsCommande = null;
+            try
+            {
+                etatsCommande = new List<EtatCommande>();
+                string req = "SELECT * FROM etat_commande";
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqSelect(req, null);
+
+                while (curs.Read())
+                {
+                    int id = (int)curs.Field("id");
+                    string libelle = (string)curs.Field("libelle");
+                    etatsCommande.Add(new EtatCommande(id, libelle));
+                }
+                curs.Close();
+                return etatsCommande;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return etatsCommande;
+            }
+        }
+
         public static List<CommandeDocument> GetCommandesDvd()
         {
             return GetCommandesLivreDvd("JOIN dvd on (ld.id = dvd.id) ");
@@ -583,7 +610,7 @@ namespace Mediatek86.modele
             try
             {
                 lesCommandes = new List<CommandeDocument>();
-                string req = "SELECT cde.id as 'id_commande', cde.dateCommande, cdedoc.nbExemplaire, cde.montant, d.id as 'id_document', d.titre, e.libelle as 'etat' ";
+                string req = "SELECT cde.id as 'id_commande', cde.dateCommande, cdedoc.nbExemplaire, cde.montant, d.id as 'id_document', d.titre, e.id as 'id_etat', e.libelle as 'etat' ";
                 req += "FROM commandedocument cdedoc join commande cde USING (id) JOIN etat_commande e ON (e.id = cdedoc.idEtatCommande) JOIN document d ON (cdedoc.idLivreDvd = d.id) JOIN livres_dvd ld ON (ld.id = cdedoc.idLivreDvd) ";
                 req += jointure;
                 BddMySql curs = BddMySql.GetInstance(connectionString);
@@ -597,8 +624,9 @@ namespace Mediatek86.modele
                     double montant = (double)curs.Field("montant");
                     string idDocument = (string)curs.Field("id_document");
                     string titre = (string)curs.Field("titre");
+                    int idEtat = (int)curs.Field("id_etat");
                     string etat = (string)curs.Field("etat");
-                    CommandeDocument commandeDocument = new CommandeDocument(idCommande, dateCommande, montant, nbExemplaire, idDocument, titre, etat);
+                    CommandeDocument commandeDocument = new CommandeDocument(idCommande, dateCommande, montant, nbExemplaire, idDocument, titre, EtatCommande.FindEtat(idEtat));
                     lesCommandes.Add(commandeDocument);
                 }
                 curs.Close();
@@ -612,12 +640,135 @@ namespace Mediatek86.modele
             }
         }
 
+        private static bool AjouterCommande(Commande commande)
+        {
+            try
+            {
+                string req = "insert into commande (id, dateCommande, montant) values (@id, @date, @montant); ";
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", commande.Id},
+                    { "@date", commande.Date},
+                    { "@montant", commande.Montant}
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool AjouterCommandeDocument(CommandeDocument commande)
+        {
+            if (AjouterCommande(commande))
+            {
+                try
+                {
+                    string req = "insert into commandedocument(id, nbExemplaire, idLivreDvd, idEtatCommande) VALUES (@idCommandeDocument, @nbExemplaires, @idLivreDvd, @idEtatDocument);";
+                    Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@idCommandeDocument", commande.Id},
+                    { "@nbExemplaires", commande.NbExemplaire},
+                    { "@idLivreDvd", commande.IdLivreDvd},
+                    { "@idEtatDocument", commande.Etat.Id},
+
+
+                };
+                    BddMySql curs = BddMySql.GetInstance(connectionString);
+                    curs.ReqUpdate(req, parameters);
+                    curs.Close();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public static bool UpdateCommandeDocument(CommandeDocument commande, EtatCommande etat)
+        {
+            try
+            {
+                string req = "update commandedocument set idEtatCommande = @idEtatCommande WHERE id = @idCommande ";
+
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@idEtatCommande", etat.Id},
+                    { "@idCommande", commande.Id},
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool SupprCommandeDocument(CommandeDocument commande)
+        {
+            try
+            {
+                string req = "DELETE FROM commandedocument WHERE id = @id; ";
+
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", commande.Id},
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return SupprCommande(commande);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool SupprCommande(Commande commande)
+        {
+            try
+            {
+                string req = "DELETE FROM commande WHERE id = @id ";
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", commande.Id},
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+
         /// <summary>
         /// Vérifie si un identifiant existe déjà dans la BDD ou s'il est unique.
         /// </summary>
         /// <param name="identifiant">Identifiant entré par l'utilisateur</param>
         /// <returns>True si l'identifiant est unique, false s'il existe déjà.</returns>
-        public static bool verifieSiIdentifiantUnique(string identifiant)
+        public static bool VerifieSiIdentifiantUnique(string identifiant)
         {
             bool existe;
             string req = "select id from document where id =  @id ";
@@ -635,7 +786,7 @@ namespace Mediatek86.modele
             return !existe;
         }
 
-        
+
 
     }
 

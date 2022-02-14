@@ -1065,8 +1065,7 @@ namespace Mediatek86.vue
 
         private void btnCommandesLivre_Click(object sender, EventArgs e)
         {
-            FrmCommandes frmCommandes = new FrmCommandes(controle, "livre");
-            frmCommandes.ShowDialog();
+            controle.OuvreFormulaireCommandes(TypeDocument.LIVRE);
         }
 
         #endregion
@@ -1813,8 +1812,9 @@ namespace Mediatek86.vue
 
 
 
+
         #endregion
 
-  
+   
     }
 }

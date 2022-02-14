@@ -31,22 +31,30 @@ namespace Mediatek86.vue
         {
             this.dgvListeCommandes = new System.Windows.Forms.DataGridView();
             this.gpbConsulter = new System.Windows.Forms.GroupBox();
+            this.btnMaJ = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbxEtatCommande = new System.Windows.Forms.ComboBox();
+            this.txbCommande = new System.Windows.Forms.TextBox();
+            this.btnSupprCommande = new System.Windows.Forms.Button();
             this.gpbPasserCommande = new System.Windows.Forms.GroupBox();
-            this.dgvDocuments = new System.Windows.Forms.DataGridView();
+            this.txbMontant = new System.Windows.Forms.TextBox();
+            this.nudQuantite = new System.Windows.Forms.NumericUpDown();
+            this.lblmontant = new System.Windows.Forms.Label();
+            this.lblQte = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.txbTitre = new System.Windows.Forms.TextBox();
             this.txbNumero = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnSupprCommande = new System.Windows.Forms.Button();
-            this.lblQte = new System.Windows.Forms.Label();
-            this.lblmontant = new System.Windows.Forms.Label();
-            this.nudQuantite = new System.Windows.Forms.NumericUpDown();
-            this.txbMontant = new System.Windows.Forms.TextBox();
+            this.dgvDocuments = new System.Windows.Forms.DataGridView();
+            this.btnAjouterCommande = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txbIdCommande = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListeCommandes)).BeginInit();
             this.gpbConsulter.SuspendLayout();
             this.gpbPasserCommande.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDocuments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantite)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDocuments)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvListeCommandes
@@ -66,20 +74,85 @@ namespace Mediatek86.vue
             this.dgvListeCommandes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvListeCommandes.Size = new System.Drawing.Size(1125, 187);
             this.dgvListeCommandes.TabIndex = 5;
+            this.dgvListeCommandes.SelectionChanged += new System.EventHandler(this.dgvListeCommandes_SelectionChanged);
             // 
             // gpbConsulter
             // 
+            this.gpbConsulter.Controls.Add(this.btnMaJ);
+            this.gpbConsulter.Controls.Add(this.label3);
+            this.gpbConsulter.Controls.Add(this.label2);
+            this.gpbConsulter.Controls.Add(this.cbxEtatCommande);
+            this.gpbConsulter.Controls.Add(this.txbCommande);
             this.gpbConsulter.Controls.Add(this.btnSupprCommande);
             this.gpbConsulter.Controls.Add(this.dgvListeCommandes);
-            this.gpbConsulter.Location = new System.Drawing.Point(12, 44);
+            this.gpbConsulter.Location = new System.Drawing.Point(12, 28);
             this.gpbConsulter.Name = "gpbConsulter";
-            this.gpbConsulter.Size = new System.Drawing.Size(1143, 275);
+            this.gpbConsulter.Size = new System.Drawing.Size(1153, 338);
             this.gpbConsulter.TabIndex = 6;
             this.gpbConsulter.TabStop = false;
             this.gpbConsulter.Text = "Consulter les commandes";
             // 
+            // btnMaJ
+            // 
+            this.btnMaJ.Location = new System.Drawing.Point(22, 284);
+            this.btnMaJ.Name = "btnMaJ";
+            this.btnMaJ.Size = new System.Drawing.Size(123, 34);
+            this.btnMaJ.TabIndex = 33;
+            this.btnMaJ.Text = "Mettre à jour";
+            this.btnMaJ.UseVisualStyleBackColor = true;
+            this.btnMaJ.Click += new System.EventHandler(this.btnMaJ_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(15, 237);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(87, 17);
+            this.label3.TabIndex = 32;
+            this.label3.Text = "Commande :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(671, 239);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 17);
+            this.label2.TabIndex = 31;
+            this.label2.Text = "Etat :";
+            // 
+            // cbxEtatCommande
+            // 
+            this.cbxEtatCommande.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxEtatCommande.FormattingEnabled = true;
+            this.cbxEtatCommande.Location = new System.Drawing.Point(735, 234);
+            this.cbxEtatCommande.Name = "cbxEtatCommande";
+            this.cbxEtatCommande.Size = new System.Drawing.Size(263, 24);
+            this.cbxEtatCommande.TabIndex = 30;
+            // 
+            // txbCommande
+            // 
+            this.txbCommande.Location = new System.Drawing.Point(109, 236);
+            this.txbCommande.Margin = new System.Windows.Forms.Padding(4);
+            this.txbCommande.Name = "txbCommande";
+            this.txbCommande.ReadOnly = true;
+            this.txbCommande.Size = new System.Drawing.Size(520, 22);
+            this.txbCommande.TabIndex = 29;
+            // 
+            // btnSupprCommande
+            // 
+            this.btnSupprCommande.Location = new System.Drawing.Point(169, 284);
+            this.btnSupprCommande.Name = "btnSupprCommande";
+            this.btnSupprCommande.Size = new System.Drawing.Size(123, 34);
+            this.btnSupprCommande.TabIndex = 18;
+            this.btnSupprCommande.Text = "Supprimer";
+            this.btnSupprCommande.UseVisualStyleBackColor = true;
+            this.btnSupprCommande.Click += new System.EventHandler(this.btnSupprCommande_Click);
+            // 
             // gpbPasserCommande
             // 
+            this.gpbPasserCommande.Controls.Add(this.txbIdCommande);
+            this.gpbPasserCommande.Controls.Add(this.label4);
+            this.gpbPasserCommande.Controls.Add(this.btnAjouterCommande);
             this.gpbPasserCommande.Controls.Add(this.txbMontant);
             this.gpbPasserCommande.Controls.Add(this.nudQuantite);
             this.gpbPasserCommande.Controls.Add(this.lblmontant);
@@ -89,35 +162,75 @@ namespace Mediatek86.vue
             this.gpbPasserCommande.Controls.Add(this.txbNumero);
             this.gpbPasserCommande.Controls.Add(this.label7);
             this.gpbPasserCommande.Controls.Add(this.dgvDocuments);
-            this.gpbPasserCommande.Location = new System.Drawing.Point(25, 348);
+            this.gpbPasserCommande.Location = new System.Drawing.Point(12, 397);
             this.gpbPasserCommande.Name = "gpbPasserCommande";
-            this.gpbPasserCommande.Size = new System.Drawing.Size(1143, 590);
+            this.gpbPasserCommande.Size = new System.Drawing.Size(1156, 456);
             this.gpbPasserCommande.TabIndex = 7;
             this.gpbPasserCommande.TabStop = false;
             this.gpbPasserCommande.Text = "Passer une commande";
             // 
-            // dgvDocuments
+            // txbMontant
             // 
-            this.dgvDocuments.AllowUserToAddRows = false;
-            this.dgvDocuments.AllowUserToDeleteRows = false;
-            this.dgvDocuments.AllowUserToResizeColumns = false;
-            this.dgvDocuments.AllowUserToResizeRows = false;
-            this.dgvDocuments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDocuments.Location = new System.Drawing.Point(7, 37);
-            this.dgvDocuments.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvDocuments.MultiSelect = false;
-            this.dgvDocuments.Name = "dgvDocuments";
-            this.dgvDocuments.ReadOnly = true;
-            this.dgvDocuments.RowHeadersVisible = false;
-            this.dgvDocuments.RowHeadersWidth = 51;
-            this.dgvDocuments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDocuments.Size = new System.Drawing.Size(1125, 187);
-            this.dgvDocuments.TabIndex = 6;
-            this.dgvDocuments.SelectionChanged += new System.EventHandler(this.dgvDocuments_SelectionChanged);
+            this.txbMontant.Location = new System.Drawing.Point(207, 349);
+            this.txbMontant.Margin = new System.Windows.Forms.Padding(4);
+            this.txbMontant.Name = "txbMontant";
+            this.txbMontant.Size = new System.Drawing.Size(132, 22);
+            this.txbMontant.TabIndex = 35;
+            this.txbMontant.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbMontant_KeyPress);
+            // 
+            // nudQuantite
+            // 
+            this.nudQuantite.Location = new System.Drawing.Point(207, 319);
+            this.nudQuantite.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudQuantite.Name = "nudQuantite";
+            this.nudQuantite.Size = new System.Drawing.Size(120, 22);
+            this.nudQuantite.TabIndex = 34;
+            this.nudQuantite.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lblmontant
+            // 
+            this.lblmontant.AutoSize = true;
+            this.lblmontant.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblmontant.Location = new System.Drawing.Point(15, 349);
+            this.lblmontant.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblmontant.Name = "lblmontant";
+            this.lblmontant.Size = new System.Drawing.Size(76, 17);
+            this.lblmontant.TabIndex = 33;
+            this.lblmontant.Text = "Montant :";
+            // 
+            // lblQte
+            // 
+            this.lblQte.AutoSize = true;
+            this.lblQte.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblQte.Location = new System.Drawing.Point(15, 319);
+            this.lblQte.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblQte.Name = "lblQte";
+            this.lblQte.Size = new System.Drawing.Size(80, 17);
+            this.lblQte.TabIndex = 31;
+            this.lblQte.Text = "Quantite :";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(378, 288);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 17);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "Titre :";
             // 
             // txbTitre
             // 
-            this.txbTitre.Location = new System.Drawing.Point(207, 287);
+            this.txbTitre.Location = new System.Drawing.Point(433, 286);
             this.txbTitre.Margin = new System.Windows.Forms.Padding(4);
             this.txbTitre.Name = "txbTitre";
             this.txbTitre.ReadOnly = true;
@@ -126,7 +239,7 @@ namespace Mediatek86.vue
             // 
             // txbNumero
             // 
-            this.txbNumero.Location = new System.Drawing.Point(207, 257);
+            this.txbNumero.Location = new System.Drawing.Point(207, 286);
             this.txbNumero.Margin = new System.Windows.Forms.Padding(4);
             this.txbNumero.Name = "txbNumero";
             this.txbNumero.ReadOnly = true;
@@ -137,77 +250,66 @@ namespace Mediatek86.vue
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(15, 257);
+            this.label7.Location = new System.Drawing.Point(15, 286);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(172, 17);
             this.label7.TabIndex = 26;
             this.label7.Text = "Numéro de document :";
             // 
-            // label1
+            // dgvDocuments
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(15, 289);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 17);
-            this.label1.TabIndex = 29;
-            this.label1.Text = "Titre";
+            this.dgvDocuments.AllowUserToAddRows = false;
+            this.dgvDocuments.AllowUserToDeleteRows = false;
+            this.dgvDocuments.AllowUserToResizeColumns = false;
+            this.dgvDocuments.AllowUserToResizeRows = false;
+            this.dgvDocuments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDocuments.Location = new System.Drawing.Point(13, 37);
+            this.dgvDocuments.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvDocuments.MultiSelect = false;
+            this.dgvDocuments.Name = "dgvDocuments";
+            this.dgvDocuments.ReadOnly = true;
+            this.dgvDocuments.RowHeadersVisible = false;
+            this.dgvDocuments.RowHeadersWidth = 51;
+            this.dgvDocuments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvDocuments.Size = new System.Drawing.Size(1119, 187);
+            this.dgvDocuments.TabIndex = 6;
+            this.dgvDocuments.SelectionChanged += new System.EventHandler(this.dgvDocuments_SelectionChanged);
             // 
-            // btnSupprCommande
+            // btnAjouterCommande
             // 
-            this.btnSupprCommande.Location = new System.Drawing.Point(13, 224);
-            this.btnSupprCommande.Name = "btnSupprCommande";
-            this.btnSupprCommande.Size = new System.Drawing.Size(123, 34);
-            this.btnSupprCommande.TabIndex = 18;
-            this.btnSupprCommande.Text = "Supprimer";
-            this.btnSupprCommande.UseVisualStyleBackColor = true;
+            this.btnAjouterCommande.Location = new System.Drawing.Point(22, 403);
+            this.btnAjouterCommande.Name = "btnAjouterCommande";
+            this.btnAjouterCommande.Size = new System.Drawing.Size(165, 34);
+            this.btnAjouterCommande.TabIndex = 36;
+            this.btnAjouterCommande.Text = "Passer commande";
+            this.btnAjouterCommande.UseVisualStyleBackColor = true;
+            this.btnAjouterCommande.Click += new System.EventHandler(this.btnAjouterCommande_Click);
             // 
-            // lblQte
+            // label4
             // 
-            this.lblQte.AutoSize = true;
-            this.lblQte.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblQte.Location = new System.Drawing.Point(15, 319);
-            this.lblQte.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblQte.Name = "lblQte";
-            this.lblQte.Size = new System.Drawing.Size(70, 17);
-            this.lblQte.TabIndex = 31;
-            this.lblQte.Text = "Quantite";
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(15, 251);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(179, 17);
+            this.label4.TabIndex = 37;
+            this.label4.Text = "Numéro de commande :";
             // 
-            // lblmontant
+            // txbIdCommande
             // 
-            this.lblmontant.AutoSize = true;
-            this.lblmontant.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblmontant.Location = new System.Drawing.Point(15, 349);
-            this.lblmontant.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblmontant.Name = "lblmontant";
-            this.lblmontant.Size = new System.Drawing.Size(66, 17);
-            this.lblmontant.TabIndex = 33;
-            this.lblmontant.Text = "Montant";
-            // 
-            // nudQuantite
-            // 
-            this.nudQuantite.Location = new System.Drawing.Point(207, 319);
-            this.nudQuantite.Name = "nudQuantite";
-            this.nudQuantite.Size = new System.Drawing.Size(120, 22);
-            this.nudQuantite.TabIndex = 34;
-            // 
-            // txbMontant
-            // 
-            this.txbMontant.Location = new System.Drawing.Point(207, 349);
-            this.txbMontant.Margin = new System.Windows.Forms.Padding(4);
-            this.txbMontant.Name = "txbMontant";
-            this.txbMontant.ReadOnly = true;
-            this.txbMontant.Size = new System.Drawing.Size(132, 22);
-            this.txbMontant.TabIndex = 35;
-            this.txbMontant.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbMontant_KeyPress);
+            this.txbIdCommande.Location = new System.Drawing.Point(207, 253);
+            this.txbIdCommande.Margin = new System.Windows.Forms.Padding(4);
+            this.txbIdCommande.Name = "txbIdCommande";
+            this.txbIdCommande.Size = new System.Drawing.Size(132, 22);
+            this.txbIdCommande.TabIndex = 38;
             // 
             // FrmCommandes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1177, 1053);
+            this.ClientSize = new System.Drawing.Size(1177, 883);
             this.Controls.Add(this.gpbPasserCommande);
             this.Controls.Add(this.gpbConsulter);
             this.Name = "FrmCommandes";
@@ -215,10 +317,11 @@ namespace Mediatek86.vue
             this.Load += new System.EventHandler(this.FrmCommandes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvListeCommandes)).EndInit();
             this.gpbConsulter.ResumeLayout(false);
+            this.gpbConsulter.PerformLayout();
             this.gpbPasserCommande.ResumeLayout(false);
             this.gpbPasserCommande.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDocuments)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantite)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDocuments)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -238,5 +341,13 @@ namespace Mediatek86.vue
         private System.Windows.Forms.Label lblmontant;
         private System.Windows.Forms.Label lblQte;
         private System.Windows.Forms.TextBox txbMontant;
+        private System.Windows.Forms.TextBox txbCommande;
+        private System.Windows.Forms.ComboBox cbxEtatCommande;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnMaJ;
+        private System.Windows.Forms.Button btnAjouterCommande;
+        private System.Windows.Forms.TextBox txbIdCommande;
+        private System.Windows.Forms.Label label4;
     }
 }

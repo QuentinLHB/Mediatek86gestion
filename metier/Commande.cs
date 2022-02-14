@@ -20,7 +20,6 @@ namespace Mediatek86.metier
         public DateTime Date { get; set;}
 
         public double Montant { get; set; }
-        
 
     }
 }
