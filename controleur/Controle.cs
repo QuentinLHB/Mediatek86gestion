@@ -319,9 +319,31 @@ namespace Mediatek86.controleur
 
         public bool MettreAJourCommandeDocument(CommandeDocument commande, EtatCommande etat)
         {
+            if (commande.Etat == etat) return true;
             bool succes = Dao.UpdateCommandeDocument(commande, etat);
-            if (succes) commande.Etat = etat;
+            if (succes)
+            {
+                commande.Etat = etat;
+                LivreDvd livreDvd = FindLivreDvd(commande.IdLivreDvd);
+  //              if(livreDvd != null)
+  //              {
+  //Exemplaire exemplaire = new Exemplaire(commande.IdLivreDvd, commande.Date, livreDvd.Image, etat, )
+  //              }
+              
+            }
             return succes;
+        }
+
+        private LivreDvd FindLivreDvd(string id)
+        {
+            List<LivreDvd> livresDvd = new List<LivreDvd>();
+            livresDvd.AddRange(lesDvd);
+            livresDvd.AddRange(lesLivres);
+            foreach(LivreDvd livreDvd in livresDvd)
+            {
+                if (livreDvd.Id == id) return livreDvd;
+            }
+            return null;
         }
 
         public bool SupprCommandeDocument(CommandeDocument commande)

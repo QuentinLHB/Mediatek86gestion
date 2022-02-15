@@ -410,7 +410,11 @@ namespace Mediatek86.vue
             RemplirRevuesListe(sortedList);
         }
 
-
+        /// <summary>
+        /// Active la zone d'ajout de revue.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAjoutRevue_Click(object sender, EventArgs e)
         {
             VideRevuesInfos();
@@ -418,12 +422,22 @@ namespace Mediatek86.vue
             ChangeModeOngletRevue(Mode.Ajout);
         }
 
+        /// <summary>
+        /// Active la zone de modification de la revue sélectionnée.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnModifRevue_Click(object sender, EventArgs e)
         {
             modeActuel = Mode.Modification;
             ChangeModeOngletRevue(Mode.Modification);
         }
 
+        /// <summary>
+        /// Supprime la revue sélectionnée après confirmation de l'utilisateur..
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSupprRevue_Click(object sender, EventArgs e)
         {
             Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
@@ -448,6 +462,11 @@ namespace Mediatek86.vue
 
         }
 
+        /// <summary>
+        ///  Valide la modification ou l'aout de la revue saisie.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnValiderRevue_Click(object sender, EventArgs e)
         {
             bool ok = false;
@@ -472,6 +491,10 @@ namespace Mediatek86.vue
         }
 
 
+        /// <summary>
+        /// Ajoute une nouvelle revue avec les informations saisies.
+        /// </summary>
+        /// <returns>True si l'opération est un succès.</returns>
         private bool ValiderAjoutRevue()
         {
             if (txbRevuesNumero.Text == "" || !controle.verifieIdentifiantUnique(txbRevuesNumero.Text))
@@ -495,6 +518,10 @@ namespace Mediatek86.vue
             else return false;
         }
 
+        /// <summary>
+        /// Vérifie les champs obligatoires.
+        /// </summary>
+        /// <returns>True si tous les champs sont correctement remplis.</returns>
         private bool VerifieCompletionInfosRevue()
         {
             if (txbRevuesTitre.Text == "")
@@ -505,6 +532,10 @@ namespace Mediatek86.vue
             return true;
         }
 
+        /// <summary>
+        /// Modifie la revue modifiée avec les informations saisies.
+        /// </summary>
+        /// <returns></returns>
         private bool ValiderModifRevue()
         {
             if (controle.verifieIdentifiantUnique(txbLivresNumero.Text))
@@ -521,6 +552,11 @@ namespace Mediatek86.vue
                 lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle, chkRevuesEmpruntable.Checked, txbRevuesPeriodicite.Text, int.Parse(txbRevuesDateMiseADispo.Text));
         }
 
+        /// <summary>
+        /// Annule la saisie en cours et vide les champs associés.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAnnulerRevue_Click(object sender, EventArgs e)
         {
             VideRevuesInfos();
@@ -529,6 +565,10 @@ namespace Mediatek86.vue
             dgvRevuesListe_SelectionChanged(null, null);
         }
 
+        /// <summary>
+        /// Modifie l'accessibilité des objets graphiques en fonction du mode actuel.
+        /// </summary>
+        /// <param name="mode"></param>
         private void ChangeModeOngletRevue(Mode mode)
         {
             bool readOnlyChamps = mode == Mode.Info;
@@ -556,6 +596,11 @@ namespace Mediatek86.vue
             btnAnnulerRevue.Visible = !readOnlyChamps;
         }
 
+        /// <summary>
+        /// Ouvre la fenêtre de gestion des commandes de revues.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCommandeRevues_Click(object sender, EventArgs e)
         {
             controle.OuvreFormulaireCommandes(TypeDocument.REVUE);
@@ -908,7 +953,11 @@ namespace Mediatek86.vue
             RemplirLivresListe(sortedList);
         }
 
-
+        /// <summary>
+        /// Active la zone d'ajout de livre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAjoutLivre_Click(object sender, EventArgs e)
         {
             VideLivresInfos();
@@ -916,12 +965,22 @@ namespace Mediatek86.vue
             ChangeModeOngletLivre(Mode.Ajout);
         }
 
+        /// <summary>
+        /// Active la zone de modification du livre sélectionné.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnModifLivre_Click(object sender, EventArgs e)
         {
             modeActuel = Mode.Modification;
             ChangeModeOngletLivre(Mode.Modification);
         }
 
+        /// <summary>
+        /// Supprime la revue sélectionnée après confirmation de l'utilisateur.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSupprLivre_Click(object sender, EventArgs e)
         {
 
@@ -947,7 +1006,7 @@ namespace Mediatek86.vue
 
 
         /// <summary>
-        /// Affiche la groupbox d'informations des livres selon le mode en cours.
+        /// Modifie l'accessibilité des objets graphiques en fonction du mode actuel.
         /// </summary>
         /// <param name="mode">Mode actuel.</param>
         private void ChangeModeOngletLivre(Mode mode)
@@ -978,7 +1037,7 @@ namespace Mediatek86.vue
         }
 
         /// <summary>
-        /// Ajoute le livre saisi par par l'utilisateur dans la base de données.
+        /// Valide la modification ou l'aout du livre saisi.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1008,6 +1067,10 @@ namespace Mediatek86.vue
 
         }
 
+        /// <summary>
+        /// Ajoute un nouveau livre avec les informations saisies.
+        /// </summary>
+        /// <returns></returns>
         private bool ValiderAjoutLivre()
         {
             if (txbLivresNumero.Text == "" || !controle.verifieIdentifiantUnique(txbLivresNumero.Text))
@@ -1031,7 +1094,10 @@ namespace Mediatek86.vue
             else return false;
         }
 
-
+        /// <summary>
+        /// Active la zone de modification de la revue sélectionnée.
+        /// </summary>
+        /// <returns>True si l'opération est un succès.</returns>
         private bool ValiderModifLivre()
         {
             if (controle.verifieIdentifiantUnique(txbLivresNumero.Text))
@@ -1048,6 +1114,10 @@ namespace Mediatek86.vue
                 txbLivresAuteur.Text, txbLivresCollection.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
         }
 
+        /// <summary>
+        /// Vérifie les champs obligatoires.
+        /// </summary>
+        /// <returns>True si tous les champs sont correctement remplis.</returns>
         private bool VerifieCompletionInfosLivre()
         {
             if (txbLivresTitre.Text == "" || txbLivresAuteur.Text == "")
@@ -1058,8 +1128,11 @@ namespace Mediatek86.vue
             return true;
         }
 
-
-
+        /// <summary>
+        /// Annule la saisie en cours et réinitialise les champs.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAnnulerLivre_Click(object sender, EventArgs e)
         {
             VideLivresInfos();
@@ -1068,6 +1141,11 @@ namespace Mediatek86.vue
             DgvLivresListe_SelectionChanged(null, null);
         }
 
+        /// <summary>
+        /// Ouvre la fenêtre des commandes de livres.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCommandesLivre_Click(object sender, EventArgs e)
         {
             controle.OuvreFormulaireCommandes(TypeDocument.LIVRE);
@@ -1405,6 +1483,11 @@ namespace Mediatek86.vue
             RemplirDvdListe(sortedList);
         }
 
+        /// <summary>
+        /// Active la zone d'ajout de DVD.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAjoutDVD_Click(object sender, EventArgs e)
         {
             VideDvdInfos();
@@ -1412,12 +1495,22 @@ namespace Mediatek86.vue
             ChangemodeOngletDVD(Mode.Ajout);
         }
 
+        /// <summary>
+        /// Active la zone de modification du DVD sélectionné.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnModifDVD_Click(object sender, EventArgs e)
         {
             modeActuel = Mode.Modification;
             ChangemodeOngletDVD(Mode.Modification);
         }
 
+        /// <summary>
+        /// Supprime le DVD sélectionné après confirmation de l'utilisateur.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSupprDVD_Click(object sender, EventArgs e)
         {
             Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
@@ -1441,6 +1534,11 @@ namespace Mediatek86.vue
 
         }
 
+        /// <summary>
+        /// Valide la modification ou l'aout du DVD saisi.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnValiderDVD_Click(object sender, EventArgs e)
         {
             bool ok = false;
@@ -1464,6 +1562,11 @@ namespace Mediatek86.vue
             }
         }
 
+        /// <summary>
+        ///  Annule la saisie en cours et vide les champs associés.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAnnulerDVD_Click(object sender, EventArgs e)
         {
             VideDvdInfos();
@@ -1472,6 +1575,10 @@ namespace Mediatek86.vue
             dgvDvdListe_SelectionChanged(null, null);
         }
 
+        /// <summary>
+        /// Ajoute un nouveau DVD avec les informations saisies.
+        /// </summary>
+        /// <returns></returns>
         private bool ValiderAjoutDVD()
         {
             if (txbDvdNumero.Text == "" || !controle.verifieIdentifiantUnique(txbDvdNumero.Text))
@@ -1494,6 +1601,10 @@ namespace Mediatek86.vue
             else return false;
         }
 
+        /// <summary>
+        /// Modifie le DVD sélectionné avec les informations saisies.
+        /// </summary>
+        /// <returns></returns>
         private bool ValiderModifDVD()
         {
             if (controle.verifieIdentifiantUnique(txbDvdNumero.Text))
@@ -1509,6 +1620,10 @@ namespace Mediatek86.vue
             return controle.ModifierDvd(dvd, txbDvdTitre.Text, txbDvdImage.Text, int.Parse(txbDvdDuree.Text), txbDvdRealisateur.Text, txbDvdSynopsis.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
         }
 
+        /// <summary>
+        /// Vérifie les champs obligatoires.
+        /// </summary>
+        /// <returns></returns>
         private bool VerifieCompletionInfosDVD()
         {
             if (txbDvdDuree.Text == "" || txbDvdRealisateur.Text == "" || txbDvdTitre.Text == "")
@@ -1519,6 +1634,10 @@ namespace Mediatek86.vue
             return true;
         }
 
+        /// <summary>
+        /// Modifie l'accessibilité des objets graphiques en fonction du mode actuel.
+        /// </summary>
+        /// <param name="mode"></param>
         private void ChangemodeOngletDVD(Mode mode)
         {
             bool readOnlyChamps = mode == Mode.Info;
@@ -1545,6 +1664,11 @@ namespace Mediatek86.vue
             btnAnnulerDVD.Visible = !readOnlyChamps;
         }
 
+        /// <summary>
+        /// Ouvre la fenêtre de gestion des commandes de DVD.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCommandeDVD(object sender, EventArgs e)
         {
             controle.OuvreFormulaireCommandes(TypeDocument.DVD);

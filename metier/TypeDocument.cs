@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mediatek86.metier
 {
+    /// <summary>
+    /// Enumérateur indiquant les types de documents.
+    /// </summary>
     public enum TypeDocument
     {
         LIVRE,

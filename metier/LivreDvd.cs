@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mediatek86.metier
 {
+    /// <summary>
+    /// Classe abstraite regroupant les attributs communs des livres et DVD.
+    /// </summary>
     public abstract class LivreDvd : Document
     {
 

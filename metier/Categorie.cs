@@ -2,6 +2,9 @@
 
 namespace Mediatek86.metier
 {
+    /// <summary>
+    /// Classe abstraite représentant une catégorie générique.
+    /// </summary>
     public abstract class Categorie
     {
         private readonly string id;

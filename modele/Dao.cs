@@ -264,6 +264,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Ajoute une nouvelle ligne dans la table document
+        /// </summary>
+        /// <param name="document">Document à ajouter.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         private static bool AjouterDocument(Document document)
         {
             try
@@ -289,6 +294,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Ajoute une nouvelle ligne dans la table LivreDvd
+        /// </summary>
+        ///  /// <param name="livreDvd">Livre ou DVD à ajouter.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         private static bool AjouterLivreDvd(LivreDvd livreDvd)
         {
             try
@@ -309,6 +319,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Ajoute une nouvelle ligne dans la table livre
+        /// </summary>
+        /// <param name="livre">Livre à ajouter.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool AjouterLivre(Livre livre)
         {
 
@@ -340,6 +355,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Update une ligne de la table Livre.
+        /// </summary>
+        /// <param name="livre">Livre à modifier.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool ModifierLivre(Livre livre)
         {
             try
@@ -379,13 +399,17 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Supprime une ligne de la table livre.
+        /// </summary>
+        /// <param name="livre">Livre à supprimer.</param>
+        /// <returns></returns>
         public static bool SupprimerLivre(Livre livre)
         {
             return ReqDelete("livre", livre.Id) &&
             ReqDelete("livres_dvd", livre.Id) &&
             ReqDelete("document", livre.Id);
         }
-
 
 
         /// <summary>
@@ -416,6 +440,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Ajoute une ligne dans la table DVD.
+        /// </summary>
+        /// <param name="dvd">DVD à ajouter</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool AjouterDvd(Dvd dvd)
         {
             if (AjouterDocument(dvd) && AjouterLivreDvd(dvd))
@@ -446,6 +475,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Modifie une ligne de la table DVD.
+        /// </summary>
+        /// <param name="dvd">DVD à modifier.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool ModifierDvd(Dvd dvd)
         {
             try
@@ -485,6 +519,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Supprime une ligne de la table DVD.
+        /// </summary>
+        /// <param name="dvd">DVD à supprimer.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool SupprimerDvd(Dvd dvd)
         {
             return ReqDelete("dvd", dvd.Id) &&
@@ -492,6 +531,11 @@ namespace Mediatek86.modele
                  ReqDelete("document", dvd.Id);
         }
 
+        /// <summary>
+        /// Ajoute une ligne dans la table revue.
+        /// </summary>
+        /// <param name="revue">Revue à ajouter.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool AjouterRevue(Revue revue)
         {
             if (AjouterDocument(revue))
@@ -521,7 +565,11 @@ namespace Mediatek86.modele
                 return false;
             }
         }
-
+        /// <summary>
+        /// Modifie une ligne dans la table revue.
+        /// </summary>
+        /// <param name="revue">Revue à modifier.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool ModifierRevue(Revue revue)
         {
             try
@@ -561,12 +609,21 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Supprime une ligne dans la table revue.
+        /// </summary>
+        /// <param name="revue">Revue à supprimer.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool SupprimerRevue(Revue revue)
         {
             return ReqDelete("revue", revue.Id) &&
               ReqDelete("document", revue.Id);
         }
 
+        /// <summary>
+        /// Récupère les états de commande.
+        /// </summary>
+        /// <returns>Liste des états de commande.</returns>
         public static List<EtatCommande> GetEtatsCommande()
         {
             List<EtatCommande> etatsCommande = null;
@@ -594,18 +651,35 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Récupère les commandes de DVD.
+        /// </summary>
+        /// <returns>Liste des commandes de DVD.</returns>
         public static List<CommandeDocument> GetCommandesDvd()
         {
-            return GetCommandesLivreDvd("JOIN dvd on (ld.id = dvd.id) ");
+            return GetCommandesLivreDvd(TypeDocument.DVD);
         }
 
+        /// <summary>
+        /// Récupère les commandes de livrs.
+        /// </summary>
+        /// <returns>Liste des commandes de DVD.</returns>
         public static List<CommandeDocument> GetCommandesLivres()
         {
-            return GetCommandesLivreDvd("JOIN livre on (ld.id = livre.id) ");
+            return GetCommandesLivreDvd(TypeDocument.LIVRE);
         }
 
-        private static List<CommandeDocument> GetCommandesLivreDvd(string jointure)
+        /// <summary>
+        /// Récupère les commandes de Livres ou de DVD.
+        /// </summary>
+        /// <param name="typeDocument">Type de document sur lequel filtrer.</param>
+        /// <returns></returns>
+        private static List<CommandeDocument> GetCommandesLivreDvd(TypeDocument typeDocument)
         {
+            string jointure = "";
+            if (typeDocument == TypeDocument.LIVRE) jointure = "JOIN livre on (ld.id = livre.id)";
+            else if (typeDocument == TypeDocument.DVD) jointure = "JOIN dvd on (ld.id = dvd.id) ";
+
             List<CommandeDocument> lesCommandes = null;
             try
             {
@@ -640,6 +714,10 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Récupèrel es abonnements à des revues.
+        /// </summary>
+        /// <returns>Liste des abonnements.</returns>
         public static List<Abonnement> GetAbonnementsRevues()
         {
             List<Abonnement> lesAbonnements = new List<Abonnement>();
@@ -674,6 +752,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Ajoute une ligne à la table commande.
+        /// </summary>
+        /// <param name="commande">Commande à ajouter.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         private static bool AjouterCommande(Commande commande)
         {
             try
@@ -696,6 +779,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Ajoute une ligne à la table commandedocument.
+        /// </summary>
+        /// <param name="commande">Commande à ajouter.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool AjouterCommandeDocument(CommandeDocument commande)
         {
             if (AjouterCommande(commande))
@@ -729,6 +817,12 @@ namespace Mediatek86.modele
 
         }
 
+        /// <summary>
+        /// Modifie une ligne de la table commandedocument.
+        /// </summary>
+        /// <param name="commande">Commande à modifier.</param>
+        /// <param name="etat">Nouvel état de la commande.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool UpdateCommandeDocument(CommandeDocument commande, EtatCommande etat)
         {
             try
@@ -752,6 +846,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Supprime une ligne de la table commandedocument.
+        /// </summary>
+        /// <param name="commande">Commande à supprimer.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool SupprCommandeDocument(CommandeDocument commande)
         {
             try
@@ -774,6 +873,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Supprime une ligne de la table commande.
+        /// </summary>
+        /// <param name="commande">Commande à supprimer.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         private static bool SupprCommande(Commande commande)
         {
             try
@@ -795,6 +899,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Ajoute une ligne à la table abonnement.
+        /// </summary>
+        /// <param name="abonnement">Abonnement à ajouter.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool AjouterAbonnementRevue(Abonnement abonnement)
         {
             if (AjouterCommande(abonnement))
@@ -824,6 +933,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Supprime une ligne à la table abonnement.
+        /// </summary>
+        /// <param name="abonnement">Abonnement à supprimer.</param>
+        /// <returns>True si l'opération est un succès, false sinon.</returns>
         public static bool SupprAbonnementRevue(Abonnement abonnement)
         {
             try
