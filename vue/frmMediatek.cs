@@ -206,6 +206,8 @@ namespace Mediatek86.vue
             txbRevuesPublic.Text = revue.Public;
             txbRevuesRayon.Text = revue.Rayon;
             txbRevuesTitre.Text = revue.Titre;
+            txbNbExemplairesRevue.Text = revue.NbExemplaires.ToString();
+            btnExemplairesLivres.Enabled = revue.NbExemplaires > 0;
             string image = revue.Image;
             try
             {
@@ -607,6 +609,15 @@ namespace Mediatek86.vue
             controle.OuvreFormulaireCommandes(TypeDocument.REVUE);
         }
 
+        private void btnExemplairesRevue_Click(object sender, EventArgs e)
+        {
+            Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+            controle.OuvreFormulaireExemplaires(revue);
+            bdgRevuesListe.ResetBindings(false);
+        }
+
+
+
         #endregion
 
 
@@ -738,6 +749,8 @@ namespace Mediatek86.vue
             txbLivresPublic.Text = livre.Public;
             txbLivresRayon.Text = livre.Rayon;
             txbLivresTitre.Text = livre.Titre;
+            txbNbExemplaires.Text = livre.NbExemplaires.ToString();
+            btnExemplairesLivres.Enabled = livre.NbExemplaires > 0;
 
             Genre genre = (Genre)controle.trouveCategorie(controle.GetAllGenres(), livre.IdGenre);
             if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
@@ -1153,6 +1166,13 @@ namespace Mediatek86.vue
             controle.OuvreFormulaireCommandes(TypeDocument.LIVRE);
         }
 
+        private void btnExemplairesLivres_Click(object sender, EventArgs e)
+        {
+            Livre livre = (Livre)bdgLivresListe.List[bdgLivresListe.Position];
+            controle.OuvreFormulaireExemplaires(livre);
+            bdgLivresListe.ResetBindings(false);
+        }
+
         #endregion
 
 
@@ -1280,7 +1300,10 @@ namespace Mediatek86.vue
             txbDvdPublic.Text = dvd.Public;
             txbDvdRayon.Text = dvd.Rayon;
             txbDvdTitre.Text = dvd.Titre;
+            txbNbExemplaires.Text = dvd.NbExemplaires.ToString();
+            btnExemplairesLivres.Enabled = dvd.NbExemplaires > 0;
             string image = dvd.Image;
+
             try
             {
                 pcbDvdImage.Image = Image.FromFile(image);
@@ -1677,6 +1700,13 @@ namespace Mediatek86.vue
             controle.OuvreFormulaireCommandes(TypeDocument.DVD);
         }
 
+        private void btnExemplairesDvd_Click(object sender, EventArgs e)
+        {
+            Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
+            controle.OuvreFormulaireExemplaires(dvd);
+            bdgDvdListe.ResetBindings(false);
+        }
+
         #endregion
 
 
@@ -1869,7 +1899,7 @@ namespace Mediatek86.vue
                     string photo = txbReceptionExemplaireImage.Text;
                     string idEtat = ETATNEUF;
                     string idDocument = txbReceptionRevueNumero.Text;
-                    Exemplaire exemplaire = new Exemplaire(numero, dateAchat, photo, idEtat, idDocument);
+                    Exemplaire exemplaire = new Exemplaire(numero, dateAchat, photo, Etat.FindEtat("00001"), idDocument);
                     if (controle.CreerExemplaire(exemplaire))
                     {
                         VideReceptionExemplaireInfos();
@@ -1942,6 +1972,9 @@ namespace Mediatek86.vue
                 pcbReceptionExemplaireRevueImage.Image = null;
             }
         }
+
+
+
 
 
 

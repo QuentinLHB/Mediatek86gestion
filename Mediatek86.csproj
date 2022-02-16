@@ -113,6 +113,12 @@
     <Compile Include="vue\FrmCommandes.Designer.cs">
       <DependentUpon>FrmCommandes.cs</DependentUpon>
     </Compile>
+    <Compile Include="vue\FrmExemplaires.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vue\FrmExemplaires.Designer.cs">
+      <DependentUpon>FrmExemplaires.cs</DependentUpon>
+    </Compile>
     <Compile Include="vue\FrmMediatek.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +139,9 @@
     </Compile>
     <EmbeddedResource Include="vue\FrmCommandes.resx">
       <DependentUpon>FrmCommandes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vue\FrmExemplaires.resx">
+      <DependentUpon>FrmExemplaires.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="vue\FrmMediatek.resx">
       <DependentUpon>FrmMediatek.cs</DependentUpon>

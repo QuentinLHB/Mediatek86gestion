@@ -1,5 +1,7 @@
 ﻿
 
+using System.Collections.Generic;
+
 namespace Mediatek86.metier
 {
     /// <summary>
@@ -27,5 +29,21 @@ namespace Mediatek86.metier
         /// Libellé de l'état.
         /// </summary>
         public string Libelle { get; set; }
+
+        public static List<Etat> Etats { get; set; }
+
+        public static Etat FindEtat(string id)
+        {
+            foreach (Etat etat in Etats)
+            {
+                if (etat.Id == id) return etat;
+            }
+            return new Etat("-1", "erreur");
+        }
+
+        public override string ToString()
+        {
+            return Libelle;
+        }
     }
 }

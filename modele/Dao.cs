@@ -234,12 +234,13 @@ namespace Mediatek86.modele
 
             while (curs.Read())
             {
-                string idDocuement = (string)curs.Field("id");
-                int numero = (int)curs.Field("numero");
-                DateTime dateAchat = (DateTime)curs.Field("dateAchat");
-                string photo = (string)curs.Field("photo");
-                string idEtat = (string)curs.Field("idEtat");
-                Exemplaire exemplaire = new Exemplaire(numero, dateAchat, photo, idEtat, idDocuement);
+                Exemplaire exemplaire = new Exemplaire(
+                    (int)curs.Field("numero"), 
+                    (DateTime)curs.Field("dateAchat"),
+                    (string)curs.Field("photo"), 
+                    Etat.FindEtat((string)curs.Field("idEtat")), 
+                    (string)curs.Field("id")
+                    );
                 lesExemplaires.Add(exemplaire);
             }
             curs.Close();
@@ -263,7 +264,7 @@ namespace Mediatek86.modele
                     { "@numero", exemplaire.Numero},
                     { "@dateAchat", exemplaire.DateAchat},
                     { "@photo", exemplaire.Photo},
-                    { "@idEtat",exemplaire.IdEtat}
+                    { "@idEtat",exemplaire.Etat}
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
@@ -995,6 +996,71 @@ namespace Mediatek86.modele
             curs.Close();
 
             return !existe;
+        }
+
+        public static List<Etat> GetEtats()
+        {
+            List<Etat> lesEtats = new List<Etat>();
+            string req = "Select * from etat order by id";
+
+            BddMySql curs = BddMySql.GetInstance(connectionString);
+            curs.ReqSelect(req, null);
+
+            while (curs.Read())
+            {
+                Etat genre = new Etat((string)curs.Field("id"), (string)curs.Field("libelle"));
+                lesEtats.Add(genre);
+            }
+            curs.Close();
+            return lesEtats;
+        }
+
+        public static bool ModifierExemplaire(Exemplaire exemplaire, Etat etat)
+        {
+            try
+            {
+                string req = "update exemplaire set idEtat = @idEtat WHERE id = @id and numero = @numero ";
+
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@idEtat", etat.Id},
+                    { "@id", exemplaire.IdDocument},
+                    { "@numero", exemplaire.Numero},
+
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool SupprimerExemplaire(Exemplaire exemplaire)
+        {
+            try
+            {
+                string req = "delete from exemplaire WHERE id = @id and numero = @numero ";
+
+
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", exemplaire.IdDocument},
+                    { "@numero", exemplaire.Numero},
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(req, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 

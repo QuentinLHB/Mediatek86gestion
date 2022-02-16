@@ -15,12 +15,12 @@ namespace Mediatek86.metier
         /// <param name="photo">URI de la photo.</param>
         /// <param name="idEtat">Identifiant de l'état du document.</param>
         /// <param name="idDocument">Identifiant du document.</param>
-        public Exemplaire(int numero, DateTime dateAchat, string photo,string idEtat, string idDocument)
+        public Exemplaire(int numero, DateTime dateAchat, string photo, Etat etat, string idDocument)
         {
             this.Numero = numero;
             this.DateAchat = dateAchat;
             this.Photo = photo;
-            this.IdEtat = idEtat;
+            this.Etat = etat;
             this.IdDocument = idDocument;
         }
 
@@ -42,7 +42,7 @@ namespace Mediatek86.metier
         /// <summary>
         /// Identifiant de l'état de la commande
         /// </summary>
-        public string IdEtat { get; set; }
+        public Etat Etat { get; set; }
 
         /// <summary>
         /// Identifiant du document.

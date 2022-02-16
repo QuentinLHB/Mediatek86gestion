@@ -278,6 +278,15 @@ namespace Mediatek86.controleur
             return EtatCommande.Etats;
         }
 
+        public List<Etat> GetEtats()
+        {
+            if (Etat.Etats == null)
+            {
+                Etat.Etats = Dao.GetEtats();
+            }
+            return Etat.Etats;
+        }
+
         List<CommandeDocument> lesCommandes;
         List<Abonnement> lesAbonnements;
 
@@ -357,6 +366,40 @@ namespace Mediatek86.controleur
         {
             bool succes = Dao.SupprAbonnementRevue(abonnement);
             if (succes) lesAbonnements.Remove(abonnement);
+            return succes;
+        }
+
+        private List<Exemplaire> lesExemplaires = new List<Exemplaire>();
+
+        public void OuvreFormulaireExemplaires(Document document)
+        {
+            GetEtats();
+            lesExemplaires = GetExemplairesDocument(document.Id);
+            FrmExemplaires frmExemplaires = new FrmExemplaires(document, this);
+            frmExemplaires.ShowDialog();
+
+        }
+
+        public List<Exemplaire> GetExemplaires()
+        {
+            return lesExemplaires;
+        }
+
+        public bool ModifierExemplaire(Exemplaire exemplaire, Etat etat)
+        {
+            bool succes = Dao.ModifierExemplaire(exemplaire, etat);
+            if (succes)exemplaire.Etat = etat;
+            return succes;
+        }
+
+        public bool SupprimerExemplaire(Document document, Exemplaire exemplaire)
+        {
+            bool succes = Dao.SupprimerExemplaire(exemplaire);
+            if (succes)
+            {
+                lesExemplaires.Remove(exemplaire);
+                document.NbExemplaires -= 1;
+            }
             return succes;
         }
     }
