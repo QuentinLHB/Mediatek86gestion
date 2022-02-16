@@ -86,11 +86,14 @@ namespace Mediatek86.modele
         {
             List<Livre> lesLivres = new List<Livre>();
             string req = "Select l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection, ";
-            req += "d.idrayon, d.idpublic, d.idgenre, g.libelle as genre, p.libelle as public, r.libelle as rayon ";
+            req += "d.idrayon, d.idpublic, d.idgenre, g.libelle as genre, p.libelle as public, r.libelle as rayon, ";
+            req += "COUNT(e.id) as nbExemplaires ";
             req += "from livre l join document d on l.id=d.id ";
             req += "join genre g on g.id=d.idGenre ";
             req += "join public p on p.id=d.idPublic ";
             req += "join rayon r on r.id=d.idRayon ";
+            req += "LEFT JOIN exemplaire e ON (d.id = e.id) ";
+            req += "GROUP by d.id ";
             req += "order by titre ";
 
             BddMySql curs = BddMySql.GetInstance(connectionString);
@@ -110,8 +113,9 @@ namespace Mediatek86.modele
                 string genre = (string)curs.Field("genre");
                 string lepublic = (string)curs.Field("public");
                 string rayon = (string)curs.Field("rayon");
+                long nbExemplaires = (long)curs.Field("nbExemplaires");
                 Livre livre = new Livre(id, titre, image, isbn, auteur, collection, idgenre, genre,
-                    idpublic, lepublic, idrayon, rayon);
+                    idpublic, lepublic, idrayon, rayon, nbExemplaires);
                 lesLivres.Add(livre);
             }
             curs.Close();
@@ -127,11 +131,14 @@ namespace Mediatek86.modele
         {
             List<Dvd> lesDvd = new List<Dvd>();
             string req = "Select l.id, l.duree, l.realisateur, d.titre, d.image, l.synopsis, ";
-            req += "d.idrayon, d.idpublic, d.idgenre, g.libelle as genre, p.libelle as public, r.libelle as rayon ";
+            req += "d.idrayon, d.idpublic, d.idgenre, g.libelle as genre, p.libelle as public, r.libelle as rayon, ";
+            req += "COUNT(e.id) as nbExemplaires ";
             req += "from dvd l join document d on l.id=d.id ";
             req += "join genre g on g.id=d.idGenre ";
             req += "join public p on p.id=d.idPublic ";
             req += "join rayon r on r.id=d.idRayon ";
+            req += "LEFT JOIN exemplaire e ON (d.id = e.id) ";
+            req += "GROUP by d.id ";
             req += "order by titre ";
 
             BddMySql curs = BddMySql.GetInstance(connectionString);
@@ -151,8 +158,9 @@ namespace Mediatek86.modele
                 string genre = (string)curs.Field("genre");
                 string lepublic = (string)curs.Field("public");
                 string rayon = (string)curs.Field("rayon");
+                long nbExemplaires = (long)curs.Field("nbExemplaires");
                 Dvd dvd = new Dvd(id, titre, image, duree, realisateur, synopsis, idgenre, genre,
-                    idpublic, lepublic, idrayon, rayon);
+                    idpublic, lepublic, idrayon, rayon, nbExemplaires);
                 lesDvd.Add(dvd);
             }
             curs.Close();
@@ -168,11 +176,14 @@ namespace Mediatek86.modele
         {
             List<Revue> lesRevues = new List<Revue>();
             string req = "Select l.id, l.empruntable, l.periodicite, d.titre, d.image, l.delaiMiseADispo, ";
-            req += "d.idrayon, d.idpublic, d.idgenre, g.libelle as genre, p.libelle as public, r.libelle as rayon ";
+            req += "d.idrayon, d.idpublic, d.idgenre, g.libelle as genre, p.libelle as public, r.libelle as rayon, ";
+            req += "COUNT(e.id) as nbExemplaires ";
             req += "from revue l join document d on l.id=d.id ";
             req += "join genre g on g.id=d.idGenre ";
             req += "join public p on p.id=d.idPublic ";
             req += "join rayon r on r.id=d.idRayon ";
+            req += "LEFT JOIN exemplaire e ON (d.id = e.id) ";
+            req += "GROUP by d.id ";
             req += "order by titre ";
 
             BddMySql curs = BddMySql.GetInstance(connectionString);
@@ -192,8 +203,9 @@ namespace Mediatek86.modele
                 string genre = (string)curs.Field("genre");
                 string lepublic = (string)curs.Field("public");
                 string rayon = (string)curs.Field("rayon");
+                long nbExemplaires = (long)curs.Field("nbExemplaires");
                 Revue revue = new Revue(id, titre, image, idgenre, genre,
-                    idpublic, lepublic, idrayon, rayon, empruntable, periodicite, delaiMiseADispo);
+                    idpublic, lepublic, idrayon, rayon, empruntable, periodicite, delaiMiseADispo, nbExemplaires);
                 lesRevues.Add(revue);
             }
             curs.Close();

@@ -131,7 +131,7 @@ namespace Mediatek86.controleur
         public Livre AjouterLivre(string id, string titre, string image, string isbn, string auteur, string collection,
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
         {
-            Livre livre = new Livre(id, titre, image, isbn, auteur, collection, idGenre, genre, idPublic, lePublic, idRayon, rayon);
+            Livre livre = new Livre(id, titre, image, isbn, auteur, collection, idGenre, genre, idPublic, lePublic, idRayon, rayon, 0);
             if (Dao.AjouterLivre(livre)) return livre;
             else return null;
 
@@ -187,7 +187,7 @@ namespace Mediatek86.controleur
         public Dvd AjouterDvd(string id, string titre, string image, int duree, string realisateur, string synopsis,
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
         {
-            Dvd dvd = new Dvd(id, titre, image, duree, realisateur, synopsis, idGenre, genre, idPublic, lePublic, idRayon, rayon);
+            Dvd dvd = new Dvd(id, titre, image, duree, realisateur, synopsis, idGenre, genre, idPublic, lePublic, idRayon, rayon, 0);
             if (Dao.AjouterDvd(dvd)) return dvd;
             else return null;
         }
@@ -233,7 +233,7 @@ namespace Mediatek86.controleur
             string idPublic, string lePublic, string idRayon, string rayon,
             bool empruntable, string periodicite, int delaiMiseADispo)
         {
-            Revue revue = new Revue(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon, empruntable, periodicite, delaiMiseADispo);
+            Revue revue = new Revue(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon, empruntable, periodicite, delaiMiseADispo, 0);
             if (Dao.AjouterRevue(revue))
             {
                 return revue;

@@ -12,8 +12,8 @@ namespace Mediatek86.metier
     public class Dvd : LivreDvd
     {
         public Dvd(string id, string titre, string image, int duree, string realisateur, string synopsis,
-            string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
-            : base(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon)
+            string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon, long nbExemplaires)
+            : base(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon, nbExemplaires)
         {
             this.Duree = duree;
             this.Realisateur = realisateur;

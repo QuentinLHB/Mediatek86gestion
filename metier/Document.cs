@@ -7,7 +7,7 @@ namespace Mediatek86.metier
         private string id;
 
         public Document(string id, string titre, string image, string idGenre, string genre, 
-            string idPublic, string lePublic, string idRayon, string rayon)
+            string idPublic, string lePublic, string idRayon, string rayon, long nbExemplaires)
         {
             this.id = id;
             this.Titre = titre;
@@ -18,6 +18,7 @@ namespace Mediatek86.metier
             this.Public = lePublic;
             this.IdRayon = idRayon;
             this.Rayon = rayon;
+            this.NbExemplaires = nbExemplaires;
         }
 
         /// <summary>
@@ -64,6 +65,8 @@ namespace Mediatek86.metier
         /// Libellé du rayon dans lequel est présent le document.
         /// </summary>
         public string Rayon { get; set; }
+
+        public long NbExemplaires { get; set; }
 
     }
 

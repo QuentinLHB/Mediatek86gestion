@@ -125,6 +125,7 @@ namespace Mediatek86.vue
             dgvRevuesListe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvRevuesListe.Columns["id"].DisplayIndex = 0;
             dgvRevuesListe.Columns["titre"].DisplayIndex = 1;
+            dgvRevuesListe.Columns["nbExemplaires"].HeaderText = "Exemplaires";
         }
 
         /// <summary>
@@ -656,6 +657,7 @@ namespace Mediatek86.vue
             dgvLivresListe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvLivresListe.Columns["id"].DisplayIndex = 0;
             dgvLivresListe.Columns["titre"].DisplayIndex = 1;
+            dgvLivresListe.Columns["nbExemplaires"].HeaderText = "Exemplaires";
         }
 
         /// <summary>
@@ -1197,6 +1199,7 @@ namespace Mediatek86.vue
             dgvDvdListe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvDvdListe.Columns["id"].DisplayIndex = 0;
             dgvDvdListe.Columns["titre"].DisplayIndex = 1;
+            dgvDvdListe.Columns["nbExemplaires"].HeaderText = "Exemplaires";
         }
 
         /// <summary>

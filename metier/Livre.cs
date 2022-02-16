@@ -23,8 +23,8 @@ namespace Mediatek86.metier
         /// <param name="idRayon">Identifiant du rayon dans lequel est présent le livre.</param>
         /// <param name="rayon">Rayon dans lequel est présent le livre.</param>
         public Livre(string id, string titre, string image, string isbn, string auteur, string collection, 
-            string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
-            :base(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon)
+            string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon, long nbExemplaires)
+            :base(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon, nbExemplaires)
         {
             this.Isbn = isbn;
             this.Auteur = auteur;

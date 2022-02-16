@@ -23,8 +23,8 @@ namespace Mediatek86.metier
         /// <param name="delaiMiseADispo">Délai pendant lequel la revue est mise à dispo.</param>
         public Revue(string id, string titre, string image, string idGenre, string genre,
             string idPublic, string lePublic, string idRayon, string rayon, 
-            bool empruntable, string periodicite, int delaiMiseADispo)
-             : base(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon)
+            bool empruntable, string periodicite, int delaiMiseADispo, long nbExemplaires)
+             : base(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon, nbExemplaires)
         {
             Periodicite = periodicite;
             Empruntable = empruntable;
