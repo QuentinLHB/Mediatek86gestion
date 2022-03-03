@@ -6,7 +6,7 @@ using System;
 
 namespace Mediatek86.controleur
 {
-    internal class Controle
+    public class Controle
     {
         private readonly List<Livre> lesLivres;
         private readonly List<Dvd> lesDvd;

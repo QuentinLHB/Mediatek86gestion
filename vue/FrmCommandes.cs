@@ -47,6 +47,9 @@ namespace Mediatek86.vue
                 btnSupprCommande.Location = btnMaJ.Location;
                 lblDateFin.Visible = true;
                 dtpDateFin.Visible = true;
+                gpbConsulter.Text = "Consulter les abonnements";
+                gpbPasserCommande.Text = "Créer un abonnement";
+                btnAjouterCommande.Text = "Créer abonnement";
             }
             else
             {
@@ -106,9 +109,6 @@ namespace Mediatek86.vue
             List<Abonnement> abonnements = controle.GetAbonnementsRevues();
             bdgCommandesListe.DataSource = abonnements;
             dgvListeCommandes.DataSource = bdgCommandesListe;
-            dgvListeCommandes.Columns["idRevue"].HeaderText = "N° Revue";
-            dgvListeCommandes.Columns["DateFin"].HeaderText = "Fin le";
-            dgvListeCommandes.Columns["Date"].HeaderText = "Début le";
 
             dgvListeCommandes.Columns["Id"].DisplayIndex = 0;
             dgvListeCommandes.Columns["idRevue"].DisplayIndex = 1;
@@ -117,6 +117,14 @@ namespace Mediatek86.vue
             dgvListeCommandes.Columns["DateFin"].DisplayIndex = 4;
             dgvListeCommandes.Columns["Montant"].DisplayIndex = 5;
             dgvListeCommandes.Columns["Etat"].DisplayIndex = 6;
+
+            dgvListeCommandes.Columns["Etat"].Visible = false;
+
+            dgvListeCommandes.Columns["idRevue"].HeaderText = "N° Revue";
+            dgvListeCommandes.Columns["DateFin"].HeaderText = "Fin le";
+            dgvListeCommandes.Columns["Date"].HeaderText = "Début le";
+
+
         }
 
         /// <summary>
@@ -293,7 +301,8 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void btnAjouterCommande_Click(object sender, EventArgs e)
         {
-            VerifierCompletionChamps();
+            if (!VerifierCompletionChamps()) return;
+            
             Document document = (Document)bdgDocuments.List[bdgDocuments.Position];
 
             bool succes;
@@ -321,12 +330,19 @@ namespace Mediatek86.vue
         /// <summary>
         /// Vérifie la complétion des champs obligatoires.
         /// </summary>
-        private void VerifierCompletionChamps()
+        private bool VerifierCompletionChamps()
         {
             if (txbIdCommande.Text == "")
             {
                 MessageBox.Show("Veuillez renseigner un numéro de commande unique.");
+                return false;
             }
+            if(txbMontant.Text == "")
+            {
+                MessageBox.Show("Veuillez renseigner tous les champs.");
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -337,15 +353,44 @@ namespace Mediatek86.vue
         private void btnSupprCommande_Click(object sender, EventArgs e)
         {
             bool succes;
+            string msg = ".";
             if (typeDocument == TypeDocument.DVD || typeDocument == TypeDocument.LIVRE)
             {
                 CommandeDocument commande = (CommandeDocument)bdgCommandesListe.List[bdgCommandesListe.Position];
-                succes = controle.SupprCommandeDocument(commande);
+                if(commande.Etat.Id == 1)
+                {
+                    succes = controle.SupprCommandeDocument(commande);
+                }
+                else
+                {
+                    msg = " : Impossible de supprimer une commande livrée.";
+                    succes = false;
+                }
+               
             }
-            else
+            else // Revue
             {
+             
                 Abonnement abonnement = (Abonnement)bdgCommandesListe.List[bdgCommandesListe.Position];
-                succes = controle.SupprAbonnementRevue(abonnement);
+                List<Exemplaire> exemplaires = controle.GetExemplairesDocument("10002");
+                bool aUnExemplaire = false;
+                foreach (Exemplaire exemplaire in exemplaires)
+                {
+                    if(ParutionDansAbonnement(abonnement.Date, abonnement.DateFin, exemplaire.DateAchat))
+                    {
+                        aUnExemplaire = true;
+                        break;
+                    }
+                }
+                if (aUnExemplaire)
+                {
+                    msg = " : Au moins un exemplaire existe durant la durée de l'abonnement.";
+                    succes = false;
+                }
+                else
+                {
+                    succes = controle.SupprAbonnementRevue(abonnement);
+                }
             }
 
             if (succes)
@@ -354,9 +399,21 @@ namespace Mediatek86.vue
             }
             else
             {
-                MessageBox.Show("L'annulation a échoué.");
+                MessageBox.Show("L'annulation a échoué" + msg);
             }
             bdgCommandesListe.ResetBindings(false);
+        }
+
+        /// <summary>
+        /// Vérifie si la date de parution est comprise entre la date de la commande et la date de la fin de l'abonnement.
+        /// </summary>
+        /// <param name="dateCommande">Date de commande de l'abonnement.</param>
+        /// <param name="dateFinAbonnement">Date de la fin de l'abonnment.</param>
+        /// <param name="dateParution">Date de parution d'un exemplaire.</param>
+        /// <returns>Vrai si la date de parution est comprise entre la date de la commande et la date de fin, faux sinon.</returns>
+        private bool ParutionDansAbonnement(DateTime dateCommande, DateTime dateFinAbonnement, DateTime dateParution)
+        {
+            return (dateParution > dateCommande && dateParution < dateFinAbonnement);
         }
     }
 

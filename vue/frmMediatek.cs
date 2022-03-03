@@ -47,6 +47,7 @@ namespace Mediatek86.vue
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.controle = controle;
+            controle.GetEtatsCommande();
         }
 
 
