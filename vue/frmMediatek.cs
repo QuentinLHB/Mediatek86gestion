@@ -473,13 +473,11 @@ namespace Mediatek86.vue
             {
                 DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
               "Confirmation", MessageBoxButtons.YesNo);
-                if (choix == DialogResult.Yes)
+                if (choix == DialogResult.Yes && controle.SupprimerRevue(revue))
                 {
-                    if (controle.SupprimerRevue(revue))
-                    {
-                        lesRevues.Remove(revue);
-                        bdgRevuesListe.ResetBindings(false);
-                    }
+                    lesRevues.Remove(revue);
+                    bdgRevuesListe.ResetBindings(false);
+                    
                 }
             }
             else
@@ -1029,13 +1027,12 @@ namespace Mediatek86.vue
             {
                 DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
                     "Confirmation", MessageBoxButtons.YesNo);
-                if (choix == DialogResult.Yes)
+                if (choix == DialogResult.Yes && 
+                    controle.SupprimerLive(livre))
                 {
-                    if (controle.SupprimerLive(livre))
-                    {
-                        lesLivres.Remove(livre);
-                        bdgLivresListe.ResetBindings(false);
-                    }
+                    lesLivres.Remove(livre);
+                    bdgLivresListe.ResetBindings(false);
+               
                 }
             }
             else
@@ -1569,13 +1566,12 @@ namespace Mediatek86.vue
             {
                 DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
                 "Confirmation", MessageBoxButtons.YesNo);
-                if (choix == DialogResult.Yes)
+                if (choix == DialogResult.Yes &&
+                    controle.SupprimerDVD(dvd))
                 {
-                    if (controle.SupprimerDVD(dvd))
-                    {
-                        lesDvd.Remove(dvd);
-                        bdgDvdListe.ResetBindings(false);
-                    }
+                    lesDvd.Remove(dvd);
+                    bdgDvdListe.ResetBindings(false);
+                   
                 }
             }
             else
@@ -1922,9 +1918,8 @@ namespace Mediatek86.vue
                     int numero = int.Parse(txbReceptionExemplaireNumero.Text);
                     DateTime dateAchat = dtpReceptionExemplaireDate.Value;
                     string photo = txbReceptionExemplaireImage.Text;
-                    string idEtat = ETATNEUF;
                     string idDocument = txbReceptionRevueNumero.Text;
-                    Exemplaire exemplaire = new Exemplaire(numero, dateAchat, photo, Etat.FindEtat("00001"), idDocument);
+                    Exemplaire exemplaire = new Exemplaire(numero, dateAchat, photo, Etat.FindEtat(ETATNEUF), idDocument);
                     if (controle.CreerExemplaire(exemplaire))
                     {
                         VideReceptionExemplaireInfos();

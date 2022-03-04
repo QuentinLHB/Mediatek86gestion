@@ -331,7 +331,7 @@ namespace Mediatek86.vue
             bool succes;
             if (typeDocument == TypeDocument.LIVRE || typeDocument == TypeDocument.DVD)
             {
-                succes = controle.AjouterCommandeDocument(txbIdCommande.Text, double.Parse(txbMontant.Text), (int)nudQuantite.Value, document.Id, document.Titre); ;
+                succes = controle.AjouterCommandeDocument(txbIdCommande.Text, double.Parse(txbMontant.Text), (int)nudQuantite.Value, document.Id, document.Titre); 
 
             }
             else // Revue

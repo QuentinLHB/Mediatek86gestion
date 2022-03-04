@@ -17,9 +17,8 @@ namespace Mediatek86.metier
             switch (id)
             {
                 case 1: Lecture = true; Modification = true; break;
-                case 2: Lecture = false; Modification = false; break;
                 case 3: Lecture = true; Modification = false; break;
-                default: Lecture = false; Modification = false; break;
+                default: Lecture = false; Modification = false; break; // Case 2 est identique au défaut : Aucun droit.
             }
         }
     }

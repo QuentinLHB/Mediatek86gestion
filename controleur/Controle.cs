@@ -14,6 +14,7 @@ namespace Mediatek86.controleur
         private readonly List<Categorie> lesRayons;
         private readonly List<Categorie> lesPublics;
         private readonly List<Categorie> lesGenres;
+        private List<Exemplaire> lesExemplaires = new List<Exemplaire>();
         private Service service;
 
         /// <summary>
@@ -370,28 +371,15 @@ namespace Mediatek86.controleur
             if (succes)
             {
                 commande.Etat = etat;
-                LivreDvd livreDvd = FindLivreDvd(commande.IdLivreDvd);
-  //              if(livreDvd != null)
-  //              {
-  //Exemplaire exemplaire = new Exemplaire(commande.IdLivreDvd, commande.Date, livreDvd.Image, etat, )
-  //              }
-              
             }
             return succes;
         }
 
-        private LivreDvd FindLivreDvd(string id)
-        {
-            List<LivreDvd> livresDvd = new List<LivreDvd>();
-            livresDvd.AddRange(lesDvd);
-            livresDvd.AddRange(lesLivres);
-            foreach(LivreDvd livreDvd in livresDvd)
-            {
-                if (livreDvd.Id == id) return livreDvd;
-            }
-            return null;
-        }
-
+        /// <summary>
+        /// Supprime une commande de livre ou de dvd.
+        /// </summary>
+        /// <param name="commande">Commande à supprimer.</param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool SupprCommandeDocument(CommandeDocument commande)
         {
             bool succes = Dao.SupprCommandeDocument(commande);
@@ -399,14 +387,17 @@ namespace Mediatek86.controleur
             return succes;
         }
 
+        /// <summary>
+        /// Supprime un abonnement à une revue.
+        /// </summary>
+        /// <param name="abonnement">Abonnement à supprimer.</param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool SupprAbonnementRevue(Abonnement abonnement)
         {
             bool succes = Dao.SupprAbonnementRevue(abonnement);
             if (succes) lesAbonnements.Remove(abonnement);
             return succes;
         }
-
-        private List<Exemplaire> lesExemplaires = new List<Exemplaire>();
 
         /// <summary>
         /// Ouvre le formulaire des exemplaires pour un document spécifié.
