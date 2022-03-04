@@ -371,6 +371,10 @@ namespace Mediatek86.controleur
 
         private List<Exemplaire> lesExemplaires = new List<Exemplaire>();
 
+        /// <summary>
+        /// Ouvre le formulaire des exemplaires pour un document spécifié.
+        /// </summary>
+        /// <param name="document">Document dont on consulte les exemplaires.</param>
         public void OuvreFormulaireExemplaires(Document document)
         {
             GetEtats();
@@ -380,6 +384,10 @@ namespace Mediatek86.controleur
 
         }
 
+        /// <summary>
+        /// Retourne les exemplaires du document ouvert avec OuvreFormulaireExemplaires()
+        /// </summary>
+        /// <returns></returns>
         public List<Exemplaire> GetExemplaires()
         {
             return lesExemplaires;

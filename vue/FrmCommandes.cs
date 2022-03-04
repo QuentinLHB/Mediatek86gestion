@@ -55,6 +55,28 @@ namespace Mediatek86.vue
             {
                 RemplirComboEtats();
             }
+
+            refreshButtonAccess();
+        }
+
+        /// <summary>
+        /// Détermine l'accès aux éléments graphiques du formulaire.
+        /// </summary>
+        private void refreshButtonAccess()
+        {
+            bool shouldEnable = true;
+            if(typeDocument == TypeDocument.REVUE)
+            {
+                shouldEnable = ((List<Abonnement>)bdgCommandesListe.DataSource).Count != 0;
+            }
+            else
+            {
+                shouldEnable = ((List<CommandeDocument>)bdgCommandesListe.DataSource).Count != 0;
+            }
+         
+            btnSupprCommande.Enabled = shouldEnable;
+            btnMaJ.Enabled = shouldEnable;
+            cbxEtatCommande.Enabled = shouldEnable;
         }
 
 
@@ -88,6 +110,7 @@ namespace Mediatek86.vue
 
             dgvListeCommandes.Columns["Id"].HeaderText = "N° Commande";
             dgvListeCommandes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
         }
 
         /// <summary>
@@ -325,6 +348,7 @@ namespace Mediatek86.vue
                 MessageBox.Show("La commande a échoué.");
             }
             bdgCommandesListe.ResetBindings(false);
+            refreshButtonAccess();
         }
 
         /// <summary>
@@ -402,6 +426,7 @@ namespace Mediatek86.vue
                 MessageBox.Show("L'annulation a échoué" + msg);
             }
             bdgCommandesListe.ResetBindings(false);
+            refreshButtonAccess();
         }
 
         /// <summary>

@@ -41,6 +41,7 @@ namespace Mediatek86.vue
             this.btnMaJExemplaire = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cbxEtat = new System.Windows.Forms.ComboBox();
+            this.lblDocument = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvExemplaires)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -81,7 +82,7 @@ namespace Mediatek86.vue
             this.groupBox1.Size = new System.Drawing.Size(1125, 196);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "Détail de l\'exemplaire";
             // 
             // btnSupprExemplaire
             // 
@@ -172,11 +173,20 @@ namespace Mediatek86.vue
             this.cbxEtat.Size = new System.Drawing.Size(198, 24);
             this.cbxEtat.TabIndex = 0;
             // 
+            // lblDocument
+            // 
+            this.lblDocument.AutoSize = true;
+            this.lblDocument.Location = new System.Drawing.Point(16, 21);
+            this.lblDocument.Name = "lblDocument";
+            this.lblDocument.Size = new System.Drawing.Size(0, 17);
+            this.lblDocument.TabIndex = 7;
+            // 
             // FrmExemplaires
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1155, 542);
+            this.Controls.Add(this.lblDocument);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvExemplaires);
             this.Name = "FrmExemplaires";
@@ -185,6 +195,7 @@ namespace Mediatek86.vue
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -202,5 +213,6 @@ namespace Mediatek86.vue
         private System.Windows.Forms.Button btnSupprExemplaire;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txbTitreDocument;
+        private System.Windows.Forms.Label lblDocument;
     }
 }

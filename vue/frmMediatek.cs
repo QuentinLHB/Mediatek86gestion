@@ -208,7 +208,7 @@ namespace Mediatek86.vue
             txbRevuesRayon.Text = revue.Rayon;
             txbRevuesTitre.Text = revue.Titre;
             txbNbExemplairesRevue.Text = revue.NbExemplaires.ToString();
-            btnExemplairesLivres.Enabled = revue.NbExemplaires > 0;
+            btnExemplairesRevue.Enabled = revue.NbExemplaires > 0;
             string image = revue.Image;
             try
             {
@@ -1302,7 +1302,7 @@ namespace Mediatek86.vue
             txbDvdRayon.Text = dvd.Rayon;
             txbDvdTitre.Text = dvd.Titre;
             txbNbExemplaires.Text = dvd.NbExemplaires.ToString();
-            btnExemplairesLivres.Enabled = dvd.NbExemplaires > 0;
+            btnExemplairesDvd.Enabled = dvd.NbExemplaires > 0;
             string image = dvd.Image;
 
             try
