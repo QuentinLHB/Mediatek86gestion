@@ -23,6 +23,7 @@ namespace Mediatek86.vue
         public FrmExemplaires(Document document, Controle controle)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.document = document;
             this.controle = controle;
             Init();
@@ -53,7 +54,7 @@ namespace Mediatek86.vue
         private void refreshButtonAccess()
         {
             bool shouldEnable = controle.GetExemplaires().Count != 0;
-            if (!controle.peutModifier()) shouldEnable = false;
+            if (!controle.PeutModifier()) shouldEnable = false;
             btnMaJExemplaire.Enabled = shouldEnable;
             btnSupprExemplaire.Enabled = shouldEnable;
             cbxEtat.Enabled = shouldEnable;

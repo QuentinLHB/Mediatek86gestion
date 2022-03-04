@@ -3,6 +3,7 @@ using Mediatek86.modele;
 using Mediatek86.metier;
 using Mediatek86.vue;
 using System;
+using Serilog;
 
 namespace Mediatek86.controleur
 {
@@ -22,6 +23,11 @@ namespace Mediatek86.controleur
         /// </summary>
         public Controle()
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
             lesLivres = Dao.GetAllLivres();
             lesDvd = Dao.GetAllDvd();
             lesRevues = Dao.GetAllRevues();
@@ -43,12 +49,17 @@ namespace Mediatek86.controleur
             service = Dao.ControleAuthentification(login, pwd);
             return service != null;
         }
+        
+        public string GetUserLogin()
+        {
+            return service.Login;
+        }
 
         /// <summary>
         /// Retourne true si l'utilisateur peut accéder à l'application en mode lecture.
         /// </summary>
         /// <returns></returns>
-        public bool peutLire()
+        public bool PeutLire()
         {
             return service.Lecture;
         }
@@ -57,11 +68,14 @@ namespace Mediatek86.controleur
         /// Retourne true si l'utilisateur peut modifier des éléments dans l'application.
         /// </summary>
         /// <returns></returns>
-        public bool peutModifier()
+        public bool PeutModifier()
         {
             return service.Modification;
         }
-
+        
+        /// <summary>
+        /// Ouvre le formulaire principal de l'application.
+        /// </summary>
         public void OuvreFormulairePrincipal()
         {
             FrmMediatek frmMediatek = new FrmMediatek(this);
@@ -146,7 +160,7 @@ namespace Mediatek86.controleur
         /// </summary>
         /// <param name="identifiant">Identifiant à vérifier</param>
         /// <returns>true si l'identifiant est unique (nouveau), false s'il existe déjà dans la BDD.</returns>
-        public bool verifieIdentifiantUnique(string identifiant)
+        public bool VerifieIdentifiantUnique(string identifiant)
         {
             return Dao.VerifieSiIdentifiantUnique(identifiant);
         }

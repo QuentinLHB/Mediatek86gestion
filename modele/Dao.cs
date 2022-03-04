@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mediatek86.bdd;
 using System;
 using System.Windows.Forms;
+using Serilog;
 
 namespace Mediatek86.modele
 {
@@ -27,12 +28,14 @@ namespace Mediatek86.modele
             curs.ReqSelect(req, parameters);
             if (curs.Read())
             {
-                Service service = new Service((int)curs.Field("IDSERVICE"));
+                Service service = new Service((int)curs.Field("IDSERVICE"), (string)curs.Field("login"));
+                Log.Information("L'utilisateur {0} s'est connecté. Lecture: {1} ; Modif: {2}.", service.Login, service.Lecture, service.Modification);
                 curs.Close();
                 return service;
             }
             else
             {
+                Log.Information("Echec de la connexion pour le nom d'utilisateur {0}", login);
                 curs.Close();
                 return null;
             }
@@ -291,11 +294,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Ajout d'un exemplaire à la BDD: N°{0} du document n°{1}.", exemplaire.Numero, exemplaire.IdDocument);
                 curs.Close();
                 return true;
             }
-            catch
+            catch(Exception e)
             {
+                Log.Information(e, "Echec lors de l'ajout d'un exemplaire à la BDD");
                 return false;
             }
         }
@@ -321,11 +326,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Ajout d'un document {0}", document.Id);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de l'ajout d'un document à la BDD");
                 return false;
             }
         }
@@ -346,11 +353,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Modification du LivreDvd {0}", livreDvd.Id);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de l'ajout d'un LivreDvd à la BDD");
                 return false;
             }
         }
@@ -377,11 +386,13 @@ namespace Mediatek86.modele
                 };
                     BddMySql curs = BddMySql.GetInstance(connectionString);
                     curs.ReqUpdate(req, parameters);
+                    Log.Information("Ajout du livre {0}", livre.Id);
                     curs.Close();
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
+                    Log.Information(e, "Echec lors de l'ajout d'un livre à la BDD");
                     return false;
                 }
             }
@@ -426,11 +437,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Modification du livre {0}", livre.Id);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la modification d'un livre à la BDD");
                 return false;
             }
         }
@@ -467,11 +480,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Suppression d'un(e) {0}", table);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la suppression d'un(e) {0} à la BDD", table);
                 return false;
             }
         }
@@ -497,11 +512,13 @@ namespace Mediatek86.modele
                 };
                     BddMySql curs = BddMySql.GetInstance(connectionString);
                     curs.ReqUpdate(req, parameters);
+                    Log.Information("Ajout du dvd {0}", dvd.Id);
                     curs.Close();
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
+                    Log.Information(e, "Echec lors de l'ajout d'un livre à la BDD");
                     return false;
                 }
             }
@@ -546,11 +563,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Modification du dvd {0}", dvd.Id);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la modification d'un dvd à la BDD");
                 return false;
             }
         }
@@ -588,11 +607,13 @@ namespace Mediatek86.modele
                 };
                     BddMySql curs = BddMySql.GetInstance(connectionString);
                     curs.ReqUpdate(req, parameters);
+                    Log.Information("Ajout de la revue {0}", revue.Id);
                     curs.Close();
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
+                    Log.Information(e, "Echec lors de l'ajout d'une revue à la BDD");
                     return false;
                 }
             }
@@ -636,11 +657,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Modification de la revue {0}", revue.Id);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la modification d'une revue dans la BDD");
                 return false;
             }
         }
@@ -682,7 +705,7 @@ namespace Mediatek86.modele
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Information(e, "Echec lors de la récupération des Etats de Commande");
                 return etatsCommande;
             }
         }
@@ -745,7 +768,7 @@ namespace Mediatek86.modele
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Information(e, "Echec lors de la récupération des commandes de livre ou dvd dans la BDD");
                 return lesCommandes;
             }
         }
@@ -783,7 +806,7 @@ namespace Mediatek86.modele
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Information(e, "Echec lors de la récupération des abonnements dans la BDD");
                 return lesAbonnements;
             }
         }
@@ -806,11 +829,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Suppression de la commande {0}", commande.Id);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de l'ajout d'une commande à la BDD");
                 return false;
             }
         }
@@ -838,11 +863,13 @@ namespace Mediatek86.modele
                 };
                     BddMySql curs = BddMySql.GetInstance(connectionString);
                     curs.ReqUpdate(req, parameters);
+                    Log.Information("Ajout de la commande {0} concernant le document {1}", commande.Id, commande.IdLivreDvd);
                     curs.Close();
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
+                    Log.Information(e, "Echec lors de l'ajout d'une commande document à la BDD");
                     return false;
                 }
             }
@@ -873,11 +900,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Modification de la commande {0} concernant le document {1}", commande.Id, commande.IdLivreDvd);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la mise à jour d'une commande de document à la BDD");
                 return false;
             }
         }
@@ -900,11 +929,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Suppression de la commande {0} concernant le document {1}", commande.Id, commande.IdLivreDvd);
                 curs.Close();
                 return SupprCommande(commande);
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la suppression d'une commande de document de la BDD");
                 return false;
             }
         }
@@ -926,11 +957,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Suppression de la commande {0}", commande.Id);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la suppression d'une commande de la BDD");
                 return false;
             }
         }
@@ -955,11 +988,13 @@ namespace Mediatek86.modele
                 };
                     BddMySql curs = BddMySql.GetInstance(connectionString);
                     curs.ReqUpdate(req, parameters);
+                    Log.Information("Ajout de l'abonnement {0} à la revue {1}", abonnement.Id, abonnement.IdRevue);
                     curs.Close();
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
+                    Log.Information(e, "Echec lors de l'aout d'un abonnement à la BDD");
                     return false;
                 }
             }
@@ -987,11 +1022,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Suppression de l'abonnement {0} de la revue {1}", abonnement.Id, abonnement.IdRevue);
                 curs.Close();
                 return SupprCommande(abonnement);
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la suppression d'un abonnement de la BDD");
                 return false;
             }
         }
@@ -1024,18 +1061,27 @@ namespace Mediatek86.modele
         public static List<Etat> GetEtats()
         {
             List<Etat> lesEtats = new List<Etat>();
-            string req = "Select * from etat order by id";
+            try
+            { 
+                string req = "Select * from etat order by id";
 
-            BddMySql curs = BddMySql.GetInstance(connectionString);
-            curs.ReqSelect(req, null);
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqSelect(req, null);
 
-            while (curs.Read())
-            {
-                Etat genre = new Etat((string)curs.Field("id"), (string)curs.Field("libelle"));
-                lesEtats.Add(genre);
+                while (curs.Read())
+                {
+                    Etat genre = new Etat((string)curs.Field("id"), (string)curs.Field("libelle"));
+                    lesEtats.Add(genre);
+                }
+                curs.Close();
+                return lesEtats;
             }
-            curs.Close();
-            return lesEtats;
+            catch(Exception e)
+            {
+                Log.Information(e, "Echec lors de la récupération des états de document.");
+                return lesEtats;
+            }
+ 
         }
 
         public static bool ModifierExemplaire(Exemplaire exemplaire, Etat etat)
@@ -1043,8 +1089,6 @@ namespace Mediatek86.modele
             try
             {
                 string req = "update exemplaire set idEtat = @idEtat WHERE id = @id and numero = @numero ";
-
-
                 Dictionary<string, object> parameters = new Dictionary<string, object>
                 {
                     { "@idEtat", etat.Id},
@@ -1054,11 +1098,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Modification de l'exemplaire {0} du document {1}", exemplaire.Numero, exemplaire.IdDocument);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la récupération des états de document.");
                 return false;
             }
         }
@@ -1077,11 +1123,13 @@ namespace Mediatek86.modele
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);
+                Log.Information("Suppression de l'exemplaire {0} du document {1}", exemplaire.Numero, exemplaire.IdDocument);
                 curs.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.Information(e, "Echec lors de la récupération des états de document.");
                 return false;
             }
         }

@@ -6,6 +6,7 @@ using Mediatek86.controleur;
 using System.Drawing;
 using System.Linq;
 using Mediatek86.modele;
+using Serilog;
 
 namespace Mediatek86.vue
 {
@@ -60,7 +61,7 @@ namespace Mediatek86.vue
         private void Init()
         {
             // Accessibilité selon le service de l'utilisateur.
-            bool peutModif = controle.peutModifier();
+            bool peutModif = controle.PeutModifier();
             btnAjoutDVD.Enabled = peutModif;
             btnAjoutLivre.Enabled = peutModif;
             btnAjoutRevue.Enabled = peutModif;
@@ -104,6 +105,11 @@ namespace Mediatek86.vue
             {
                 e.Handled = true;
             }
+        }
+
+        private void FrmMediatek_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Log.Information("Fermeture de l'application par {0}", controle.GetUserLogin());
         }
 
         #endregion
@@ -523,7 +529,7 @@ namespace Mediatek86.vue
         /// <returns>True si l'opération est un succès.</returns>
         private bool ValiderAjoutRevue()
         {
-            if (txbRevuesNumero.Text == "" || !controle.verifieIdentifiantUnique(txbRevuesNumero.Text))
+            if (txbRevuesNumero.Text == "" || !controle.VerifieIdentifiantUnique(txbRevuesNumero.Text))
             {
                 MessageBox.Show("Veuillez renseigner un numéro de document unique.");
                 return false;
@@ -564,7 +570,7 @@ namespace Mediatek86.vue
         /// <returns></returns>
         private bool ValiderModifRevue()
         {
-            if (controle.verifieIdentifiantUnique(txbLivresNumero.Text))
+            if (controle.VerifieIdentifiantUnique(txbLivresNumero.Text))
             {
                 MessageBox.Show($"L'entrée {txbLivresNumero.Text} n'existe pas dans la base de données.");
                 return false;
@@ -1110,7 +1116,7 @@ namespace Mediatek86.vue
         /// <returns></returns>
         private bool ValiderAjoutLivre()
         {
-            if (txbLivresNumero.Text == "" || !controle.verifieIdentifiantUnique(txbLivresNumero.Text))
+            if (txbLivresNumero.Text == "" || !controle.VerifieIdentifiantUnique(txbLivresNumero.Text))
             {
                 MessageBox.Show("Veuillez renseigner un numéro de document unique.");
                 return false;
@@ -1137,7 +1143,7 @@ namespace Mediatek86.vue
         /// <returns>True si l'opération est un succès.</returns>
         private bool ValiderModifLivre()
         {
-            if (controle.verifieIdentifiantUnique(txbLivresNumero.Text))
+            if (controle.VerifieIdentifiantUnique(txbLivresNumero.Text))
             {
                 MessageBox.Show($"L'entrée {txbLivresNumero.Text} n'existe pas dans la base de données.");
                 return false;
@@ -1628,7 +1634,7 @@ namespace Mediatek86.vue
         /// <returns></returns>
         private bool ValiderAjoutDVD()
         {
-            if (txbDvdNumero.Text == "" || !controle.verifieIdentifiantUnique(txbDvdNumero.Text))
+            if (txbDvdNumero.Text == "" || !controle.VerifieIdentifiantUnique(txbDvdNumero.Text))
             {
                 MessageBox.Show("Veuillez renseigner un numéro de document unique.");
                 return false;
@@ -1654,7 +1660,7 @@ namespace Mediatek86.vue
         /// <returns></returns>
         private bool ValiderModifDVD()
         {
-            if (controle.verifieIdentifiantUnique(txbDvdNumero.Text))
+            if (controle.VerifieIdentifiantUnique(txbDvdNumero.Text))
             {
                 MessageBox.Show($"L'entrée {txbDvdNumero.Text} n'existe pas dans la base de données.");
                 return false;
@@ -1992,18 +1998,6 @@ namespace Mediatek86.vue
                 pcbReceptionExemplaireRevueImage.Image = null;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
         #endregion
 
 

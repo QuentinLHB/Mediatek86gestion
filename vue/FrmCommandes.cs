@@ -25,6 +25,7 @@ namespace Mediatek86.vue
         internal FrmCommandes(Controle controle, TypeDocument typeDocument)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.controle = controle;
             this.typeDocument = typeDocument;
             Init();
@@ -64,7 +65,7 @@ namespace Mediatek86.vue
         /// </summary>
         private void refreshButtonAccess()
         {
-            bool shouldEnable = true;
+            bool shouldEnable;
             if(typeDocument == TypeDocument.REVUE)
             {
                 shouldEnable = ((List<Abonnement>)bdgCommandesListe.DataSource).Count != 0;

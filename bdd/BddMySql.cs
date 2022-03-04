@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using Serilog;
 
 namespace Mediatek86.bdd
 {
@@ -174,7 +175,7 @@ namespace Mediatek86.bdd
         private void ErreurGraveBddNonAccessible(Exception e)
         {
             MessageBox.Show("Base de données non accessibles", "Erreur grave");
-            Console.WriteLine(e.Message);
+            Log.Fatal(e, "Echec de connexion à la base de donnée.");
             Environment.Exit(1);
         }
     }

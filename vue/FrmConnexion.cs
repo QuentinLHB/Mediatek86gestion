@@ -13,11 +13,12 @@ namespace Mediatek86.vue
 {
     public partial class FrmConnexion : Form
     {
-        private Controle controle;
+        private readonly Controle controle;
 
         public FrmConnexion(Controle controle)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             txbMdp.UseSystemPasswordChar = true;
             this.controle = controle;
         }
@@ -27,7 +28,7 @@ namespace Mediatek86.vue
             if(controle.Connection(txbLogin.Text, txbMdp.Text))
             {
                 this.Hide();
-                if (controle.peutLire())
+                if (controle.PeutLire())
                 {
                     controle.OuvreFormulairePrincipal();
                 }
