@@ -100,6 +100,7 @@
     <Compile Include="metier\Public.cs" />
     <Compile Include="metier\Rayon.cs" />
     <Compile Include="metier\TypeDocument.cs" />
+    <Compile Include="metier\Service.cs" />
     <Compile Include="modele\Dao.cs" />
     <Compile Include="bdd\BddMySql.cs" />
     <Compile Include="metier\Categorie.cs" />
@@ -112,6 +113,12 @@
     </Compile>
     <Compile Include="vue\FrmCommandes.Designer.cs">
       <DependentUpon>FrmCommandes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="vue\FrmConnexion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vue\FrmConnexion.Designer.cs">
+      <DependentUpon>FrmConnexion.cs</DependentUpon>
     </Compile>
     <Compile Include="vue\FrmExemplaires.cs">
       <SubType>Form</SubType>
@@ -139,6 +146,9 @@
     </Compile>
     <EmbeddedResource Include="vue\FrmCommandes.resx">
       <DependentUpon>FrmCommandes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vue\FrmConnexion.resx">
+      <DependentUpon>FrmConnexion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="vue\FrmExemplaires.resx">
       <DependentUpon>FrmExemplaires.cs</DependentUpon>

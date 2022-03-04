@@ -15,6 +15,27 @@ namespace Mediatek86.modele
         private static readonly string database = "mediatek86";
         private static readonly string connectionString = "server=" + server + ";user id=" + userid + ";password=" + password + ";database=" + database + ";SslMode=none";
 
+        public static Service ControleAuthentification(string login, string pwd)
+        {
+            string req = "select * from utilisateur ";
+            req += "where login=@login and pwd=SHA2(@pwd, 256)";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@login", login);
+            parameters.Add("@pwd", pwd);
+            BddMySql curs = BddMySql.GetInstance(connectionString);
+            curs.ReqSelect(req, parameters);
+            if (curs.Read())
+            {
+                curs.Close();
+                return true;
+            }
+            else
+            {
+                curs.Close();
+                return false;
+            }
+        }
+
         /// <summary>
         /// Retourne tous les genres à partir de la BDD
         /// </summary>

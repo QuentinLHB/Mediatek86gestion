@@ -14,6 +14,7 @@ namespace Mediatek86.controleur
         private readonly List<Categorie> lesRayons;
         private readonly List<Categorie> lesPublics;
         private readonly List<Categorie> lesGenres;
+        private Service service;
 
         /// <summary>
         /// Ouverture de la fenêtre
@@ -26,6 +27,42 @@ namespace Mediatek86.controleur
             lesGenres = Dao.GetAllGenres();
             lesRayons = Dao.GetAllRayons();
             lesPublics = Dao.GetAllPublics();
+            FrmConnexion frmConnexion = new FrmConnexion(this);
+            frmConnexion.ShowDialog();
+        }
+
+        /// <summary>
+        /// Tente de connecter l'utilisateur.
+        /// </summary>
+        /// <param name="login">Nom d'utilisateur</param>
+        /// <param name="pwd">Mot de passe</param>
+        /// <returns></returns>
+        public bool Connection(string login, string pwd)
+        {
+            service = Dao.ControleAuthentification(login, pwd);
+            return service != null;
+        }
+
+        /// <summary>
+        /// Retourne true si l'utilisateur peut accéder à l'application en mode lecture.
+        /// </summary>
+        /// <returns></returns>
+        public bool peutLire()
+        {
+            return service.Lecture;
+        }
+
+        /// <summary>
+        /// Retourne true si l'utilisateur peut modifier des éléments dans l'application.
+        /// </summary>
+        /// <returns></returns>
+        public bool peutModifier()
+        {
+            return service.Modification;
+        }
+
+        public void OuvreFormulairePrincipal()
+        {
             FrmMediatek frmMediatek = new FrmMediatek(this);
             frmMediatek.ShowDialog();
         }
