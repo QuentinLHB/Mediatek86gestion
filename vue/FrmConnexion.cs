@@ -27,7 +27,16 @@ namespace Mediatek86.vue
             if(controle.Connection(txbLogin.Text, txbMdp.Text))
             {
                 this.Hide();
-                controle.OuvreFormulairePrincipal();
+                if (controle.peutLire())
+                {
+                    controle.OuvreFormulairePrincipal();
+                }
+                else
+                {
+                    MessageBox.Show("Vous ne possédez pas les droits nécessaires à l'utilisation de cette application.", "Echec");
+                    this.Close();
+                }
+                
             }
             else
             {

@@ -47,11 +47,35 @@ namespace Mediatek86.vue
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.controle = controle;
-            controle.GetEtatsCommande();
+            Init();
+ 
         }
 
 
         #region modules communs
+
+        /// <summary>
+        /// Initialise les objets graphiques.
+        /// </summary>
+        private void Init()
+        {
+            // Accessibilité selon le service de l'utilisateur.
+            bool peutModif = controle.peutModifier();
+            btnAjoutDVD.Enabled = peutModif;
+            btnAjoutLivre.Enabled = peutModif;
+            btnAjoutRevue.Enabled = peutModif;
+            btnModifDVD.Enabled = peutModif;
+            btnModifLivre.Enabled = peutModif;
+            btnModifRevue.Enabled = peutModif;
+            btnSupprDVD.Enabled = peutModif;
+            btnSupprLivre.Enabled = peutModif;
+            btnSupprRevue.Enabled = peutModif;
+            btnCommandesLivre.Enabled = peutModif;
+            btnCommandesDvd.Enabled = peutModif;
+            btnCommandeRevues.Enabled = peutModif;
+
+            controle.GetEtatsCommande();
+        }
 
         /// <summary>
         /// Rempli un des 3 combo (genre, public, rayon)
@@ -1696,7 +1720,7 @@ namespace Mediatek86.vue
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnCommandeDVD(object sender, EventArgs e)
+        private void btnCommandeDVD_Click(object sender, EventArgs e)
         {
             controle.OuvreFormulaireCommandes(TypeDocument.DVD);
         }

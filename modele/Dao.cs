@@ -15,6 +15,7 @@ namespace Mediatek86.modele
         private static readonly string database = "mediatek86";
         private static readonly string connectionString = "server=" + server + ";user id=" + userid + ";password=" + password + ";database=" + database + ";SslMode=none";
 
+
         public static Service ControleAuthentification(string login, string pwd)
         {
             string req = "select * from utilisateur ";
@@ -26,13 +27,14 @@ namespace Mediatek86.modele
             curs.ReqSelect(req, parameters);
             if (curs.Read())
             {
+                Service service = new Service((int)curs.Field("IDSERVICE"));
                 curs.Close();
-                return true;
+                return service;
             }
             else
             {
                 curs.Close();
-                return false;
+                return null;
             }
         }
 

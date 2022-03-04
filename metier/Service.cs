@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mediatek86.metier
 {
-    class Service
+    public class Service
     {
         
         public bool Lecture { get; set; }
