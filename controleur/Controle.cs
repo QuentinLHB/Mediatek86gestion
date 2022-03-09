@@ -34,6 +34,8 @@ namespace Mediatek86.controleur
             lesGenres = Dao.GetAllGenres();
             lesRayons = Dao.GetAllRayons();
             lesPublics = Dao.GetAllPublics();
+            GetEtats();
+            GetEtatsCommande();
             FrmConnexion frmConnexion = new FrmConnexion(this);
             frmConnexion.ShowDialog();
         }
@@ -44,7 +46,7 @@ namespace Mediatek86.controleur
         /// <param name="login">Nom d'utilisateur</param>
         /// <param name="pwd">Mot de passe</param>
         /// <returns></returns>
-        public bool Connection(string login, string pwd)
+        public bool Connexion(string login, string pwd)
         {
             service = Dao.ControleAuthentification(login, pwd);
             return service != null;
@@ -184,7 +186,11 @@ namespace Mediatek86.controleur
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
         {
             Livre livre = new Livre(id, titre, image, isbn, auteur, collection, idGenre, genre, idPublic, lePublic, idRayon, rayon, 0);
-            if (Dao.AjouterLivre(livre)) return livre;
+            if (Dao.AjouterLivre(livre))
+            {
+                lesLivres.Add(livre);
+                return livre;
+            }
             else return null;
 
         }
@@ -206,12 +212,17 @@ namespace Mediatek86.controleur
             return Dao.ModifierLivre(livre);
         }
 
-        public bool SupprimerLive(Livre livre)
+        public bool SupprimerLivre(Livre livre)
         {
-            return Dao.SupprimerLivre(livre);
+            if (Dao.SupprimerLivre(livre))
+            {
+                lesLivres.Remove(livre);
+                return true;
+            }
+            return false;
         }
 
-        public Categorie trouveCategorie(List<Categorie> categories, string idCategorie)
+        public Categorie TrouveCategorie(List<Categorie> categories, string idCategorie)
         {
             foreach(Categorie categorie in categories)
             {
@@ -240,7 +251,11 @@ namespace Mediatek86.controleur
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
         {
             Dvd dvd = new Dvd(id, titre, image, duree, realisateur, synopsis, idGenre, genre, idPublic, lePublic, idRayon, rayon, 0);
-            if (Dao.AjouterDvd(dvd)) return dvd;
+            if (Dao.AjouterDvd(dvd))
+            {
+                lesDvd.Add(dvd);
+                return dvd;
+            }
             else return null;
         }
 
@@ -263,7 +278,11 @@ namespace Mediatek86.controleur
 
         public bool SupprimerDVD(Dvd dvd)
         {
-            return Dao.SupprimerDvd(dvd);
+            if (Dao.SupprimerDvd(dvd)){
+                lesDvd.Remove(dvd);
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -288,6 +307,7 @@ namespace Mediatek86.controleur
             Revue revue = new Revue(id, titre, image, idGenre, genre, idPublic, lePublic, idRayon, rayon, empruntable, periodicite, delaiMiseADispo, 0);
             if (Dao.AjouterRevue(revue))
             {
+                lesRevues.Add(revue);
                 return revue;
             }
             else return null;
@@ -313,12 +333,16 @@ namespace Mediatek86.controleur
 
         public bool SupprimerRevue(Revue revue)
         {
-            return Dao.SupprimerRevue(revue);
+            if( Dao.SupprimerRevue(revue)){
+                lesRevues.Remove(revue);
+                return true;
+            }
+            return false;
         }
 
-        public void OuvreFormulaireCommandes(TypeDocument typeDocument)
+        public void OuvreFormulaireCommandes(Document document)
         {
-            FrmCommandes frmCommandes = new FrmCommandes(this, typeDocument);
+            FrmCommandes frmCommandes = new FrmCommandes(this, document);
             frmCommandes.ShowDialog();
         }
         public List<EtatCommande> GetEtatsCommande()
@@ -339,8 +363,8 @@ namespace Mediatek86.controleur
             return Etat.Etats;
         }
 
-        List<CommandeDocument> lesCommandes;
-        List<Abonnement> lesAbonnements;
+        private List<CommandeDocument> lesCommandes;
+        private List<Abonnement> lesAbonnements;
 
         public List<CommandeDocument> GetCommandesDvd()
         {

@@ -120,6 +120,11 @@ namespace Mediatek86.vue
         // ONGLET "Revues"
         //------------------------------------------------------------
 
+        private Revue GetSelectedRevue()
+        {
+            return (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+        }
+
         /// <summary>
         /// Ouverture de l'onglet Revues : 
         /// appel des méthodes pour remplir le datagrid des revues et des combos (genre, rayon, public)
@@ -336,7 +341,7 @@ namespace Mediatek86.vue
             {
                 try
                 {
-                    Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+                    Revue revue = GetSelectedRevue();
                     AfficheRevuesInfos(revue);
                 }
                 catch
@@ -474,7 +479,7 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void btnSupprRevue_Click(object sender, EventArgs e)
         {
-            Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+            Revue revue = GetSelectedRevue();
             if (controle.GetExemplairesDocument(revue.Id).Count == 0)
             {
                 DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
@@ -579,7 +584,7 @@ namespace Mediatek86.vue
             Genre genre = (Genre)cbxInfoGenreRevue.SelectedItem;
             Public lePublic = (Public)cbxInfoPublicRevue.SelectedItem;
             Rayon rayon = (Rayon)cbxInfoRayonRevue.SelectedItem;
-            Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+            Revue revue = GetSelectedRevue();
             return controle.ModifierRevue(revue, txbRevuesTitre.Text, txbRevuesImage.Text, genre.Id, genre.Libelle,
                 lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle, chkRevuesEmpruntable.Checked, txbRevuesPeriodicite.Text, int.Parse(txbRevuesDateMiseADispo.Text));
         }
@@ -635,18 +640,15 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void btnCommandeRevues_Click(object sender, EventArgs e)
         {
-            controle.OuvreFormulaireCommandes(TypeDocument.REVUE);
+            controle.OuvreFormulaireCommandes(GetSelectedRevue());
         }
 
         private void btnExemplairesRevue_Click(object sender, EventArgs e)
         {
-            Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+            Revue revue = GetSelectedRevue();
             controle.OuvreFormulaireExemplaires(revue);
             bdgRevuesListe.ResetBindings(false);
         }
-
-
-
         #endregion
 
 
@@ -655,6 +657,12 @@ namespace Mediatek86.vue
         //-----------------------------------------------------------
         // ONGLET "LIVRES"
         //-----------------------------------------------------------
+
+
+        private Livre GetSelectedLivre()
+        {
+            return (Livre)bdgLivresListe.List[bdgLivresListe.Position];
+        }
 
         /// <summary>
         /// Ouverture de l'onglet Livres : 
@@ -781,11 +789,11 @@ namespace Mediatek86.vue
             txbNbExemplaires.Text = livre.NbExemplaires.ToString();
             btnExemplairesLivres.Enabled = livre.NbExemplaires > 0;
 
-            Genre genre = (Genre)controle.trouveCategorie(controle.GetAllGenres(), livre.IdGenre);
+            Genre genre = (Genre)controle.TrouveCategorie(controle.GetAllGenres(), livre.IdGenre);
             if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
-            Public lePublic = (Public)controle.trouveCategorie(controle.GetAllPublics(), livre.IdPublic);
+            Public lePublic = (Public)controle.TrouveCategorie(controle.GetAllPublics(), livre.IdPublic);
             if (lePublic != null) cbxInfoGenreLivres.SelectedItem = lePublic;
-            Rayon rayon = (Rayon)controle.trouveCategorie(controle.GetAllRayons(), livre.IdRayon);
+            Rayon rayon = (Rayon)controle.TrouveCategorie(controle.GetAllRayons(), livre.IdRayon);
             if (rayon != null) cbxInfoGenreLivres.SelectedItem = rayon;
 
             string image = livre.Image;
@@ -894,8 +902,7 @@ namespace Mediatek86.vue
             {
                 try
                 {
-                    Livre livre = (Livre)bdgLivresListe.List[bdgLivresListe.Position];
-                    AfficheLivresInfos(livre);
+                    AfficheLivresInfos(GetSelectedLivre());
                 }
                 catch
                 {
@@ -1028,13 +1035,13 @@ namespace Mediatek86.vue
         private void btnSupprLivre_Click(object sender, EventArgs e)
         {
 
-            Livre livre = (Livre)bdgLivresListe.List[bdgLivresListe.Position];
+            Livre livre = GetSelectedLivre();
             if (controle.GetExemplairesDocument(livre.Id).Count == 0)
             {
                 DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
                     "Confirmation", MessageBoxButtons.YesNo);
                 if (choix == DialogResult.Yes && 
-                    controle.SupprimerLive(livre))
+                    controle.SupprimerLivre(livre))
                 {
                     lesLivres.Remove(livre);
                     bdgLivresListe.ResetBindings(false);
@@ -1152,7 +1159,7 @@ namespace Mediatek86.vue
             Genre genre = (Genre)cbxInfoGenreLivres.SelectedItem;
             Public lePublic = (Public)cbxInfoPublicLivre.SelectedItem;
             Rayon rayon = (Rayon)cbxInfoRayonLivre.SelectedItem;
-            Livre livre = (Livre)bdgLivresListe.List[bdgLivresListe.Position];
+            Livre livre = GetSelectedLivre();
             return controle.ModifierLivre(livre, txbLivresTitre.Text, txbLivresImage.Text, txbLivresIsbn.Text,
                 txbLivresAuteur.Text, txbLivresCollection.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
         }
@@ -1191,12 +1198,12 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void btnCommandesLivre_Click(object sender, EventArgs e)
         {
-            controle.OuvreFormulaireCommandes(TypeDocument.LIVRE);
+            controle.OuvreFormulaireCommandes(GetSelectedLivre());
         }
 
         private void btnExemplairesLivres_Click(object sender, EventArgs e)
         {
-            Livre livre = (Livre)bdgLivresListe.List[bdgLivresListe.Position];
+            Livre livre = GetSelectedLivre(); 
             controle.OuvreFormulaireExemplaires(livre);
             bdgLivresListe.ResetBindings(false);
         }
@@ -1208,6 +1215,11 @@ namespace Mediatek86.vue
         //-----------------------------------------------------------
         // ONGLET "DVD"
         //-----------------------------------------------------------
+
+        private Dvd GetSelectedDvd()
+        {
+            return (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
+        }
 
         /// <summary>
         /// Ouverture de l'onglet Dvds : 
@@ -1428,8 +1440,8 @@ namespace Mediatek86.vue
             {
                 try
                 {
-                    Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
-                    AfficheDvdInfos(dvd);
+                    
+                    AfficheDvdInfos(GetSelectedDvd());
                 }
                 catch
                 {
@@ -1567,7 +1579,7 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void btnSupprDVD_Click(object sender, EventArgs e)
         {
-            Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
+            Dvd dvd = GetSelectedDvd();
             if (controle.GetExemplairesDocument(dvd.Id).Count == 0)
             {
                 DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
@@ -1669,7 +1681,7 @@ namespace Mediatek86.vue
             Genre genre = (Genre)cbxInfoGenreDVD.SelectedItem;
             Public lePublic = (Public)cbxInfoPublicDVD.SelectedItem;
             Rayon rayon = (Rayon)cbxInfoRayonDVD.SelectedItem;
-            Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
+            Dvd dvd = GetSelectedDvd();
             return controle.ModifierDvd(dvd, txbDvdTitre.Text, txbDvdImage.Text, int.Parse(txbDvdDuree.Text), txbDvdRealisateur.Text, txbDvdSynopsis.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
         }
 
@@ -1724,12 +1736,12 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void btnCommandeDVD_Click(object sender, EventArgs e)
         {
-            controle.OuvreFormulaireCommandes(TypeDocument.DVD);
+            controle.OuvreFormulaireCommandes(GetSelectedDvd());
         }
 
         private void btnExemplairesDvd_Click(object sender, EventArgs e)
         {
-            Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
+            Dvd dvd = GetSelectedDvd();
             controle.OuvreFormulaireExemplaires(dvd);
             bdgDvdListe.ResetBindings(false);
         }

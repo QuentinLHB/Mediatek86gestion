@@ -150,7 +150,6 @@ namespace Mediatek86.bdd
             catch (MySqlException e)
             {
                 Console.WriteLine(e.Message);
-                throw;
             }
             catch (InvalidOperationException e)
             {

@@ -25,7 +25,7 @@ namespace Mediatek86.vue
 
         private void btnConnexion_Click(object sender, EventArgs e)
         {
-            if(controle.Connection(txbLogin.Text, txbMdp.Text))
+            if(controle.Connexion(txbLogin.Text, txbMdp.Text))
             {
                 this.Hide();
                 if (controle.PeutLire())

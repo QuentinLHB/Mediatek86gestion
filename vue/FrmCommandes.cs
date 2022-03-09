@@ -15,19 +15,19 @@ namespace Mediatek86.vue
     public partial class FrmCommandes : Form
     {
         private readonly Controle controle;
-        private readonly TypeDocument typeDocument;
+        private readonly Document document;
         private readonly BindingSource bdgCommandesListe = new BindingSource();
         private readonly BindingSource bdgDocuments = new BindingSource();
         private readonly BindingSource bdgEtats = new BindingSource();
 
 
 
-        internal FrmCommandes(Controle controle, TypeDocument typeDocument)
+        internal FrmCommandes(Controle controle, Document document)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.controle = controle;
-            this.typeDocument = typeDocument;
+            this.document = document;
             Init();
 
         }
@@ -40,7 +40,7 @@ namespace Mediatek86.vue
             RemplirListeCommandes();
             RemplirListeDocuments();
 
-            if (typeDocument == TypeDocument.REVUE)
+            if (document is Revue)
             {
                 cbxEtatCommande.Visible = false;
                 lblEtat.Visible = false;
@@ -66,7 +66,7 @@ namespace Mediatek86.vue
         private void refreshButtonAccess()
         {
             bool shouldEnable;
-            if(typeDocument == TypeDocument.REVUE)
+            if(document is Revue)
             {
                 shouldEnable = ((List<Abonnement>)bdgCommandesListe.DataSource).Count != 0;
             }
@@ -96,11 +96,11 @@ namespace Mediatek86.vue
         /// </summary>
         private void RemplirListeCommandes()
         {
-            if (typeDocument == TypeDocument.DVD)
+            if (document is Dvd)
             {
                 InitDataGridViewDvdLivre(controle.GetCommandesDvd());
             }
-            else if (typeDocument == TypeDocument.LIVRE)
+            else if (document is Livre)
             {
                 InitDataGridViewDvdLivre(controle.GetCommandesLivres());
             }
@@ -122,6 +122,15 @@ namespace Mediatek86.vue
         {
             bdgCommandesListe.DataSource = commandes;
             dgvListeCommandes.DataSource = bdgCommandesListe;
+            dgvListeCommandes.Columns["Id"].DisplayIndex = 0;
+            dgvListeCommandes.Columns["IdLivreDvd"].DisplayIndex = 1;
+            dgvListeCommandes.Columns["Titre"].DisplayIndex = 2;
+            dgvListeCommandes.Columns["Date"].DisplayIndex = 3;
+            dgvListeCommandes.Columns["NbExemplaire"].DisplayIndex = 4;
+            dgvListeCommandes.Columns["Montant"].DisplayIndex = 5;
+            dgvListeCommandes.Columns["Etat"].DisplayIndex = 6;
+
+            dgvListeCommandes.Columns["NbExemplaire"].HeaderText = "Quantité";
             dgvListeCommandes.Columns["IdLivreDvd"].HeaderText = "N° Document";
         }
 
@@ -134,21 +143,19 @@ namespace Mediatek86.vue
             bdgCommandesListe.DataSource = abonnements;
             dgvListeCommandes.DataSource = bdgCommandesListe;
 
+            dgvListeCommandes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvListeCommandes.Columns["Etat"].Visible = false;
+
             dgvListeCommandes.Columns["Id"].DisplayIndex = 0;
             dgvListeCommandes.Columns["idRevue"].DisplayIndex = 1;
             dgvListeCommandes.Columns["Titre"].DisplayIndex = 2;
             dgvListeCommandes.Columns["Date"].DisplayIndex = 3;
             dgvListeCommandes.Columns["DateFin"].DisplayIndex = 4;
-            dgvListeCommandes.Columns["Montant"].DisplayIndex = 5;
-            dgvListeCommandes.Columns["Etat"].DisplayIndex = 6;
-
-            dgvListeCommandes.Columns["Etat"].Visible = false;
+            dgvListeCommandes.Columns["Montant"].DisplayIndex = 6;
 
             dgvListeCommandes.Columns["idRevue"].HeaderText = "N° Revue";
             dgvListeCommandes.Columns["DateFin"].HeaderText = "Fin le";
             dgvListeCommandes.Columns["Date"].HeaderText = "Début le";
-
-
         }
 
         /// <summary>
@@ -157,11 +164,11 @@ namespace Mediatek86.vue
         private void RemplirListeDocuments()
         {
             List<Document> documents = new List<Document>();
-            if (typeDocument == TypeDocument.DVD)
+            if (document is Dvd)
             {
                 documents.AddRange(controle.GetAllDvd());
             }
-            else if (typeDocument == TypeDocument.LIVRE)
+            else if (document is Livre)
             {
                 documents.AddRange(controle.GetAllLivres());
             }
@@ -277,7 +284,7 @@ namespace Mediatek86.vue
             {
                 try
                 {
-                    if (typeDocument == TypeDocument.LIVRE || typeDocument == TypeDocument.DVD)
+                    if (document is Livre || document is Dvd)
                     {
                         CommandeDocument commande = (CommandeDocument)bdgCommandesListe.List[bdgCommandesListe.Position];
                         txbCommande.Text = commande.ToString();
@@ -330,7 +337,7 @@ namespace Mediatek86.vue
             Document document = (Document)bdgDocuments.List[bdgDocuments.Position];
 
             bool succes;
-            if (typeDocument == TypeDocument.LIVRE || typeDocument == TypeDocument.DVD)
+            if (document is Livre || document is Dvd)
             {
                 succes = controle.AjouterCommandeDocument(txbIdCommande.Text, double.Parse(txbMontant.Text), (int)nudQuantite.Value, document.Id, document.Titre); 
 
@@ -379,7 +386,7 @@ namespace Mediatek86.vue
         {
             bool succes;
             string msg = ".";
-            if (typeDocument == TypeDocument.DVD || typeDocument == TypeDocument.LIVRE)
+            if (document is Livre || document is Dvd)
             {
                 CommandeDocument commande = (CommandeDocument)bdgCommandesListe.List[bdgCommandesListe.Position];
                 if(commande.Etat.Id == 1)

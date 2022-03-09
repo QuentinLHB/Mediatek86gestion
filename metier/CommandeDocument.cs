@@ -20,10 +20,7 @@ namespace Mediatek86.metier
             Etat = etat;
         }
 
-        /// <summary>
-        /// Quantité commandée.
-        /// </summary>
-        public int NbExemplaire { get; }
+
 
         /// <summary>
         /// Identifiant du document.
@@ -34,6 +31,11 @@ namespace Mediatek86.metier
         /// Titre du document.
         /// </summary>
         public string Titre { get; }
+
+        /// <summary>
+        /// Quantité commandée.
+        /// </summary>
+        public int NbExemplaire { get; }
 
         /// <summary>
         /// Etat de la commande (en cours, livrée...)
