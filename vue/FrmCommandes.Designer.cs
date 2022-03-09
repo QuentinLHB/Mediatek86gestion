@@ -38,6 +38,11 @@ namespace Mediatek86.vue
             this.txbCommande = new System.Windows.Forms.TextBox();
             this.btnSupprCommande = new System.Windows.Forms.Button();
             this.gpbPasserCommande = new System.Windows.Forms.GroupBox();
+            this.lblDateFin = new System.Windows.Forms.Label();
+            this.dtpDateFin = new System.Windows.Forms.DateTimePicker();
+            this.txbIdCommande = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnAjouterCommande = new System.Windows.Forms.Button();
             this.txbMontant = new System.Windows.Forms.TextBox();
             this.nudQuantite = new System.Windows.Forms.NumericUpDown();
             this.lblmontant = new System.Windows.Forms.Label();
@@ -47,11 +52,6 @@ namespace Mediatek86.vue
             this.txbNumero = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.dgvDocuments = new System.Windows.Forms.DataGridView();
-            this.btnAjouterCommande = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txbIdCommande = new System.Windows.Forms.TextBox();
-            this.dtpDateFin = new System.Windows.Forms.DateTimePicker();
-            this.lblDateFin = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListeCommandes)).BeginInit();
             this.gpbConsulter.SuspendLayout();
             this.gpbPasserCommande.SuspendLayout();
@@ -173,6 +173,55 @@ namespace Mediatek86.vue
             this.gpbPasserCommande.TabStop = false;
             this.gpbPasserCommande.Text = "Passer une commande";
             // 
+            // lblDateFin
+            // 
+            this.lblDateFin.AutoSize = true;
+            this.lblDateFin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDateFin.Location = new System.Drawing.Point(15, 320);
+            this.lblDateFin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDateFin.Name = "lblDateFin";
+            this.lblDateFin.Size = new System.Drawing.Size(76, 17);
+            this.lblDateFin.TabIndex = 40;
+            this.lblDateFin.Text = "Expire le ";
+            this.lblDateFin.Visible = false;
+            // 
+            // dtpDateFin
+            // 
+            this.dtpDateFin.Location = new System.Drawing.Point(207, 319);
+            this.dtpDateFin.Name = "dtpDateFin";
+            this.dtpDateFin.Size = new System.Drawing.Size(223, 22);
+            this.dtpDateFin.TabIndex = 39;
+            this.dtpDateFin.Visible = false;
+            // 
+            // txbIdCommande
+            // 
+            this.txbIdCommande.Location = new System.Drawing.Point(207, 253);
+            this.txbIdCommande.Margin = new System.Windows.Forms.Padding(4);
+            this.txbIdCommande.Name = "txbIdCommande";
+            this.txbIdCommande.Size = new System.Drawing.Size(132, 22);
+            this.txbIdCommande.TabIndex = 38;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(15, 251);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(179, 17);
+            this.label4.TabIndex = 37;
+            this.label4.Text = "Numéro de commande :";
+            // 
+            // btnAjouterCommande
+            // 
+            this.btnAjouterCommande.Location = new System.Drawing.Point(22, 403);
+            this.btnAjouterCommande.Name = "btnAjouterCommande";
+            this.btnAjouterCommande.Size = new System.Drawing.Size(165, 34);
+            this.btnAjouterCommande.TabIndex = 36;
+            this.btnAjouterCommande.Text = "Passer commande";
+            this.btnAjouterCommande.UseVisualStyleBackColor = true;
+            this.btnAjouterCommande.Click += new System.EventHandler(this.btnAjouterCommande_Click);
+            // 
             // txbMontant
             // 
             this.txbMontant.Location = new System.Drawing.Point(207, 349);
@@ -280,55 +329,6 @@ namespace Mediatek86.vue
             this.dgvDocuments.TabIndex = 6;
             this.dgvDocuments.SelectionChanged += new System.EventHandler(this.dgvDocuments_SelectionChanged);
             // 
-            // btnAjouterCommande
-            // 
-            this.btnAjouterCommande.Location = new System.Drawing.Point(22, 403);
-            this.btnAjouterCommande.Name = "btnAjouterCommande";
-            this.btnAjouterCommande.Size = new System.Drawing.Size(165, 34);
-            this.btnAjouterCommande.TabIndex = 36;
-            this.btnAjouterCommande.Text = "Passer commande";
-            this.btnAjouterCommande.UseVisualStyleBackColor = true;
-            this.btnAjouterCommande.Click += new System.EventHandler(this.btnAjouterCommande_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(15, 251);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(179, 17);
-            this.label4.TabIndex = 37;
-            this.label4.Text = "Numéro de commande :";
-            // 
-            // txbIdCommande
-            // 
-            this.txbIdCommande.Location = new System.Drawing.Point(207, 253);
-            this.txbIdCommande.Margin = new System.Windows.Forms.Padding(4);
-            this.txbIdCommande.Name = "txbIdCommande";
-            this.txbIdCommande.Size = new System.Drawing.Size(132, 22);
-            this.txbIdCommande.TabIndex = 38;
-            // 
-            // dtpDateFin
-            // 
-            this.dtpDateFin.Location = new System.Drawing.Point(207, 319);
-            this.dtpDateFin.Name = "dtpDateFin";
-            this.dtpDateFin.Size = new System.Drawing.Size(223, 22);
-            this.dtpDateFin.TabIndex = 39;
-            this.dtpDateFin.Visible = false;
-            // 
-            // lblDateFin
-            // 
-            this.lblDateFin.AutoSize = true;
-            this.lblDateFin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateFin.Location = new System.Drawing.Point(15, 320);
-            this.lblDateFin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDateFin.Name = "lblDateFin";
-            this.lblDateFin.Size = new System.Drawing.Size(76, 17);
-            this.lblDateFin.TabIndex = 40;
-            this.lblDateFin.Text = "Expire le ";
-            this.lblDateFin.Visible = false;
-            // 
             // FrmCommandes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -337,7 +337,7 @@ namespace Mediatek86.vue
             this.Controls.Add(this.gpbPasserCommande);
             this.Controls.Add(this.gpbConsulter);
             this.Name = "FrmCommandes";
-            this.Text = "FrmCommandes";
+            this.Text = "Commandes";
             ((System.ComponentModel.ISupportInitialize)(this.dgvListeCommandes)).EndInit();
             this.gpbConsulter.ResumeLayout(false);
             this.gpbConsulter.PerformLayout();

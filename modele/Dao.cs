@@ -1036,14 +1036,35 @@ namespace Mediatek86.modele
 
 
         /// <summary>
-        /// Vérifie si un identifiant existe déjà dans la BDD ou s'il est unique.
+        /// Vérifie si un identifiant de document existe déjà dans la BDD ou s'il est unique.
         /// </summary>
         /// <param name="identifiant">Identifiant entré par l'utilisateur</param>
         /// <returns>True si l'identifiant est unique, false s'il existe déjà.</returns>
-        public static bool VerifieSiIdentifiantUnique(string identifiant)
+        public static bool VerifieSiIdDocumentUnique(string identifiant)
+        {
+            return VerifieUniciteId("document", identifiant);
+        }
+
+        /// <summary>
+        /// Vérifie si un identifiant de commande existe déjà dans la BDD ou s'il est unique. 
+        /// </summary>
+        /// <param name="identifiant"></param>
+        /// <returns></returns>
+        public static bool VerifieSiIdCommandeUnique(string identifiant)
+        {
+            return VerifieUniciteId("commande", identifiant);
+
+        }
+        /// <summary>
+        /// Vérifie si un identifiant existe déjà dans une table de la BDD ou s'il est unique.
+        /// </summary>
+        /// <param name="table">Table dans laquelle chercher l'identifiant (doit être nommé id dans la bdd)</param>
+        /// <param name="identifiant">Identifiant à chercher</param>
+        /// <returns></returns>
+        private static bool VerifieUniciteId(string table, string identifiant)
         {
             bool existe;
-            string req = "select id from document where id =  @id ";
+            string req = $"select id from {table} where id =  @id ";
             Dictionary<string, object> parameters = new Dictionary<string, object>
                 {
                     { "@id", identifiant}

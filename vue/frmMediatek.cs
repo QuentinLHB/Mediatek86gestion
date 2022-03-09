@@ -120,9 +120,20 @@ namespace Mediatek86.vue
         // ONGLET "Revues"
         //------------------------------------------------------------
 
+        /// <summary>
+        /// Retourne la revue sélectionnée dans le tableau.
+        /// </summary>
+        /// <returns></returns>
         private Revue GetSelectedRevue()
         {
-            return (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+            if(bdgRevuesListe.Count != 0)
+            {
+                return (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -144,6 +155,7 @@ namespace Mediatek86.vue
             RemplirComboCategorie(controle.GetAllRayons(), new BindingSource(), cbxInfoRayonRevue, true);
 
             RemplirRevuesListeComplete();
+            refreshAccessibiliteRevues();
         }
 
         /// <summary>
@@ -473,7 +485,7 @@ namespace Mediatek86.vue
         }
 
         /// <summary>
-        /// Supprime la revue sélectionnée après confirmation de l'utilisateur..
+        /// Supprime la revue sélectionnée après confirmation de l'utilisateur.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -524,6 +536,7 @@ namespace Mediatek86.vue
                 ChangeModeOngletRevue(Mode.Info);
                 bdgRevuesListe.ResetBindings(false);
                 dgvRevuesListe_SelectionChanged(null, null);
+                refreshAccessibiliteRevues();
             }
         }
 
@@ -534,7 +547,7 @@ namespace Mediatek86.vue
         /// <returns>True si l'opération est un succès.</returns>
         private bool ValiderAjoutRevue()
         {
-            if (txbRevuesNumero.Text == "" || !controle.VerifieIdentifiantUnique(txbRevuesNumero.Text))
+            if (txbRevuesNumero.Text == "" || !controle.VerifieIdentifiantDocumentUnique(txbRevuesNumero.Text))
             {
                 MessageBox.Show("Veuillez renseigner un numéro de document unique.");
                 return false;
@@ -546,13 +559,7 @@ namespace Mediatek86.vue
             Rayon rayon = (Rayon)cbxInfoRayonRevue.SelectedItem;
             Revue revue = controle.AjouterRevue(txbRevuesNumero.Text, txbRevuesTitre.Text, txbRevuesImage.Text, genre.Id, genre.Libelle,
                 lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle, chkRevuesEmpruntable.Checked, txbRevuesPeriodicite.Text, int.Parse(txbRevuesDateMiseADispo.Text));
-            // Si non null, l'ajut à la BDD a bien été effectué.
-            if (revue != null)
-            {
-                lesRevues.Add(revue);
-                return true;
-            }
-            else return false;
+            return revue != null;
         }
 
         /// <summary>
@@ -575,7 +582,7 @@ namespace Mediatek86.vue
         /// <returns></returns>
         private bool ValiderModifRevue()
         {
-            if (controle.VerifieIdentifiantUnique(txbLivresNumero.Text))
+            if (controle.VerifieIdentifiantDocumentUnique(txbLivresNumero.Text))
             {
                 MessageBox.Show($"L'entrée {txbLivresNumero.Text} n'existe pas dans la base de données.");
                 return false;
@@ -641,6 +648,7 @@ namespace Mediatek86.vue
         private void btnCommandeRevues_Click(object sender, EventArgs e)
         {
             controle.OuvreFormulaireCommandes(GetSelectedRevue());
+            bdgRevuesListe.ResetBindings(false);
         }
 
         private void btnExemplairesRevue_Click(object sender, EventArgs e)
@@ -648,6 +656,17 @@ namespace Mediatek86.vue
             Revue revue = GetSelectedRevue();
             controle.OuvreFormulaireExemplaires(revue);
             bdgRevuesListe.ResetBindings(false);
+        }
+
+        /// <summary>
+        /// Rend accessible ou non les boutons de l'onglet Revue en fonction du contenu de la liste des revues.
+        /// </summary>
+        private void refreshAccessibiliteRevues()
+        {
+            bool enable = dgvRevuesListe.Rows.Count != 0;
+            btnSupprRevue.Enabled = enable;
+            btnModifRevue.Enabled = enable;
+            btnCommandeRevues.Enabled = enable;
         }
         #endregion
 
@@ -658,10 +677,21 @@ namespace Mediatek86.vue
         // ONGLET "LIVRES"
         //-----------------------------------------------------------
 
-
+        /// <summary>
+        /// Retourne le livre sélectionné dans le tableau.
+        /// </summary>
+        /// <returns></returns>
         private Livre GetSelectedLivre()
         {
-            return (Livre)bdgLivresListe.List[bdgLivresListe.Position];
+            if(bdgLivresListe.Count != 0)
+            {
+                return (Livre)bdgLivresListe.List[bdgLivresListe.Position];
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
         /// <summary>
@@ -673,6 +703,7 @@ namespace Mediatek86.vue
         private void TabLivres_Enter(object sender, EventArgs e)
         {
             lesLivres = controle.GetAllLivres();
+            
 
             // Combos du bloc recherche.
             RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxLivresGenres, false);
@@ -685,6 +716,7 @@ namespace Mediatek86.vue
             RemplirComboCategorie(controle.GetAllRayons(), new BindingSource(), cbxInfoRayonLivre, true);
 
             RemplirLivresListeComplete();
+            refreshAccessibiliteLivres();
 
             VideLivresInfos();
             DgvLivresListe_SelectionChanged(null, null);
@@ -1036,6 +1068,7 @@ namespace Mediatek86.vue
         {
 
             Livre livre = GetSelectedLivre();
+            if (livre == null) return;
             if (controle.GetExemplairesDocument(livre.Id).Count == 0)
             {
                 DialogResult choix = MessageBox.Show("Confirmer la suppression ?",
@@ -1111,6 +1144,7 @@ namespace Mediatek86.vue
                 ChangeModeOngletLivre(Mode.Info);
                 bdgLivresListe.ResetBindings(false);
                 DgvLivresListe_SelectionChanged(null, null);
+                refreshAccessibiliteLivres();
             }
 
 
@@ -1123,7 +1157,7 @@ namespace Mediatek86.vue
         /// <returns></returns>
         private bool ValiderAjoutLivre()
         {
-            if (txbLivresNumero.Text == "" || !controle.VerifieIdentifiantUnique(txbLivresNumero.Text))
+            if (txbLivresNumero.Text == "" || !controle.VerifieIdentifiantDocumentUnique(txbLivresNumero.Text))
             {
                 MessageBox.Show("Veuillez renseigner un numéro de document unique.");
                 return false;
@@ -1136,12 +1170,7 @@ namespace Mediatek86.vue
             Livre livre = controle.AjouterLivre(txbLivresNumero.Text, txbLivresTitre.Text, txbLivresImage.Text, txbLivresIsbn.Text,
                 txbLivresAuteur.Text, txbLivresCollection.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
             // Si non null, l'ajut à la BDD a bien été effectué.
-            if (livre != null)
-            {
-                lesLivres.Add(livre);
-                return true;
-            }
-            else return false;
+            return livre != null;
         }
 
         /// <summary>
@@ -1150,7 +1179,7 @@ namespace Mediatek86.vue
         /// <returns>True si l'opération est un succès.</returns>
         private bool ValiderModifLivre()
         {
-            if (controle.VerifieIdentifiantUnique(txbLivresNumero.Text))
+            if (controle.VerifieIdentifiantDocumentUnique(txbLivresNumero.Text))
             {
                 MessageBox.Show($"L'entrée {txbLivresNumero.Text} n'existe pas dans la base de données.");
                 return false;
@@ -1199,6 +1228,7 @@ namespace Mediatek86.vue
         private void btnCommandesLivre_Click(object sender, EventArgs e)
         {
             controle.OuvreFormulaireCommandes(GetSelectedLivre());
+            bdgLivresListe.ResetBindings(false);
         }
 
         private void btnExemplairesLivres_Click(object sender, EventArgs e)
@@ -1206,6 +1236,17 @@ namespace Mediatek86.vue
             Livre livre = GetSelectedLivre(); 
             controle.OuvreFormulaireExemplaires(livre);
             bdgLivresListe.ResetBindings(false);
+        }
+
+        /// <summary>
+        /// Rend accessible ou non les boutons de l'onglet Livre en fonction du contenu de la liste des livres.
+        /// </summary>
+        private void refreshAccessibiliteLivres()
+        {
+            bool enable = dgvLivresListe.Rows.Count != 0;
+            btnSupprLivre.Enabled = enable;
+            btnModifLivre.Enabled = enable;
+            btnCommandesLivre.Enabled = enable;
         }
 
         #endregion
@@ -1216,9 +1257,21 @@ namespace Mediatek86.vue
         // ONGLET "DVD"
         //-----------------------------------------------------------
 
+        /// <summary>
+        /// Retourne le dvd sélectionné dans le tableau.
+        /// </summary>
+        /// <returns></returns>
         private Dvd GetSelectedDvd()
         {
-            return (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
+            if(bdgDvdListe.Count != 0)
+            {
+                return (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
+            }
+            else
+            {
+                return null;
+            }
+           
         }
 
         /// <summary>
@@ -1230,6 +1283,7 @@ namespace Mediatek86.vue
         private void tabDvd_Enter(object sender, EventArgs e)
         {
             lesDvd = controle.GetAllDvd();
+            
             RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxDvdGenres, false);
             RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxDvdPublics, false);
             RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxDvdRayons, false);
@@ -1240,6 +1294,7 @@ namespace Mediatek86.vue
             RemplirComboCategorie(controle.GetAllRayons(), new BindingSource(), cbxInfoRayonDVD, true);
 
             RemplirDvdListeComplete();
+            refreshAccessibiliteDvd();
             VideDvdInfos();
             dgvDvdListe_SelectionChanged(null, null);
         }
@@ -1624,6 +1679,7 @@ namespace Mediatek86.vue
                 ChangemodeOngletDVD(Mode.Info);
                 bdgDvdListe.ResetBindings(false);
                 dgvDvdListe_SelectionChanged(null, null);
+                refreshAccessibiliteDvd();
             }
         }
 
@@ -1646,7 +1702,7 @@ namespace Mediatek86.vue
         /// <returns></returns>
         private bool ValiderAjoutDVD()
         {
-            if (txbDvdNumero.Text == "" || !controle.VerifieIdentifiantUnique(txbDvdNumero.Text))
+            if (txbDvdNumero.Text == "" || !controle.VerifieIdentifiantDocumentUnique(txbDvdNumero.Text))
             {
                 MessageBox.Show("Veuillez renseigner un numéro de document unique.");
                 return false;
@@ -1657,13 +1713,7 @@ namespace Mediatek86.vue
             Public lePublic = (Public)cbxInfoPublicDVD.SelectedItem;
             Rayon rayon = (Rayon)cbxInfoRayonDVD.SelectedItem;
             Dvd dvd = controle.AjouterDvd(txbDvdNumero.Text, txbDvdTitre.Text, txbDvdImage.Text, int.Parse(txbDvdDuree.Text), txbDvdRealisateur.Text, txbDvdSynopsis.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
-            // Si non null, l'ajut à la BDD a bien été effectué.
-            if (dvd != null)
-            {
-                lesDvd.Add(dvd);
-                return true;
-            }
-            else return false;
+            return dvd != null;
         }
 
         /// <summary>
@@ -1672,7 +1722,7 @@ namespace Mediatek86.vue
         /// <returns></returns>
         private bool ValiderModifDVD()
         {
-            if (controle.VerifieIdentifiantUnique(txbDvdNumero.Text))
+            if (controle.VerifieIdentifiantDocumentUnique(txbDvdNumero.Text))
             {
                 MessageBox.Show($"L'entrée {txbDvdNumero.Text} n'existe pas dans la base de données.");
                 return false;
@@ -1737,6 +1787,7 @@ namespace Mediatek86.vue
         private void btnCommandeDVD_Click(object sender, EventArgs e)
         {
             controle.OuvreFormulaireCommandes(GetSelectedDvd());
+            bdgDvdListe.ResetBindings(false);
         }
 
         private void btnExemplairesDvd_Click(object sender, EventArgs e)
@@ -1744,6 +1795,17 @@ namespace Mediatek86.vue
             Dvd dvd = GetSelectedDvd();
             controle.OuvreFormulaireExemplaires(dvd);
             bdgDvdListe.ResetBindings(false);
+        }
+
+        /// <summary>
+        /// Rend accessible ou non les boutons de l'onglet Dvd en fonction du contenu de la liste des dvds.
+        /// </summary>
+        private void refreshAccessibiliteDvd()
+        {
+            bool enable = dgvDvdListe.Rows.Count != 0;
+            btnSupprDVD.Enabled = enable;
+            btnModifDVD.Enabled = enable;
+            btnCommandesDvd.Enabled = enable;
         }
 
         #endregion
@@ -2010,6 +2072,11 @@ namespace Mediatek86.vue
                 pcbReceptionExemplaireRevueImage.Image = null;
             }
         }
+
+        /// <summary>
+        /// Rend accessible ou non les boutons de l'onglet Livre en fonction du contenu de la liste des livres.
+        /// </summary>
+
         #endregion
 
 

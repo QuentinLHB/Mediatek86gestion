@@ -9,8 +9,8 @@ namespace Mediatek86.controleur
 {
     public class Controle
     {
-        private readonly List<Livre> lesLivres;
-        private readonly List<Dvd> lesDvd;
+        private List<Livre> lesLivres;
+        private List<Dvd> lesDvd;
         private readonly List<Revue> lesRevues;
         private readonly List<Categorie> lesRayons;
         private readonly List<Categorie> lesPublics;
@@ -162,9 +162,9 @@ namespace Mediatek86.controleur
         /// </summary>
         /// <param name="identifiant">Identifiant à vérifier</param>
         /// <returns>true si l'identifiant est unique (nouveau), false s'il existe déjà dans la BDD.</returns>
-        public bool VerifieIdentifiantUnique(string identifiant)
+        public bool VerifieIdentifiantDocumentUnique(string identifiant)
         {
-            return Dao.VerifieSiIdentifiantUnique(identifiant);
+            return Dao.VerifieSiIdDocumentUnique(identifiant);
         }
 
         /// <summary>
@@ -384,9 +384,14 @@ namespace Mediatek86.controleur
             return lesAbonnements;
         }
 
-        public bool AjouterCommandeDocument(string id, double montant, int nbExemplaire, string idLivreDvd, string titre)
+        public bool VerifieSiIdentifiantCommandeUnique(string idCommande)
         {
-            CommandeDocument commande = new CommandeDocument(id, DateTime.Today, montant, nbExemplaire, idLivreDvd, titre, EtatCommande.FindEtat(1));
+            return Dao.VerifieSiIdCommandeUnique(idCommande);
+        }
+
+        public bool AjouterCommandeDocument(string idCommande, double montant, int nbExemplaire, string idLivreDvd, string titre)
+        {
+            CommandeDocument commande = new CommandeDocument(idCommande, DateTime.Today, montant, nbExemplaire, idLivreDvd, titre, EtatCommande.FindEtat(1));
             bool succes = Dao.AjouterCommandeDocument(commande);
             if (succes) lesCommandes.Add(commande);
             return succes;
@@ -409,6 +414,13 @@ namespace Mediatek86.controleur
             if (succes)
             {
                 commande.Etat = etat;
+            }
+            if (etat == EtatCommande.FindEtat(2)) //Livrée: Rechargement 
+            {
+                lesLivres.Clear();
+                lesLivres.AddRange(Dao.GetAllLivres());
+                lesDvd.Clear();
+                lesDvd.AddRange(Dao.GetAllDvd());
             }
             return succes;
         }

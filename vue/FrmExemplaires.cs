@@ -67,10 +67,12 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void dgvExemplaires_SelectionChanged(object sender, EventArgs e)
         {
-            Exemplaire exemplaire = (Exemplaire)bdgExemplairesListe.List[bdgExemplairesListe.Position];
-            txbNumExemplaire.Text = exemplaire.Numero.ToString();
-            cbxEtat.SelectedItem = exemplaire.Etat;
-            
+            if(bdgExemplairesListe.Count != 0)
+            {
+                Exemplaire exemplaire = (Exemplaire)bdgExemplairesListe.List[bdgExemplairesListe.Position];
+                txbNumExemplaire.Text = exemplaire.Numero.ToString();
+                cbxEtat.SelectedItem = exemplaire.Etat;
+            }            
         }
 
         /// <summary>

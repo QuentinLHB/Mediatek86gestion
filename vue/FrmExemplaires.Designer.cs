@@ -190,7 +190,7 @@ namespace Mediatek86.vue
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvExemplaires);
             this.Name = "FrmExemplaires";
-            this.Text = "FrmExemplaires";
+            this.Text = "Exemplaires";
             ((System.ComponentModel.ISupportInitialize)(this.dgvExemplaires)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

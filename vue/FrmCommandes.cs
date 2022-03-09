@@ -16,13 +16,14 @@ namespace Mediatek86.vue
     {
         private readonly Controle controle;
         private readonly Document document;
+        private readonly List<Document> documents = new List<Document>();
         private readonly BindingSource bdgCommandesListe = new BindingSource();
         private readonly BindingSource bdgDocuments = new BindingSource();
         private readonly BindingSource bdgEtats = new BindingSource();
 
 
 
-        internal FrmCommandes(Controle controle, Document document)
+        public FrmCommandes(Controle controle, Document document)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -142,8 +143,6 @@ namespace Mediatek86.vue
             List<Abonnement> abonnements = controle.GetAbonnementsRevues();
             bdgCommandesListe.DataSource = abonnements;
             dgvListeCommandes.DataSource = bdgCommandesListe;
-
-            dgvListeCommandes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvListeCommandes.Columns["Etat"].Visible = false;
 
             dgvListeCommandes.Columns["Id"].DisplayIndex = 0;
@@ -163,7 +162,16 @@ namespace Mediatek86.vue
         /// </summary>
         private void RemplirListeDocuments()
         {
-            List<Document> documents = new List<Document>();
+            refreshBindingSource();
+            bdgDocuments.DataSource = documents;
+            dgvDocuments.DataSource = bdgDocuments;
+            dgvListeCommandes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+        }
+
+        private void refreshBindingSource()
+        {
+            documents.Clear();
             if (document is Dvd)
             {
                 documents.AddRange(controle.GetAllDvd());
@@ -176,10 +184,6 @@ namespace Mediatek86.vue
             {
                 documents.AddRange(controle.GetAllRevues());
             }
-            bdgDocuments.DataSource = documents;
-            dgvDocuments.DataSource = bdgDocuments;
-            dgvListeCommandes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
         }
 
         /// <summary>
@@ -216,8 +220,8 @@ namespace Mediatek86.vue
             {
                 try
                 {
-                    Document document = (Document)bdgDocuments.List[bdgDocuments.Position];
-                    AfficheInfosDocument(document);
+                    Document documentSelectionne = (Document)bdgDocuments.List[bdgDocuments.Position];
+                    AfficheInfosDocument(documentSelectionne);
                 }
                 catch
                 {
@@ -248,6 +252,8 @@ namespace Mediatek86.vue
             txbIdCommande.Text = "";
             txbNumero.Text = "";
             txbTitre.Text = "";
+            txbMontant.Text = "";
+            dtpDateFin.Value = DateTime.Today;
             nudQuantite.Value = nudQuantite.Minimum;
 
         }
@@ -323,6 +329,8 @@ namespace Mediatek86.vue
                 MessageBox.Show("La mise a jour a échoué.");
             }
             bdgCommandesListe.ResetBindings(false);
+            refreshBindingSource();
+            bdgDocuments.ResetBindings(false);
         }
 
         /// <summary>
@@ -332,29 +340,45 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void btnAjouterCommande_Click(object sender, EventArgs e)
         {
+            string message = "";
+
             if (!VerifierCompletionChamps()) return;
             
-            Document document = (Document)bdgDocuments.List[bdgDocuments.Position];
+            Document documentSelectionne = (Document)bdgDocuments.List[bdgDocuments.Position];
 
             bool succes;
-            if (document is Livre || document is Dvd)
-            {
-                succes = controle.AjouterCommandeDocument(txbIdCommande.Text, double.Parse(txbMontant.Text), (int)nudQuantite.Value, document.Id, document.Titre); 
 
-            }
-            else // Revue
+            if (controle.VerifieSiIdentifiantCommandeUnique(txbIdCommande.Text))
             {
-                succes = controle.AjouterAbonnement(txbIdCommande.Text, document.Id, document.Titre, dtpDateFin.Value.Date, double.Parse(txbMontant.Text));
-            }
-
-            if (succes)
-            {
-                MessageBox.Show("Commande effectuée.");
+                if (document is Livre || document is Dvd)
+                {
+                    succes = controle.AjouterCommandeDocument(txbIdCommande.Text, double.Parse(txbMontant.Text), (int)nudQuantite.Value, documentSelectionne.Id, documentSelectionne.Titre);
+                }
+                else // Revue
+                {
+                    succes = controle.AjouterAbonnement(txbIdCommande.Text, documentSelectionne.Id, documentSelectionne.Titre, dtpDateFin.Value.Date, double.Parse(txbMontant.Text));
+                }
             }
             else
             {
-                MessageBox.Show("La commande a échoué.");
+                succes = false;
+                message = "Echec : Veuillez renseigner un numéro de commande unique.";
             }
+
+           
+
+            if (succes)
+            {
+                
+                VideInfosDocument();
+                message = "La commande a été effectuée";
+            }
+            else if(message == "")
+            {
+                message = "La commande a échoué.";
+            }
+
+            MessageBox.Show(message);
             bdgCommandesListe.ResetBindings(false);
             refreshButtonAccess();
         }

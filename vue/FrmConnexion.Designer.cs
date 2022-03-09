@@ -89,7 +89,7 @@ namespace Mediatek86.vue
             this.Controls.Add(this.txbMdp);
             this.Controls.Add(this.txbLogin);
             this.Name = "FrmConnexion";
-            this.Text = "FrmConnexion";
+            this.Text = "Connexion";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -250,7 +250,7 @@ namespace Mediatek86.vue
             this.tabOngletsApplication.Margin = new System.Windows.Forms.Padding(4);
             this.tabOngletsApplication.Name = "tabOngletsApplication";
             this.tabOngletsApplication.SelectedIndex = 0;
-            this.tabOngletsApplication.Size = new System.Drawing.Size(1177, 1053);
+            this.tabOngletsApplication.Size = new System.Drawing.Size(1177, 954);
             this.tabOngletsApplication.TabIndex = 0;
             // 
             // tabLivres
@@ -260,7 +260,7 @@ namespace Mediatek86.vue
             this.tabLivres.Location = new System.Drawing.Point(4, 22);
             this.tabLivres.Margin = new System.Windows.Forms.Padding(4);
             this.tabLivres.Name = "tabLivres";
-            this.tabLivres.Size = new System.Drawing.Size(1169, 1027);
+            this.tabLivres.Size = new System.Drawing.Size(1169, 928);
             this.tabLivres.TabIndex = 2;
             this.tabLivres.Text = "Livres";
             this.tabLivres.UseVisualStyleBackColor = true;
@@ -2371,10 +2371,11 @@ namespace Mediatek86.vue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1177, 1053);
+            this.ClientSize = new System.Drawing.Size(1177, 954);
             this.Controls.Add(this.tabOngletsApplication);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmMediatek";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestion Médiathèque";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMediatek_FormClosed);
             this.tabOngletsApplication.ResumeLayout(false);
