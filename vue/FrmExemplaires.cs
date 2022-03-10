@@ -37,15 +37,25 @@ namespace Mediatek86.vue
             bdgEtatsListe.DataSource = controle.GetEtats();
             cbxEtat.DataSource = bdgEtatsListe;
 
-            bdgExemplairesListe.DataSource = controle.GetExemplaires();
-            dgvExemplaires.DataSource = bdgExemplairesListe;
-            dgvExemplaires.Columns["IdDocument"].Visible = false;
-            dgvExemplaires.Columns["Photo"].Visible = false;
+            RemplirListe(controle.GetExemplaires());
 
             lblDocument.Text = "Exemplaires de : " + document.Titre;
             txbIdDocument.Text =  document.Id;
             txbTitreDocument.Text = document.Titre;
             refreshButtonAccess();
+        }
+
+        /// <summary>
+        /// Remplit la Data GridView avec la liste spécifiée
+        /// </summary>
+        /// <param name="exemplaires">Liste des exemplaires à afficher.</param>
+        private void RemplirListe(List<Exemplaire> exemplaires)
+        {
+            bdgExemplairesListe.DataSource = exemplaires;
+            dgvExemplaires.DataSource = bdgExemplairesListe;
+            dgvExemplaires.Columns["IdDocument"].Visible = false;
+            dgvExemplaires.Columns["Photo"].Visible = false;
+            dgvExemplaires.Columns["DateAchat"].HeaderText = "Date d'achat";
         }
 
         /// <summary>
@@ -114,6 +124,26 @@ namespace Mediatek86.vue
         private Etat GetEtatSelectionne()
         {
             return (Etat)bdgEtatsListe.List[bdgEtatsListe.Position];
+        }
+
+        private void dgvExemplaires_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string titreColonne = dgvExemplaires.Columns[e.ColumnIndex].HeaderText;
+            List<Exemplaire> sortedList = new List<Exemplaire>();
+            List<Exemplaire> lesExemplaires = controle.GetExemplaires();
+            switch (titreColonne)
+            {
+                case "Date d'achat":
+                    sortedList = lesExemplaires.OrderBy(o => o.DateAchat).ToList();
+                    break;
+                case "Numero":
+                    sortedList = lesExemplaires.OrderByDescending(o => o.Numero).ToList();
+                    break;
+                case "Etat":
+                    sortedList = lesExemplaires.OrderBy(o => o.Etat.Libelle).ToList();
+                    break;
+            }
+            RemplirListe(sortedList);
         }
     }
 }

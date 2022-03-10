@@ -61,8 +61,9 @@ namespace Mediatek86.vue
             this.dgvExemplaires.RowHeadersVisible = false;
             this.dgvExemplaires.RowHeadersWidth = 51;
             this.dgvExemplaires.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvExemplaires.Size = new System.Drawing.Size(1125, 246);
+            this.dgvExemplaires.Size = new System.Drawing.Size(627, 246);
             this.dgvExemplaires.TabIndex = 5;
+            this.dgvExemplaires.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvExemplaires_ColumnHeaderMouseClick);
             this.dgvExemplaires.SelectionChanged += new System.EventHandler(this.dgvExemplaires_SelectionChanged);
             // 
             // groupBox1
@@ -79,7 +80,7 @@ namespace Mediatek86.vue
             this.groupBox1.Controls.Add(this.cbxEtat);
             this.groupBox1.Location = new System.Drawing.Point(13, 311);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1125, 196);
+            this.groupBox1.Size = new System.Drawing.Size(627, 196);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Détail de l\'exemplaire";
@@ -185,7 +186,7 @@ namespace Mediatek86.vue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1155, 542);
+            this.ClientSize = new System.Drawing.Size(656, 542);
             this.Controls.Add(this.lblDocument);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvExemplaires);

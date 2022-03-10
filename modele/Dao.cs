@@ -246,10 +246,10 @@ namespace Mediatek86.modele
         public static List<Exemplaire> GetExemplairesDocument(string idDocument)
         {
             List<Exemplaire> lesExemplaires = new List<Exemplaire>();
-            string req = "Select e.id, e.numero, e.dateAchat, e.photo, e.idEtat ";
-            req += "from exemplaire e join document d on e.id=d.id ";
-            req += "where e.id = @id ";
-            req += "order by e.dateAchat DESC";
+            string req = "SELECT e.id, e.numero, e.dateAchat, e.photo, e.idEtat ";
+            req += "FROM exemplaire e JOIN document d ON e.id=d.id ";
+            req += "WHERE e.id = @id ";
+            req += "ORDER BY e.dateAchat DESC";
             Dictionary<string, object> parameters = new Dictionary<string, object>
                 {
                     { "@id", idDocument}
@@ -1079,6 +1079,10 @@ namespace Mediatek86.modele
             return !existe;
         }
 
+        /// <summary>
+        /// Récupère les états des documents.
+        /// </summary>
+        /// <returns>Liste d'Etats</returns>
         public static List<Etat> GetEtats()
         {
             List<Etat> lesEtats = new List<Etat>();
@@ -1105,6 +1109,12 @@ namespace Mediatek86.modele
  
         }
 
+        /// <summary>
+        /// Modifie l'état d'un exemplaire dans la base de donnés.
+        /// </summary>
+        /// <param name="exemplaire">Exemplaire à modifier.</param>
+        /// <param name="etat">Etat à attribuer.</param>
+        /// <returns></returns>
         public static bool ModifierExemplaire(Exemplaire exemplaire, Etat etat)
         {
             try
@@ -1130,6 +1140,11 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Supprime un exemplaire de la BDD.
+        /// </summary>
+        /// <param name="exemplaire">Exemplaire à supprimer.</param>
+        /// <returns></returns>
         public static bool SupprimerExemplaire(Exemplaire exemplaire)
         {
             try

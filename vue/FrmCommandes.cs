@@ -413,7 +413,7 @@ namespace Mediatek86.vue
             if (document is Livre || document is Dvd)
             {
                 CommandeDocument commande = (CommandeDocument)bdgCommandesListe.List[bdgCommandesListe.Position];
-                if(commande.Etat.Id == 1)
+                if(commande.Etat.Id == 1) // En cours
                 {
                     succes = controle.SupprCommandeDocument(commande);
                 }
@@ -428,7 +428,7 @@ namespace Mediatek86.vue
             {
              
                 Abonnement abonnement = (Abonnement)bdgCommandesListe.List[bdgCommandesListe.Position];
-                List<Exemplaire> exemplaires = controle.GetExemplairesDocument("10002");
+                List<Exemplaire> exemplaires = controle.GetExemplairesDocument(document.Id);
                 bool aUnExemplaire = false;
                 foreach (Exemplaire exemplaire in exemplaires)
                 {
