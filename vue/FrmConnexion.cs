@@ -23,6 +23,12 @@ namespace Mediatek86.vue
             this.controle = controle;
         }
 
+        /// <summary>
+        /// Tente de connecter l'utilisateur à l'application en fonction de son identifiant 
+        /// et de son mot de passe.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnConnexion_Click(object sender, EventArgs e)
         {
             if(controle.Connexion(txbLogin.Text, txbMdp.Text))

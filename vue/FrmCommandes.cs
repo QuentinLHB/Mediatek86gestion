@@ -21,8 +21,6 @@ namespace Mediatek86.vue
         private readonly BindingSource bdgDocuments = new BindingSource();
         private readonly BindingSource bdgEtats = new BindingSource();
 
-
-
         public FrmCommandes(Controle controle, Document document)
         {
             InitializeComponent();
@@ -169,6 +167,9 @@ namespace Mediatek86.vue
 
         }
 
+        /// <summary>
+        /// Rafraichit les éléments de la Binding Source des documents.
+        /// </summary>
         private void refreshBindingSource()
         {
             documents.Clear();

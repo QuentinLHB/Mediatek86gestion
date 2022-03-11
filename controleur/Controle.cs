@@ -9,8 +9,8 @@ namespace Mediatek86.controleur
 {
     public class Controle
     {
-        private List<Livre> lesLivres;
-        private List<Dvd> lesDvd;
+        private readonly List<Livre> lesLivres;
+        private readonly List<Dvd> lesDvd;
         private readonly List<Revue> lesRevues;
         private readonly List<Categorie> lesRayons;
         private readonly List<Categorie> lesPublics;
@@ -45,7 +45,7 @@ namespace Mediatek86.controleur
         /// </summary>
         /// <param name="login">Nom d'utilisateur</param>
         /// <param name="pwd">Mot de passe</param>
-        /// <returns></returns>
+        /// <returns>True si les identifiants sont corrects, sinon false.</returns>
         public bool Connexion(string login, string pwd)
         {
             service = Dao.ControleAuthentification(login, pwd);
@@ -63,7 +63,8 @@ namespace Mediatek86.controleur
         /// <returns></returns>
         public bool PeutLire()
         {
-            return service.Lecture;
+            if (service != null) return service.Lecture;
+            else return false;
         }
 
         /// <summary>
@@ -72,7 +73,8 @@ namespace Mediatek86.controleur
         /// <returns></returns>
         public bool PeutModifier()
         {
-            return service.Modification;
+            if (service != null) return service.Modification;
+            else return false;
         }
         
         /// <summary>
@@ -81,6 +83,7 @@ namespace Mediatek86.controleur
         public void OuvreFormulairePrincipal()
         {
             FrmMediatek frmMediatek = new FrmMediatek(this);
+            frmMediatek.Size = new System.Drawing.Size(900, 800);
             frmMediatek.ShowDialog();
         }
 
@@ -195,6 +198,22 @@ namespace Mediatek86.controleur
 
         }
 
+        /// <summary>
+        /// Modifie un livre.
+        /// </summary>
+        /// <param name="livre">Livre à modifier</param>
+        /// <param name="titre"></param>
+        /// <param name="image"></param>
+        /// <param name="isbn"></param>
+        /// <param name="auteur"></param>
+        /// <param name="collection"></param>
+        /// <param name="idGenre"></param>
+        /// <param name="genre"></param>
+        /// <param name="idPublic"></param>
+        /// <param name="lePublic"></param>
+        /// <param name="idRayon"></param>
+        /// <param name="rayon"></param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool ModifierLivre(Livre livre, string titre, string image, string isbn, string auteur, string collection,
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
         {
@@ -212,6 +231,11 @@ namespace Mediatek86.controleur
             return Dao.ModifierLivre(livre);
         }
 
+        /// <summary>
+        /// Supprime un livre.
+        /// </summary>
+        /// <param name="livre">Livre à supprimer.</param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool SupprimerLivre(Livre livre)
         {
             if (Dao.SupprimerLivre(livre))
@@ -222,6 +246,12 @@ namespace Mediatek86.controleur
             return false;
         }
 
+        /// <summary>
+        /// Trouve une catégorie parmi une liste de catégories par rapport à son identifiant.
+        /// </summary>
+        /// <param name="categories">Liste de catégories.</param>
+        /// <param name="idCategorie">Identifiant à chercher.</param>
+        /// <returns></returns>
         public Categorie TrouveCategorie(List<Categorie> categories, string idCategorie)
         {
             foreach(Categorie categorie in categories)
@@ -259,6 +289,22 @@ namespace Mediatek86.controleur
             else return null;
         }
 
+        /// <summary>
+        /// Modifie un dvd.
+        /// </summary>
+        /// <param name="dvd">DVD à modifier.</param>
+        /// <param name="titre"></param>
+        /// <param name="image"></param>
+        /// <param name="duree"></param>
+        /// <param name="realisateur"></param>
+        /// <param name="synopsis"></param>
+        /// <param name="idGenre"></param>
+        /// <param name="genre"></param>
+        /// <param name="idPublic"></param>
+        /// <param name="lePublic"></param>
+        /// <param name="idRayon"></param>
+        /// <param name="rayon"></param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool ModifierDvd(Dvd dvd, string titre, string image, int duree, string realisateur, string synopsis,
             string idGenre, string genre, string idPublic, string lePublic, string idRayon, string rayon)
         {
@@ -276,6 +322,11 @@ namespace Mediatek86.controleur
             return Dao.ModifierDvd(dvd);
         }
 
+        /// <summary>
+        /// Supprime un DVD.
+        /// </summary>
+        /// <param name="dvd">DVD à supprimer.</param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool SupprimerDVD(Dvd dvd)
         {
             if (Dao.SupprimerDvd(dvd)){
@@ -313,6 +364,22 @@ namespace Mediatek86.controleur
             else return null;
         }
 
+        /// <summary>
+        /// Modifie une revue.
+        /// </summary>
+        /// <param name="revue">Revue à modifier.</param>
+        /// <param name="titre"></param>
+        /// <param name="image"></param>
+        /// <param name="idGenre"></param>
+        /// <param name="genre"></param>
+        /// <param name="idPublic"></param>
+        /// <param name="lePublic"></param>
+        /// <param name="idRayon"></param>
+        /// <param name="rayon"></param>
+        /// <param name="empruntable"></param>
+        /// <param name="periodicite"></param>
+        /// <param name="delaiMiseADispo"></param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool ModifierRevue(Revue revue, string titre, string image, string idGenre, string genre,
             string idPublic, string lePublic, string idRayon, string rayon,
             bool empruntable, string periodicite, int delaiMiseADispo)
@@ -331,6 +398,11 @@ namespace Mediatek86.controleur
             return Dao.ModifierRevue(revue);
         }
 
+        /// <summary>
+        /// Supprime une revue.
+        /// </summary>
+        /// <param name="revue">Revue à supprimer.</param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool SupprimerRevue(Revue revue)
         {
             if( Dao.SupprimerRevue(revue)){
@@ -340,11 +412,20 @@ namespace Mediatek86.controleur
             return false;
         }
 
+        /// <summary>
+        /// Ouvre le formulaire de commandes.
+        /// </summary>
+        /// <param name="document"></param>
         public void OuvreFormulaireCommandes(Document document)
         {
             FrmCommandes frmCommandes = new FrmCommandes(this, document);
             frmCommandes.ShowDialog();
         }
+
+        /// <summary>
+        /// Récupère les états de commande (suivi)
+        /// </summary>
+        /// <returns>Liste des états de commande.</returns>
         public List<EtatCommande> GetEtatsCommande()
         {
             if (EtatCommande.Etats == null)
@@ -354,6 +435,10 @@ namespace Mediatek86.controleur
             return EtatCommande.Etats;
         }
 
+        /// <summary>
+        /// Récupère les états physiques des livres.
+        /// </summary>
+        /// <returns>Liste des etats.</returns>
         public List<Etat> GetEtats()
         {
             if (Etat.Etats == null)
@@ -366,29 +451,55 @@ namespace Mediatek86.controleur
         private List<CommandeDocument> lesCommandes;
         private List<Abonnement> lesAbonnements;
 
+        /// <summary>
+        /// Récupère les commandes de DVD.
+        /// </summary>
+        /// <returns></returns>
         public List<CommandeDocument> GetCommandesDvd()
         {
             lesCommandes = Dao.GetCommandesDvd();
             return lesCommandes;
         }
 
+        /// <summary>
+        /// Récupère les commades de livres.
+        /// </summary>
+        /// <returns></returns>
         public List<CommandeDocument> GetCommandesLivres()
         {
             lesCommandes=Dao.GetCommandesLivres();
             return lesCommandes; 
         }
 
+        /// <summary>
+        /// Récupère les abonnements aux revues.
+        /// </summary>
+        /// <returns></returns>
         public List<Abonnement> GetAbonnementsRevues()
         {
             lesAbonnements = Dao.GetAbonnementsRevues();
             return lesAbonnements;
         }
 
+        /// <summary>
+        /// Vérifie si un identifiant de commande est unique dans la base de données.
+        /// </summary>
+        /// <param name="idCommande">Identifiant à vérifier</param>
+        /// <returns>True s'il est unique (il n'en existe pas encore dans la bdd), false si une ligne possède l'identifiant.</returns>
         public bool VerifieSiIdentifiantCommandeUnique(string idCommande)
         {
             return Dao.VerifieSiIdCommandeUnique(idCommande);
         }
 
+        /// <summary>
+        /// Ajoute une commande de document (livre ou dvd).
+        /// </summary>
+        /// <param name="idCommande"></param>
+        /// <param name="montant"></param>
+        /// <param name="nbExemplaire"></param>
+        /// <param name="idLivreDvd"></param>
+        /// <param name="titre"></param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool AjouterCommandeDocument(string idCommande, double montant, int nbExemplaire, string idLivreDvd, string titre)
         {
             CommandeDocument commande = new CommandeDocument(idCommande, DateTime.Today, montant, nbExemplaire, idLivreDvd, titre, EtatCommande.FindEtat(1));
@@ -397,6 +508,15 @@ namespace Mediatek86.controleur
             return succes;
         }
 
+        /// <summary>
+        /// Ajoute un abonnement de revue.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="idRevue"></param>
+        /// <param name="titre"></param>
+        /// <param name="dateFin"></param>
+        /// <param name="montant"></param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool AjouterAbonnement(string id, string idRevue, string titre, DateTime dateFin, double montant)
         {
             Abonnement abonnement = new Abonnement(id, idRevue, titre, DateTime.Today, dateFin, montant);
@@ -405,8 +525,12 @@ namespace Mediatek86.controleur
             return succes;
         }
 
-
-
+        /// <summary>
+        /// Met à jour l'état d'une commande de document (livre ou dvd).
+        /// </summary>
+        /// <param name="commande">Commande concernée.</param>
+        /// <param name="etat">Nouvel état.</param>
+        /// <returns>True si l'opération est un succès.</returns>
         public bool MettreAJourCommandeDocument(CommandeDocument commande, EtatCommande etat)
         {
             if (commande.Etat == etat) return true;
@@ -415,7 +539,7 @@ namespace Mediatek86.controleur
             {
                 commande.Etat = etat;
             }
-            if (etat == EtatCommande.FindEtat(2)) //Livrée: Rechargement 
+            if (etat == EtatCommande.FindEtat(2)) //Livrée: Refresh car de nouvelles lignes ont été insérées via un trigger
             {
                 lesLivres.Clear();
                 lesLivres.AddRange(Dao.GetAllLivres());
@@ -465,12 +589,18 @@ namespace Mediatek86.controleur
         /// <summary>
         /// Retourne les exemplaires du document ouvert avec OuvreFormulaireExemplaires()
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Liste des exemplaires</returns>
         public List<Exemplaire> GetExemplaires()
         {
             return lesExemplaires;
         }
 
+        /// <summary>
+        /// Modification de l'état physique d'un exemplaire.
+        /// </summary>
+        /// <param name="exemplaire">Exemplaire à modifier.</param>
+        /// <param name="etat">Nouvel état de l'exemplaire.</param>
+        /// <returns></returns>
         public bool ModifierExemplaire(Exemplaire exemplaire, Etat etat)
         {
             bool succes = Dao.ModifierExemplaire(exemplaire, etat);
@@ -478,6 +608,12 @@ namespace Mediatek86.controleur
             return succes;
         }
 
+        /// <summary>
+        /// Supprime un exemplaire
+        /// </summary>
+        /// <param name="document">Document dont on supprime un exemplaire.</param>
+        /// <param name="exemplaire">Exemplaire à supprimer.</param>
+        /// <returns></returns>
         public bool SupprimerExemplaire(Document document, Exemplaire exemplaire)
         {
             bool succes = Dao.SupprimerExemplaire(exemplaire);

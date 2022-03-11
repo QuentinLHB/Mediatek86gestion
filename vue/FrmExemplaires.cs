@@ -126,6 +126,11 @@ namespace Mediatek86.vue
             return (Etat)bdgEtatsListe.List[bdgEtatsListe.Position];
         }
 
+        /// <summary>
+        /// Trie la data grid view selon la colonne sélectionnée.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvExemplaires_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string titreColonne = dgvExemplaires.Columns[e.ColumnIndex].HeaderText;

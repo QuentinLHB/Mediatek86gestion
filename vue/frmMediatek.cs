@@ -11,6 +11,9 @@ using Serilog;
 namespace Mediatek86.vue
 {
 
+    /// <summary>
+    /// Mode actuel du formulaire.
+    /// </summary>
     public enum Mode
     {
         Info,
@@ -107,9 +110,24 @@ namespace Mediatek86.vue
             }
         }
 
+        /// <summary>
+        /// Réinitialise une Combobox à sa première valeur.
+        /// </summary>
+        /// <param name="cbo"></param>
+        private void resetCombobox(ComboBox cbo)
+        {
+            if (cbo.Items.Count > 0) cbo.SelectedIndex = 0;
+            else cbo.SelectedIndex = -1;
+        }
+
+        /// <summary>
+        /// Gère les actions effectuées lors de la fermeture de l'application.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrmMediatek_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Log.Information("Fermeture de l'application par {0}", controle.GetUserLogin());
+            Log.Information("Fermeture de l'application par {0}. Déclencheur : {1}", controle.GetUserLogin(), e.CloseReason);
         }
 
         #endregion
@@ -419,6 +437,11 @@ namespace Mediatek86.vue
             txbRevuesTitreRecherche.Text = "";
         }
 
+        /// <summary>
+        /// Bloque les caractères alphabétiques lors de la saisie d'une touche.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txbRevuesDateMiseADispo_KeyPress(object sender, KeyPressEventArgs e)
         {
             BloqueChracteresAlpha(e);
@@ -456,6 +479,9 @@ namespace Mediatek86.vue
                     break;
                 case "Rayon":
                     sortedList = lesRevues.OrderBy(o => o.Rayon).ToList();
+                    break;
+                case "Exemplaires":
+                    sortedList = lesRevues.OrderByDescending(o => o.NbExemplaires).ToList();
                     break;
             }
             RemplirRevuesListe(sortedList);
@@ -859,12 +885,6 @@ namespace Mediatek86.vue
             pcbLivresImage.Image = null;
         }
 
-        private void resetCombobox(ComboBox cbo)
-        {
-            if (cbo.Items.Count > 0) cbo.SelectedIndex = 0;
-            else cbo.SelectedIndex = -1;
-        }
-
         /// <summary>
         /// Filtre sur le genre
         /// </summary>
@@ -1032,6 +1052,9 @@ namespace Mediatek86.vue
                 case "Rayon":
                     sortedList = lesLivres.OrderBy(o => o.Rayon).ToList();
                     break;
+                case "Exemplaires":
+                    sortedList = lesLivres.OrderByDescending(o => o.NbExemplaires).ToList();
+                    break;
             }
             RemplirLivresListe(sortedList);
         }
@@ -1086,7 +1109,6 @@ namespace Mediatek86.vue
                 MessageBox.Show("Impossible de supprimer un livre ayant des exemplaires répertoriés.", "Suppression impossible");
             }
         }
-
 
         /// <summary>
         /// Modifie l'accessibilité des objets graphiques en fonction du mode actuel.
@@ -1231,6 +1253,11 @@ namespace Mediatek86.vue
             bdgLivresListe.ResetBindings(false);
         }
 
+        /// <summary>
+        /// Ouvre le formulaire des exemplaires de livres.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExemplairesLivres_Click(object sender, EventArgs e)
         {
             Livre livre = GetSelectedLivre(); 
@@ -1244,6 +1271,7 @@ namespace Mediatek86.vue
         private void refreshAccessibiliteLivres()
         {
             bool enable = dgvLivresListe.Rows.Count != 0;
+            if (!controle.PeutModifier()) enable = false;
             btnSupprLivre.Enabled = enable;
             btnModifLivre.Enabled = enable;
             btnCommandesLivre.Enabled = enable;
@@ -1509,6 +1537,11 @@ namespace Mediatek86.vue
             }
         }
 
+        /// <summary>
+        /// Bloque la saisie de caractères alphabétiques sur la textbox de la durée.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txbDvdDuree_KeyPress(object sender, KeyPressEventArgs e)
         {
             BloqueChracteresAlpha(e);
@@ -1599,6 +1632,9 @@ namespace Mediatek86.vue
                     break;
                 case "Rayon":
                     sortedList = lesDvd.OrderBy(o => o.Rayon).ToList();
+                    break;
+                case "Exemplaires":
+                    sortedList = lesDvd.OrderByDescending(o => o.NbExemplaires).ToList();
                     break;
             }
             RemplirDvdListe(sortedList);
@@ -1790,6 +1826,11 @@ namespace Mediatek86.vue
             bdgDvdListe.ResetBindings(false);
         }
 
+        /// <summary>
+        /// Ouvre le formulaire des exemplaires de dvd.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExemplairesDvd_Click(object sender, EventArgs e)
         {
             Dvd dvd = GetSelectedDvd();
@@ -1909,6 +1950,7 @@ namespace Mediatek86.vue
             // accès à la zone d'ajout d'un exemplaire
             accesReceptionExemplaireGroupBox(true);
         }
+
 
         private void afficheReceptionExemplairesRevue()
         {
