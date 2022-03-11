@@ -299,7 +299,11 @@ namespace Mediatek86.vue
             txbRevuesPublic.Text = "";
             txbRevuesRayon.Text = "";
             txbRevuesTitre.Text = "";
+            txbNbExemplairesRevue.Text = "0";
             pcbRevuesImage.Image = null;
+            resetCombobox(cbxInfoRayonRevue);
+            resetCombobox(cbxInfoPublicRevue);
+            resetCombobox(cbxInfoRayonRevue);
         }
 
         /// <summary>
@@ -526,7 +530,7 @@ namespace Mediatek86.vue
                 {
                     lesRevues.Remove(revue);
                     bdgRevuesListe.ResetBindings(false);
-                    
+                    refreshAccessibiliteRevues();
                 }
             }
             else
@@ -585,6 +589,10 @@ namespace Mediatek86.vue
             Rayon rayon = (Rayon)cbxInfoRayonRevue.SelectedItem;
             Revue revue = controle.AjouterRevue(txbRevuesNumero.Text, txbRevuesTitre.Text, txbRevuesImage.Text, genre.Id, genre.Libelle,
                 lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle, chkRevuesEmpruntable.Checked, txbRevuesPeriodicite.Text, int.Parse(txbRevuesDateMiseADispo.Text));
+           if(revue != null)
+            {
+                lesRevues.Add(revue);
+            }
             return revue != null;
         }
 
@@ -613,7 +621,7 @@ namespace Mediatek86.vue
                 MessageBox.Show($"L'entrée {txbLivresNumero.Text} n'existe pas dans la base de données.");
                 return false;
             }
-            if (!VerifieCompletionInfosLivre()) return false;
+            if (!VerifieCompletionInfosRevue()) return false;
             Genre genre = (Genre)cbxInfoGenreRevue.SelectedItem;
             Public lePublic = (Public)cbxInfoPublicRevue.SelectedItem;
             Rayon rayon = (Rayon)cbxInfoRayonRevue.SelectedItem;
@@ -693,6 +701,7 @@ namespace Mediatek86.vue
             btnSupprRevue.Enabled = enable;
             btnModifRevue.Enabled = enable;
             btnCommandeRevues.Enabled = enable;
+            btnExemplairesRevue.Enabled = enable;
         }
         #endregion
 
@@ -848,9 +857,9 @@ namespace Mediatek86.vue
             Genre genre = (Genre)controle.TrouveCategorie(controle.GetAllGenres(), livre.IdGenre);
             if (genre != null) cbxInfoGenreLivres.SelectedItem = genre;
             Public lePublic = (Public)controle.TrouveCategorie(controle.GetAllPublics(), livre.IdPublic);
-            if (lePublic != null) cbxInfoGenreLivres.SelectedItem = lePublic;
+            if (lePublic != null) cbxInfoPublicLivre.SelectedItem = lePublic;
             Rayon rayon = (Rayon)controle.TrouveCategorie(controle.GetAllRayons(), livre.IdRayon);
-            if (rayon != null) cbxInfoGenreLivres.SelectedItem = rayon;
+            if (rayon != null) cbxInfoRayonLivre.SelectedItem = rayon;
 
             string image = livre.Image;
             try
@@ -877,6 +886,7 @@ namespace Mediatek86.vue
             txbLivresPublic.Text = "";
             txbLivresRayon.Text = "";
             txbLivresTitre.Text = "";
+            txbNbExemplaires.Text = "0";
             resetCombobox(cbxInfoGenreLivres);
             resetCombobox(cbxInfoPublicLivre);
             resetCombobox(cbxInfoRayonLivre);
@@ -1099,6 +1109,7 @@ namespace Mediatek86.vue
                 {
                     lesLivres.Remove(livre);
                     bdgLivresListe.ResetBindings(false);
+                    refreshAccessibiliteLivres();
                
                 }
             }
@@ -1189,6 +1200,10 @@ namespace Mediatek86.vue
             Rayon rayon = (Rayon)cbxInfoRayonLivre.SelectedItem;
             Livre livre = controle.AjouterLivre(txbLivresNumero.Text, txbLivresTitre.Text, txbLivresImage.Text, txbLivresIsbn.Text,
                 txbLivresAuteur.Text, txbLivresCollection.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
+            if (livre != null)
+            {
+                lesLivres.Add(livre);
+            }
             // Si non null, l'ajut à la BDD a bien été effectué.
             return livre != null;
         }
@@ -1273,6 +1288,7 @@ namespace Mediatek86.vue
             btnSupprLivre.Enabled = enable;
             btnModifLivre.Enabled = enable;
             btnCommandesLivre.Enabled = enable;
+            btnExemplairesLivres.Enabled = enable;
         }
 
         #endregion
@@ -1448,7 +1464,12 @@ namespace Mediatek86.vue
             txbDvdPublic.Text = "";
             txbDvdRayon.Text = "";
             txbDvdTitre.Text = "";
+            txbNbExemplairesDvd.Text = "0";
             pcbDvdImage.Image = null;
+            resetCombobox(cbxInfoPublicDVD);
+            resetCombobox(cbxInfoGenreDVD);
+            resetCombobox(cbxInfoRayonDVD);
+
         }
 
         /// <summary>
@@ -1677,6 +1698,7 @@ namespace Mediatek86.vue
                 {
                     lesDvd.Remove(dvd);
                     bdgDvdListe.ResetBindings(false);
+                    refreshAccessibiliteDvd();
                    
                 }
             }
@@ -1684,7 +1706,7 @@ namespace Mediatek86.vue
             {
                 MessageBox.Show("Impossible de supprimer une revue ayant des exemplaires répertoriés.", "Suppression impossible");
             }
-
+            refreshAccessibiliteDvd();
         }
 
         /// <summary>
@@ -1746,6 +1768,10 @@ namespace Mediatek86.vue
             Public lePublic = (Public)cbxInfoPublicDVD.SelectedItem;
             Rayon rayon = (Rayon)cbxInfoRayonDVD.SelectedItem;
             Dvd dvd = controle.AjouterDvd(txbDvdNumero.Text, txbDvdTitre.Text, txbDvdImage.Text, int.Parse(txbDvdDuree.Text), txbDvdRealisateur.Text, txbDvdSynopsis.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
+            if(dvd != null)
+            {
+                lesDvd.Add(dvd);
+            }
             return dvd != null;
         }
 
@@ -1844,6 +1870,7 @@ namespace Mediatek86.vue
             btnSupprDVD.Enabled = enable;
             btnModifDVD.Enabled = enable;
             btnCommandesDvd.Enabled = enable;
+            btnExemplairesDvd.Enabled = enable;
         }
 
         #endregion
@@ -1872,7 +1899,7 @@ namespace Mediatek86.vue
         {
             bdgExemplairesListe.DataSource = exemplaires;
             dgvReceptionExemplairesListe.DataSource = bdgExemplairesListe;
-            dgvReceptionExemplairesListe.Columns["idEtat"].Visible = false;
+            dgvReceptionExemplairesListe.Columns["Etat"].Visible = false;
             dgvReceptionExemplairesListe.Columns["idDocument"].Visible = false;
             dgvReceptionExemplairesListe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvReceptionExemplairesListe.Columns["numero"].DisplayIndex = 0;
