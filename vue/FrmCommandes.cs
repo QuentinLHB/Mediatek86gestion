@@ -163,6 +163,8 @@ namespace Mediatek86.vue
             refreshBindingSource();
             bdgDocuments.DataSource = documents;
             dgvDocuments.DataSource = bdgDocuments;
+            Document documentToDisplay = documents.Find(x => x.Id.Equals(document.Id));
+            bdgDocuments.Position = bdgDocuments.List.IndexOf(documentToDisplay);
             dgvListeCommandes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
         }
