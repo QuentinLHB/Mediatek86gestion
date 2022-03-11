@@ -4,6 +4,7 @@ using Mediatek86.metier;
 using Mediatek86.vue;
 using System;
 using Serilog;
+using System.Linq;
 
 namespace Mediatek86.controleur
 {
@@ -139,6 +140,110 @@ namespace Mediatek86.controleur
         public List<Categorie> GetAllPublics()
         {
             return lesPublics;
+        }
+
+        public void sortLivres(string critere)
+        {
+            List<Livre> sortedList = new List<Livre>();
+            switch (critere)
+            {
+                case "Id":
+                    sortedList = lesLivres.OrderBy(o => o.Id).ToList();
+                    break;
+                case "Titre":
+                    sortedList = lesLivres.OrderBy(o => o.Titre).ToList();
+                    break;
+                case "Collection":
+                    sortedList = lesLivres.OrderBy(o => o.Collection).ToList();
+                    break;
+                case "Auteur":
+                    sortedList = lesLivres.OrderBy(o => o.Auteur).ToList();
+                    break;
+                case "Genre":
+                    sortedList = lesLivres.OrderBy(o => o.Genre).ToList();
+                    break;
+                case "Public":
+                    sortedList = lesLivres.OrderBy(o => o.Public).ToList();
+                    break;
+                case "Rayon":
+                    sortedList = lesLivres.OrderBy(o => o.Rayon).ToList();
+                    break;
+                case "Exemplaires":
+                    sortedList = lesLivres.OrderByDescending(o => o.NbExemplaires).ToList();
+                    break;
+            }
+
+            lesLivres.Clear();
+            lesLivres.AddRange(sortedList);
+        }
+
+        public void sortDvd(string critere)
+        {
+            List<Dvd> sortedList = new List<Dvd>();
+            switch (critere)
+            {
+                case "Id":
+                    sortedList = lesDvd.OrderBy(o => o.Id).ToList();
+                    break;
+                case "Titre":
+                    sortedList = lesDvd.OrderBy(o => o.Titre).ToList();
+                    break;
+                case "Duree":
+                    sortedList = lesDvd.OrderBy(o => o.Duree).ToList();
+                    break;
+                case "Realisateur":
+                    sortedList = lesDvd.OrderBy(o => o.Realisateur).ToList();
+                    break;
+                case "Genre":
+                    sortedList = lesDvd.OrderBy(o => o.Genre).ToList();
+                    break;
+                case "Public":
+                    sortedList = lesDvd.OrderBy(o => o.Public).ToList();
+                    break;
+                case "Rayon":
+                    sortedList = lesDvd.OrderBy(o => o.Rayon).ToList();
+                    break;
+                case "Exemplaires":
+                    sortedList = lesDvd.OrderByDescending(o => o.NbExemplaires).ToList();
+                    break;
+            }
+
+            lesDvd.Clear();
+            lesDvd.AddRange(sortedList);
+        }
+
+        public void sortRevues(string critere)
+        {
+            List<Revue> sortedList = new List<Revue>();
+            switch (critere)
+            {
+                case "Id":
+                    sortedList = lesRevues.OrderBy(o => o.Id).ToList();
+                    break;
+                case "Titre":
+                    sortedList = lesRevues.OrderBy(o => o.Titre).ToList();
+                    break;
+                case "Periodicite":
+                    sortedList = lesRevues.OrderBy(o => o.Periodicite).ToList();
+                    break;
+                case "DelaiMiseADispo":
+                    sortedList = lesRevues.OrderBy(o => o.DelaiMiseADispo).ToList();
+                    break;
+                case "Genre":
+                    sortedList = lesRevues.OrderBy(o => o.Genre).ToList();
+                    break;
+                case "Public":
+                    sortedList = lesRevues.OrderBy(o => o.Public).ToList();
+                    break;
+                case "Rayon":
+                    sortedList = lesRevues.OrderBy(o => o.Rayon).ToList();
+                    break;
+                case "Exemplaires":
+                    sortedList = lesRevues.OrderByDescending(o => o.NbExemplaires).ToList();
+                    break;
+            }
+            lesRevues.Clear();
+            lesRevues.AddRange(sortedList);
         }
 
         /// <summary>

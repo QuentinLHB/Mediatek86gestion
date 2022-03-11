@@ -460,35 +460,8 @@ namespace Mediatek86.vue
         {
             VideRevuesZones();
             string titreColonne = dgvRevuesListe.Columns[e.ColumnIndex].HeaderText;
-            List<Revue> sortedList = new List<Revue>();
-            switch (titreColonne)
-            {
-                case "Id":
-                    sortedList = lesRevues.OrderBy(o => o.Id).ToList();
-                    break;
-                case "Titre":
-                    sortedList = lesRevues.OrderBy(o => o.Titre).ToList();
-                    break;
-                case "Periodicite":
-                    sortedList = lesRevues.OrderBy(o => o.Periodicite).ToList();
-                    break;
-                case "DelaiMiseADispo":
-                    sortedList = lesRevues.OrderBy(o => o.DelaiMiseADispo).ToList();
-                    break;
-                case "Genre":
-                    sortedList = lesRevues.OrderBy(o => o.Genre).ToList();
-                    break;
-                case "Public":
-                    sortedList = lesRevues.OrderBy(o => o.Public).ToList();
-                    break;
-                case "Rayon":
-                    sortedList = lesRevues.OrderBy(o => o.Rayon).ToList();
-                    break;
-                case "Exemplaires":
-                    sortedList = lesRevues.OrderByDescending(o => o.NbExemplaires).ToList();
-                    break;
-            }
-            RemplirRevuesListe(sortedList);
+            controle.sortRevues(titreColonne);
+            bdgRevuesListe.ResetBindings(false);
         }
 
         /// <summary>
@@ -589,10 +562,6 @@ namespace Mediatek86.vue
             Rayon rayon = (Rayon)cbxInfoRayonRevue.SelectedItem;
             Revue revue = controle.AjouterRevue(txbRevuesNumero.Text, txbRevuesTitre.Text, txbRevuesImage.Text, genre.Id, genre.Libelle,
                 lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle, chkRevuesEmpruntable.Checked, txbRevuesPeriodicite.Text, int.Parse(txbRevuesDateMiseADispo.Text));
-           if(revue != null)
-            {
-                lesRevues.Add(revue);
-            }
             return revue != null;
         }
 
@@ -1036,35 +1005,8 @@ namespace Mediatek86.vue
         {
             VideLivresZones();
             string titreColonne = dgvLivresListe.Columns[e.ColumnIndex].HeaderText;
-            List<Livre> sortedList = new List<Livre>();
-            switch (titreColonne)
-            {
-                case "Id":
-                    sortedList = lesLivres.OrderBy(o => o.Id).ToList();
-                    break;
-                case "Titre":
-                    sortedList = lesLivres.OrderBy(o => o.Titre).ToList();
-                    break;
-                case "Collection":
-                    sortedList = lesLivres.OrderBy(o => o.Collection).ToList();
-                    break;
-                case "Auteur":
-                    sortedList = lesLivres.OrderBy(o => o.Auteur).ToList();
-                    break;
-                case "Genre":
-                    sortedList = lesLivres.OrderBy(o => o.Genre).ToList();
-                    break;
-                case "Public":
-                    sortedList = lesLivres.OrderBy(o => o.Public).ToList();
-                    break;
-                case "Rayon":
-                    sortedList = lesLivres.OrderBy(o => o.Rayon).ToList();
-                    break;
-                case "Exemplaires":
-                    sortedList = lesLivres.OrderByDescending(o => o.NbExemplaires).ToList();
-                    break;
-            }
-            RemplirLivresListe(sortedList);
+            controle.sortLivres(titreColonne);
+            bdgLivresListe.ResetBindings(false);
         }
 
         /// <summary>
@@ -1200,11 +1142,6 @@ namespace Mediatek86.vue
             Rayon rayon = (Rayon)cbxInfoRayonLivre.SelectedItem;
             Livre livre = controle.AjouterLivre(txbLivresNumero.Text, txbLivresTitre.Text, txbLivresImage.Text, txbLivresIsbn.Text,
                 txbLivresAuteur.Text, txbLivresCollection.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
-            if (livre != null)
-            {
-                lesLivres.Add(livre);
-            }
-            // Si non null, l'ajut à la BDD a bien été effectué.
             return livre != null;
         }
 
@@ -1627,35 +1564,8 @@ namespace Mediatek86.vue
         {
             VideDvdZones();
             string titreColonne = dgvDvdListe.Columns[e.ColumnIndex].HeaderText;
-            List<Dvd> sortedList = new List<Dvd>();
-            switch (titreColonne)
-            {
-                case "Id":
-                    sortedList = lesDvd.OrderBy(o => o.Id).ToList();
-                    break;
-                case "Titre":
-                    sortedList = lesDvd.OrderBy(o => o.Titre).ToList();
-                    break;
-                case "Duree":
-                    sortedList = lesDvd.OrderBy(o => o.Duree).ToList();
-                    break;
-                case "Realisateur":
-                    sortedList = lesDvd.OrderBy(o => o.Realisateur).ToList();
-                    break;
-                case "Genre":
-                    sortedList = lesDvd.OrderBy(o => o.Genre).ToList();
-                    break;
-                case "Public":
-                    sortedList = lesDvd.OrderBy(o => o.Public).ToList();
-                    break;
-                case "Rayon":
-                    sortedList = lesDvd.OrderBy(o => o.Rayon).ToList();
-                    break;
-                case "Exemplaires":
-                    sortedList = lesDvd.OrderByDescending(o => o.NbExemplaires).ToList();
-                    break;
-            }
-            RemplirDvdListe(sortedList);
+            controle.sortDvd(titreColonne);
+            bdgDvdListe.ResetBindings(false);
         }
 
         /// <summary>
@@ -1768,10 +1678,6 @@ namespace Mediatek86.vue
             Public lePublic = (Public)cbxInfoPublicDVD.SelectedItem;
             Rayon rayon = (Rayon)cbxInfoRayonDVD.SelectedItem;
             Dvd dvd = controle.AjouterDvd(txbDvdNumero.Text, txbDvdTitre.Text, txbDvdImage.Text, int.Parse(txbDvdDuree.Text), txbDvdRealisateur.Text, txbDvdSynopsis.Text, genre.Id, genre.Libelle, lePublic.Id, lePublic.Libelle, rayon.Id, rayon.Libelle);
-            if(dvd != null)
-            {
-                lesDvd.Add(dvd);
-            }
             return dvd != null;
         }
 
