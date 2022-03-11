@@ -162,7 +162,6 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void tabRevues_Enter(object sender, EventArgs e)
         {
-            lesRevues = controle.GetAllRevues();
             RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxRevuesGenres, false);
             RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxRevuesPublics, false);
             RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxRevuesRayons, false);
@@ -181,6 +180,7 @@ namespace Mediatek86.vue
         /// </summary>
         private void RemplirRevuesListe(List<Revue> revues)
         {
+            lesRevues = revues;
             bdgRevuesListe.DataSource = revues;
             dgvRevuesListe.DataSource = bdgRevuesListe;
             dgvRevuesListe.Columns["empruntable"].Visible = false;
@@ -421,7 +421,7 @@ namespace Mediatek86.vue
         /// </summary>
         private void RemplirRevuesListeComplete()
         {
-            RemplirRevuesListe(lesRevues);
+            RemplirRevuesListe(controle.GetAllRevues());
             VideRevuesZones();
         }
 
@@ -728,9 +728,6 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void TabLivres_Enter(object sender, EventArgs e)
         {
-            lesLivres = controle.GetAllLivres();
-            
-
             // Combos du bloc recherche.
             RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxLivresGenres, false);
             RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxLivresPublics, false);
@@ -753,6 +750,7 @@ namespace Mediatek86.vue
         /// </summary>
         private void RemplirLivresListe(List<Livre> livres)
         {
+            lesLivres = livres;
             bdgLivresListe.DataSource = livres;
             dgvLivresListe.DataSource = bdgLivresListe;
             dgvLivresListe.Columns["isbn"].Visible = false;
@@ -1003,7 +1001,7 @@ namespace Mediatek86.vue
         /// </summary>
         private void RemplirLivresListeComplete()
         {
-            RemplirLivresListe(lesLivres);
+            RemplirLivresListe(controle.GetAllLivres());
             VideLivresZones();
         }
 
@@ -1310,8 +1308,6 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void tabDvd_Enter(object sender, EventArgs e)
         {
-            lesDvd = controle.GetAllDvd();
-            
             RemplirComboCategorie(controle.GetAllGenres(), bdgGenres, cbxDvdGenres, false);
             RemplirComboCategorie(controle.GetAllPublics(), bdgPublics, cbxDvdPublics, false);
             RemplirComboCategorie(controle.GetAllRayons(), bdgRayons, cbxDvdRayons, false);
@@ -1330,9 +1326,10 @@ namespace Mediatek86.vue
         /// <summary>
         /// Remplit le dategrid avec la liste reçue en paramètre
         /// </summary>
-        private void RemplirDvdListe(List<Dvd> Dvds)
+        private void RemplirDvdListe(List<Dvd> dvds)
         {
-            bdgDvdListe.DataSource = Dvds;
+            lesDvd = dvds;
+            bdgDvdListe.DataSource = dvds;
             dgvDvdListe.DataSource = bdgDvdListe;
             dgvDvdListe.Columns["idRayon"].Visible = false;
             dgvDvdListe.Columns["idGenre"].Visible = false;
@@ -1584,7 +1581,7 @@ namespace Mediatek86.vue
         /// </summary>
         private void RemplirDvdListeComplete()
         {
-            RemplirDvdListe(lesDvd);
+            RemplirDvdListe(controle.GetAllDvd());
             VideDvdZones();
         }
 
