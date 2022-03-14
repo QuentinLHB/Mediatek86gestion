@@ -460,7 +460,7 @@ namespace Mediatek86.vue
         {
             VideRevuesZones();
             string titreColonne = dgvRevuesListe.Columns[e.ColumnIndex].HeaderText;
-            controle.sortRevues(titreColonne);
+            controle.SortRevues(titreColonne);
             bdgRevuesListe.ResetBindings(false);
         }
 
@@ -1005,7 +1005,7 @@ namespace Mediatek86.vue
         {
             VideLivresZones();
             string titreColonne = dgvLivresListe.Columns[e.ColumnIndex].HeaderText;
-            controle.sortLivres(titreColonne);
+            controle.SortLivres(titreColonne);
             bdgLivresListe.ResetBindings(false);
         }
 
@@ -1564,7 +1564,7 @@ namespace Mediatek86.vue
         {
             VideDvdZones();
             string titreColonne = dgvDvdListe.Columns[e.ColumnIndex].HeaderText;
-            controle.sortDvd(titreColonne);
+            controle.SortDvd(titreColonne);
             bdgDvdListe.ResetBindings(false);
         }
 

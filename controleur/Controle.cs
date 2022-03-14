@@ -142,7 +142,11 @@ namespace Mediatek86.controleur
             return lesPublics;
         }
 
-        public void sortLivres(string critere)
+        /// <summary>
+        /// Tri des livres selon un critère.
+        /// </summary>
+        /// <param name="critere">Critère de tri</param>
+        public void SortLivres(string critere)
         {
             List<Livre> sortedList = new List<Livre>();
             switch (critere)
@@ -177,7 +181,11 @@ namespace Mediatek86.controleur
             lesLivres.AddRange(sortedList);
         }
 
-        public void sortDvd(string critere)
+        /// <summary>
+        /// Tri des dvd selon un critère.
+        /// </summary>
+        /// <param name="critere">Critère de tri</param>
+        public void SortDvd(string critere)
         {
             List<Dvd> sortedList = new List<Dvd>();
             switch (critere)
@@ -212,7 +220,11 @@ namespace Mediatek86.controleur
             lesDvd.AddRange(sortedList);
         }
 
-        public void sortRevues(string critere)
+        /// <summary>
+        /// Tri des revues selon un critère.
+        /// </summary>
+        /// <param name="critere">Critère de tri</param>
+        public void SortRevues(string critere)
         {
             List<Revue> sortedList = new List<Revue>();
             switch (critere)
@@ -257,7 +269,11 @@ namespace Mediatek86.controleur
             return Dao.GetExemplairesDocument(idDocuement);
         }
 
-        public void sortExemplaires(string critere)
+        /// <summary>
+        /// Tri des exemplaires sur un critère.
+        /// </summary>
+        /// <param name="critere">Critère de tri.</param>
+        public void SortExemplaires(string critere)
         {
             List<Exemplaire> sortedList = new List<Exemplaire>();
             switch (critere)
@@ -266,7 +282,7 @@ namespace Mediatek86.controleur
                     sortedList = lesExemplaires.OrderBy(o => o.DateAchat).ToList();
                     break;
                 case "Numero":
-                    sortedList = lesExemplaires.OrderByDescending(o => o.Numero).ToList();
+                    sortedList = lesExemplaires.OrderBy(o => o.Numero).ToList();
                     break;
                 case "Etat":
                     sortedList = lesExemplaires.OrderBy(o => o.Etat.Libelle).ToList();

@@ -134,7 +134,7 @@ namespace Mediatek86.vue
         private void dgvExemplaires_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string titreColonne = dgvExemplaires.Columns[e.ColumnIndex].HeaderText;
-            controle.sortExemplaires(titreColonne);
+            controle.SortExemplaires(titreColonne);
             bdgExemplairesListe.ResetBindings(false);
         }
     }
