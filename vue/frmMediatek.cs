@@ -77,6 +77,7 @@ namespace Mediatek86.vue
             btnCommandesLivre.Enabled = peutModif;
             btnCommandesDvd.Enabled = peutModif;
             btnCommandeRevues.Enabled = peutModif;
+            grpReceptionExemplaire.Enabled = peutModif;
 
             controle.GetEtatsCommande();
         }
@@ -667,6 +668,7 @@ namespace Mediatek86.vue
         private void refreshAccessibiliteRevues()
         {
             bool enable = dgvRevuesListe.Rows.Count != 0;
+            if (!controle.PeutModifier()) enable = false;
             btnSupprRevue.Enabled = enable;
             btnModifRevue.Enabled = enable;
             btnCommandeRevues.Enabled = enable;
@@ -1773,6 +1775,7 @@ namespace Mediatek86.vue
         private void refreshAccessibiliteDvd()
         {
             bool enable = dgvDvdListe.Rows.Count != 0;
+            if (!controle.PeutModifier()) enable = false;
             btnSupprDVD.Enabled = enable;
             btnModifDVD.Enabled = enable;
             btnCommandesDvd.Enabled = enable;
@@ -1878,7 +1881,7 @@ namespace Mediatek86.vue
             // affiche la liste des exemplaires de la revue
             afficheReceptionExemplairesRevue();
             // accès à la zone d'ajout d'un exemplaire
-            accesReceptionExemplaireGroupBox(true);
+            accesReceptionExemplaireGroupBox(controle.PeutModifier());
         }
 
 
