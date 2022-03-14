@@ -246,6 +246,8 @@ namespace Mediatek86.controleur
             lesRevues.AddRange(sortedList);
         }
 
+
+
         /// <summary>
         /// récupère les exemplaires d'une revue
         /// </summary>
@@ -253,6 +255,26 @@ namespace Mediatek86.controleur
         public List<Exemplaire> GetExemplairesDocument(string idDocuement)
         {
             return Dao.GetExemplairesDocument(idDocuement);
+        }
+
+        public void sortExemplaires(string critere)
+        {
+            List<Exemplaire> sortedList = new List<Exemplaire>();
+            switch (critere)
+            {
+                case "Date d'achat":
+                    sortedList = lesExemplaires.OrderBy(o => o.DateAchat).ToList();
+                    break;
+                case "Numero":
+                    sortedList = lesExemplaires.OrderByDescending(o => o.Numero).ToList();
+                    break;
+                case "Etat":
+                    sortedList = lesExemplaires.OrderBy(o => o.Etat.Libelle).ToList();
+                    break;
+            }
+
+            lesExemplaires.Clear();
+            lesExemplaires.AddRange(sortedList);
         }
 
         /// <summary>

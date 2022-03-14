@@ -134,21 +134,8 @@ namespace Mediatek86.vue
         private void dgvExemplaires_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string titreColonne = dgvExemplaires.Columns[e.ColumnIndex].HeaderText;
-            List<Exemplaire> sortedList = new List<Exemplaire>();
-            List<Exemplaire> lesExemplaires = controle.GetExemplaires();
-            switch (titreColonne)
-            {
-                case "Date d'achat":
-                    sortedList = lesExemplaires.OrderBy(o => o.DateAchat).ToList();
-                    break;
-                case "Numero":
-                    sortedList = lesExemplaires.OrderByDescending(o => o.Numero).ToList();
-                    break;
-                case "Etat":
-                    sortedList = lesExemplaires.OrderBy(o => o.Etat.Libelle).ToList();
-                    break;
-            }
-            RemplirListe(sortedList);
+            controle.sortExemplaires(titreColonne);
+            bdgExemplairesListe.ResetBindings(false);
         }
     }
 }
