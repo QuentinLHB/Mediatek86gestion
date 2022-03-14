@@ -32,7 +32,7 @@ namespace Mediatek86.vue
             this.dgvListeCommandes = new System.Windows.Forms.DataGridView();
             this.gpbConsulter = new System.Windows.Forms.GroupBox();
             this.btnMaJ = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblCommande = new System.Windows.Forms.Label();
             this.lblEtat = new System.Windows.Forms.Label();
             this.cbxEtatCommande = new System.Windows.Forms.ComboBox();
             this.txbCommande = new System.Windows.Forms.TextBox();
@@ -41,7 +41,7 @@ namespace Mediatek86.vue
             this.lblDateFin = new System.Windows.Forms.Label();
             this.dtpDateFin = new System.Windows.Forms.DateTimePicker();
             this.txbIdCommande = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblNoCommande = new System.Windows.Forms.Label();
             this.btnAjouterCommande = new System.Windows.Forms.Button();
             this.txbMontant = new System.Windows.Forms.TextBox();
             this.nudQuantite = new System.Windows.Forms.NumericUpDown();
@@ -81,7 +81,7 @@ namespace Mediatek86.vue
             // gpbConsulter
             // 
             this.gpbConsulter.Controls.Add(this.btnMaJ);
-            this.gpbConsulter.Controls.Add(this.label3);
+            this.gpbConsulter.Controls.Add(this.lblCommande);
             this.gpbConsulter.Controls.Add(this.lblEtat);
             this.gpbConsulter.Controls.Add(this.cbxEtatCommande);
             this.gpbConsulter.Controls.Add(this.txbCommande);
@@ -104,14 +104,14 @@ namespace Mediatek86.vue
             this.btnMaJ.UseVisualStyleBackColor = true;
             this.btnMaJ.Click += new System.EventHandler(this.btnMaJ_Click);
             // 
-            // label3
+            // lblCommande
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 237);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(87, 17);
-            this.label3.TabIndex = 32;
-            this.label3.Text = "Commande :";
+            this.lblCommande.AutoSize = true;
+            this.lblCommande.Location = new System.Drawing.Point(15, 237);
+            this.lblCommande.Name = "lblCommande";
+            this.lblCommande.Size = new System.Drawing.Size(87, 17);
+            this.lblCommande.TabIndex = 32;
+            this.lblCommande.Text = "Commande :";
             // 
             // lblEtat
             // 
@@ -133,7 +133,7 @@ namespace Mediatek86.vue
             // 
             // txbCommande
             // 
-            this.txbCommande.Location = new System.Drawing.Point(109, 236);
+            this.txbCommande.Location = new System.Drawing.Point(113, 236);
             this.txbCommande.Margin = new System.Windows.Forms.Padding(4);
             this.txbCommande.Name = "txbCommande";
             this.txbCommande.ReadOnly = true;
@@ -155,7 +155,7 @@ namespace Mediatek86.vue
             this.gpbPasserCommande.Controls.Add(this.lblDateFin);
             this.gpbPasserCommande.Controls.Add(this.dtpDateFin);
             this.gpbPasserCommande.Controls.Add(this.txbIdCommande);
-            this.gpbPasserCommande.Controls.Add(this.label4);
+            this.gpbPasserCommande.Controls.Add(this.lblNoCommande);
             this.gpbPasserCommande.Controls.Add(this.btnAjouterCommande);
             this.gpbPasserCommande.Controls.Add(this.txbMontant);
             this.gpbPasserCommande.Controls.Add(this.nudQuantite);
@@ -201,16 +201,16 @@ namespace Mediatek86.vue
             this.txbIdCommande.Size = new System.Drawing.Size(132, 22);
             this.txbIdCommande.TabIndex = 38;
             // 
-            // label4
+            // lblNoCommande
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(15, 251);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(179, 17);
-            this.label4.TabIndex = 37;
-            this.label4.Text = "Numéro de commande :";
+            this.lblNoCommande.AutoSize = true;
+            this.lblNoCommande.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNoCommande.Location = new System.Drawing.Point(15, 251);
+            this.lblNoCommande.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNoCommande.Name = "lblNoCommande";
+            this.lblNoCommande.Size = new System.Drawing.Size(179, 17);
+            this.lblNoCommande.TabIndex = 37;
+            this.lblNoCommande.Text = "Numéro de commande :";
             // 
             // btnAjouterCommande
             // 
@@ -337,6 +337,7 @@ namespace Mediatek86.vue
             this.Controls.Add(this.gpbPasserCommande);
             this.Controls.Add(this.gpbConsulter);
             this.Name = "FrmCommandes";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Commandes";
             ((System.ComponentModel.ISupportInitialize)(this.dgvListeCommandes)).EndInit();
             this.gpbConsulter.ResumeLayout(false);
@@ -366,12 +367,12 @@ namespace Mediatek86.vue
         private System.Windows.Forms.TextBox txbMontant;
         private System.Windows.Forms.TextBox txbCommande;
         private System.Windows.Forms.ComboBox cbxEtatCommande;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblCommande;
         private System.Windows.Forms.Label lblEtat;
         private System.Windows.Forms.Button btnMaJ;
         private System.Windows.Forms.Button btnAjouterCommande;
         private System.Windows.Forms.TextBox txbIdCommande;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblNoCommande;
         private System.Windows.Forms.Label lblDateFin;
         private System.Windows.Forms.DateTimePicker dtpDateFin;
     }

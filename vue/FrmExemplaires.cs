@@ -23,7 +23,6 @@ namespace Mediatek86.vue
         public FrmExemplaires(Document document, Controle controle)
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
             this.document = document;
             this.controle = controle;
             Init();

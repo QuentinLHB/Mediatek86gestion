@@ -49,10 +49,8 @@ namespace Mediatek86.vue
         internal FrmMediatek(Controle controle)
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
             this.controle = controle;
             Init();
- 
         }
 
 

@@ -1749,7 +1749,7 @@ namespace Mediatek86.vue
             this.btnCommandeRevues.Name = "btnCommandeRevues";
             this.btnCommandeRevues.Size = new System.Drawing.Size(267, 34);
             this.btnCommandeRevues.TabIndex = 28;
-            this.btnCommandeRevues.Text = "Commandes";
+            this.btnCommandeRevues.Text = "Abonnements";
             this.btnCommandeRevues.UseVisualStyleBackColor = true;
             this.btnCommandeRevues.Click += new System.EventHandler(this.btnCommandeRevues_Click);
             // 

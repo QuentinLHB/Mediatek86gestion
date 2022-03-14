@@ -24,7 +24,6 @@ namespace Mediatek86.vue
         public FrmCommandes(Controle controle, Document document)
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
             this.controle = controle;
             this.document = document;
             Init();
@@ -47,9 +46,12 @@ namespace Mediatek86.vue
                 btnSupprCommande.Location = btnMaJ.Location;
                 lblDateFin.Visible = true;
                 dtpDateFin.Visible = true;
+                this.Text = "Abonnements";
                 gpbConsulter.Text = "Consulter les abonnements";
                 gpbPasserCommande.Text = "Créer un abonnement";
                 btnAjouterCommande.Text = "Créer abonnement";
+                lblCommande.Text = "Abonnement :";
+                lblNoCommande.Text = "Numéro d'abonnement :";
             }
             else
             {
@@ -156,23 +158,28 @@ namespace Mediatek86.vue
         }
 
         /// <summary>
-        /// Remplit la data grid view des documents selon le type de document.
+        /// Remplit la data grid view des documents.
         /// </summary>
         private void RemplirListeDocuments()
         {
-            refreshBindingSource();
+            RefreshBindingSource();
             bdgDocuments.DataSource = documents;
             dgvDocuments.DataSource = bdgDocuments;
             Document documentToDisplay = documents.Find(x => x.Id.Equals(document.Id));
             bdgDocuments.Position = bdgDocuments.List.IndexOf(documentToDisplay);
             dgvListeCommandes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
+            dgvDocuments.Columns["Image"].Visible = false;
+            dgvDocuments.Columns["Genre"].Visible = false;
+            dgvDocuments.Columns["Public"].Visible = false;
+            dgvDocuments.Columns["Rayon"].Visible = false;
+            dgvDocuments.Columns["NbExemplaires"].HeaderText = "Quantité";
         }
 
         /// <summary>
         /// Rafraichit les éléments de la Binding Source des documents.
         /// </summary>
-        private void refreshBindingSource()
+        private void RefreshBindingSource()
         {
             documents.Clear();
             if (document is Dvd)
@@ -332,7 +339,7 @@ namespace Mediatek86.vue
                 MessageBox.Show("La mise a jour a échoué.");
             }
             bdgCommandesListe.ResetBindings(false);
-            refreshBindingSource();
+            RefreshBindingSource();
             bdgDocuments.ResetBindings(false);
         }
 

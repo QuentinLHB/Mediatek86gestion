@@ -18,7 +18,6 @@ namespace Mediatek86.vue
         public FrmConnexion(Controle controle)
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
             txbMdp.UseSystemPasswordChar = true;
             this.controle = controle;
         }
