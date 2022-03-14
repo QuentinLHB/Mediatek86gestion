@@ -170,9 +170,9 @@ namespace Mediatek86.vue
             dgvListeCommandes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
             dgvDocuments.Columns["Image"].Visible = false;
-            dgvDocuments.Columns["Genre"].Visible = false;
-            dgvDocuments.Columns["Public"].Visible = false;
-            dgvDocuments.Columns["Rayon"].Visible = false;
+            dgvDocuments.Columns["IdGenre"].Visible = false;
+            dgvDocuments.Columns["IdPublic"].Visible = false;
+            dgvDocuments.Columns["IdRayon"].Visible = false;
             dgvDocuments.Columns["NbExemplaires"].HeaderText = "Quantité";
         }
 
