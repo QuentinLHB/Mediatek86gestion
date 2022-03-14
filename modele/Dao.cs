@@ -290,7 +290,7 @@ namespace Mediatek86.modele
                     { "@numero", exemplaire.Numero},
                     { "@dateAchat", exemplaire.DateAchat},
                     { "@photo", exemplaire.Photo},
-                    { "@idEtat",exemplaire.Etat}
+                    { "@idEtat",exemplaire.Etat.Id}
                 };
                 BddMySql curs = BddMySql.GetInstance(connectionString);
                 curs.ReqUpdate(req, parameters);

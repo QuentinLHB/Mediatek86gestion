@@ -1974,6 +1974,7 @@ namespace Mediatek86.vue
                     Exemplaire exemplaire = new Exemplaire(numero, dateAchat, photo, Etat.FindEtat(ETATNEUF), idDocument);
                     if (controle.CreerExemplaire(exemplaire))
                     {
+                        bdgRevuesListe.ResetBindings(false);
                         VideReceptionExemplaireInfos();
                         afficheReceptionExemplairesRevue();
                     }

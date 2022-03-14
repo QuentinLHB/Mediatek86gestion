@@ -279,7 +279,7 @@ namespace Mediatek86.controleur
             switch (critere)
             {
                 case "Date d'achat":
-                    sortedList = lesExemplaires.OrderBy(o => o.DateAchat).ToList();
+                    sortedList = lesExemplaires.OrderByDescending(o => o.DateAchat).ToList();
                     break;
                 case "Numero":
                     sortedList = lesExemplaires.OrderBy(o => o.Numero).ToList();
@@ -300,7 +300,13 @@ namespace Mediatek86.controleur
         /// <returns>True si la création a pu se faire</returns>
         public bool CreerExemplaire(Exemplaire exemplaire)
         {
-            return Dao.CreerExemplaire(exemplaire);
+            if (Dao.CreerExemplaire(exemplaire))
+            {
+                lesRevues.Clear();
+                lesRevues.AddRange(Dao.GetAllRevues());
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
