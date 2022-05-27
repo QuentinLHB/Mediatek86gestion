@@ -118,6 +118,7 @@
     <Compile Include="metier\Livre.cs" />
     <Compile Include="metier\Exemplaire.cs" />
     <Compile Include="metier\Revue.cs" />
+    <Compile Include="Outils.cs" />
     <Compile Include="vue\FrmCommandes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +146,18 @@
     <Compile Include="metier\Genre.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="vue\frmMediatek_OngletDvd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vue\FrmMediatek_OngletLivre.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vue\frmMediatek_OngletReception.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vue\FrmMediatek_OngletRevue.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
