@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Mediatek86.metier;
 using Mediatek86.controleur;
 using System.Drawing;
-using System.Linq;
-using Mediatek86.modele;
 using Serilog;
 
 namespace Mediatek86.vue
@@ -126,7 +123,21 @@ namespace Mediatek86.vue
             Log.Information("Fermeture de l'application par {0}. Déclencheur : {1}", controle.GetUserLogin(), e.CloseReason);
         }
 
+        /// <summary>
+        /// Ouvre une fenêtre de sélection d'image locale.
+        /// </summary>
+        /// <returns>Chemin de l'image sélectionnée par l'utilisateur.</returns>
+        private string selectionneImageLocale()
+        {
+            return Outils.selectionnerImageLocale();
+        }
 
+        /// <summary>
+        /// Affiche une image dans une PictureBox, et affiche le chemind dans une TextBox.
+        /// </summary>
+        /// <param name="img">Chemin de l'image à afficher.</param>
+        /// <param name="pictureBox">PictureBox où afficher l'image.</param>
+        /// <param name="textBox">TextBox où afficher le chemin.</param>
         private void afficheImage(string img, PictureBox pictureBox, TextBox textBox)
         {
             textBox.Text = img;
@@ -140,10 +151,6 @@ namespace Mediatek86.vue
             }
         }
 
-        private string selectionneImageLocale()
-        {
-            return Outils.SelectionnerImageLocale();
-        }
-
+    
     }
 }

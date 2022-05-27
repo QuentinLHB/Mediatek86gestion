@@ -21,9 +21,11 @@ namespace Mediatek86.modele
         {
             string req = "select * from utilisateur ";
             req += "where login=@login and pwd=SHA2(@pwd, 256)";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("@login", login);
-            parameters.Add("@pwd", pwd);
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@login", login },
+                { "@pwd", pwd }
+            };
             BddMySql curs = BddMySql.GetInstance(connectionString);
             curs.ReqSelect(req, parameters);
             if (curs.Read())

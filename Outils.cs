@@ -10,12 +10,18 @@ namespace Mediatek86
     public static class Outils
     {
 
-        public static string SelectionnerImageLocale()
+        /// <summary>
+        /// Ouvre une fenêtre de sélection d'image locale.
+        /// </summary>
+        /// <returns>Chemin de l'image sélectionnée par l'utilisateur.</returns>
+        public static string selectionnerImageLocale()
         {
             string filePath = "";
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = "c:\\";
-            openFileDialog.Filter = "Files|*.jpg;*.bmp;*.jpeg;*.png;*.gif";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = "c:\\",
+                Filter = "Files|*.jpg;*.bmp;*.jpeg;*.png;*.gif"
+            };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 filePath = openFileDialog.FileName;

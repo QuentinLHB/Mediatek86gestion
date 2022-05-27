@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Mediatek86.metier;
-using Mediatek86.controleur;
 using System.Drawing;
 using System.Linq;
-using Mediatek86.modele;
-using Serilog;
 
 namespace Mediatek86.vue
 {

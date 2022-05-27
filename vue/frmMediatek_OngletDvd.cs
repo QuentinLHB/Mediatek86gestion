@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Mediatek86.metier;
-using Mediatek86.controleur;
-using System.Drawing;
-using System.Linq;
-using Mediatek86.modele;
-using Serilog;
 
 namespace Mediatek86.vue
 {
@@ -88,8 +83,10 @@ namespace Mediatek86.vue
                 Dvd dvd = lesDvd.Find(x => x.Id.Equals(txbDvdNumRecherche.Text));
                 if (dvd != null)
                 {
-                    List<Dvd> Dvd = new List<Dvd>();
-                    Dvd.Add(dvd);
+                    List<Dvd> Dvd = new List<Dvd>
+                    {
+                        dvd
+                    };
                     RemplirDvdListe(Dvd);
                 }
                 else
